@@ -1,12 +1,33 @@
+import getTrendingData from '@/api/getTrendingData'
 import BestContents from '@/components/mainpage/BestContents'
 import Category from '@/components/mainpage/Category'
 import Header from '@/layout/Header'
+import { useTrendDataStore } from '@/store/useTrendDataStore'
 import { SwiperProps } from '@/types/mainPage/mainPage'
+import { useEffect } from 'react'
 import styled from 'styled-components'
-import { EffectCoverflow } from 'swiper/modules'
+import { Autoplay, EffectCoverflow } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/swiper-bundle.css'
+import SwiperCore from 'swiper'
+
+SwiperCore.use([Autoplay, EffectCoverflow])
 
 function MainPage() {
+  const { trendData, setTrendData } = useTrendDataStore()
+
+  useEffect(() => {
+    const trendingData = async () => {
+      const data = await getTrendingData()
+
+      setTrendData(data.results)
+    }
+
+    trendingData()
+  }, [])
+
+  let doubleTrendData = trendData?.concat(trendData, trendData)
+
   return (
     <MainWrapper>
       <MainPageTitle aria-label="메인페이지">메인 페이지</MainPageTitle>
@@ -21,25 +42,32 @@ function MainPage() {
             <CircleDiv></CircleDiv>
           </TitleWrapper>
         </TitleContentsWrapper>
-        <SwiperWrapper
-          slidesPerView={3.4}
-          centeredSlides={true}
-          spaceBetween={30}
-          autoplay={{
-            delay: 5000,
-            disableOnInteraction: false
-          }}
-          freeMode={true}
-          modules={[EffectCoverflow]}
-          effect="fade"
-          speed={1000}
-          loopAdditionalSlides={3}
-          loop={true}
-        >
-          <SwiperSlideContainer justifycontent="center">
-            <TrendPosterImg src="" alt="" />
-          </SwiperSlideContainer>
-        </SwiperWrapper>
+        {doubleTrendData.length > 0 && (
+          <SwiperWrapper
+            slidesPerView={3.4}
+            centeredSlides={true}
+            spaceBetween={30}
+            autoplay={{
+              delay: 5000,
+              disableOnInteraction: false
+            }}
+            freeMode={true}
+            modules={[EffectCoverflow]}
+            effect="fade"
+            speed={1000}
+            loopAdditionalSlides={3}
+            loop={true}
+          >
+            {doubleTrendData?.map((item, index) => (
+              <SwiperSlideContainer key={index} justifycontent="center">
+                <TrendPosterImg
+                  src={`https://image.tmdb.org/t/p/original/${item.poster_path}`}
+                  alt={item.name || item.title}
+                />
+              </SwiperSlideContainer>
+            ))}
+          </SwiperWrapper>
+        )}
       </PosterWrapper>
       <BestContents />
       <Category />
