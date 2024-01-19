@@ -31,18 +31,10 @@ function BestContents() {
     fetchingPopularData()
   }, [])
 
-  console.log(populardata)
-
-  // useEffect(() => {
-  //   setHoverItemId(item.id)
-  //   console.log(hoverItemId?.toString())
-  // }, [hoverItemId])
-
   const handleHover = (event: MouseEvent, item: PopularDataItem) => {
     const target = event.target as HTMLElement
     const targetId = target.id
     console.log(hoverItemId?.toString())
-    // console.log('target', target)
     setHoverItemId(item.id)
     console.log('targetID', targetId)
     if (item.id.toString() === targetId) {
@@ -59,8 +51,6 @@ function BestContents() {
           key={index}
           index={index}
           layoutId="container"
-          // onHoverStart={() => handleHover(item)}
-          // onHoverStart={(event) => handleHover(event, item)}
           onHoverStart={(event: MouseEvent) => handleHover(event, item)}
           onHoverEnd={() => setIsHovered(false)}
         >
@@ -70,7 +60,12 @@ function BestContents() {
           />
           <ContentsTitle
             layoutId="child1"
-            animate={{ color: isHovered ? '#13cd86' : '#222222' }}
+            animate={{
+              color:
+                hoverItemId === item.id && isHovered === true
+                  ? '#13cd86'
+                  : '#222222'
+            }}
           >
             {' '}
             {item.title}
@@ -94,8 +89,14 @@ function BestContents() {
           <MoreButton
             index={index}
             animate={{
-              color: isHovered ? '#13cd86' : '#303032',
-              borderBottomColor: isHovered ? '#13cd86' : '#303032'
+              color:
+                hoverItemId === item.id && isHovered === true
+                  ? '#13cd86'
+                  : '#303032',
+              borderBottomColor:
+                hoverItemId === item.id && isHovered === true
+                  ? '#13cd86'
+                  : '#303032'
             }}
             transition={{ type: 'tween', duration: 0.5, ease: 'easeInOut' }}
             layoutId="child2"
