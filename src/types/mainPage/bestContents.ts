@@ -18,3 +18,16 @@ export interface PopularDataItem {
   vote_average: number
   vote_count: number
 }
+
+export type popularContentsWatchProviderData =
+  popularContentsWatchProviderItem[]
+
+export interface popularContentsWatchProviderItem {
+  id: number
+  results: {
+    KR: {
+      flatrate: { provider_name: string }[]
+      link: string
+    }
+  }
+}
