@@ -7,6 +7,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { movieGenres } from '@/utils/genresData'
 import {
   PopularDataItem,
+  WatchProviderKRItems,
   popularContentsWatchProviderData
 } from '@/types/mainPage/bestContents'
 import getWatchProviders from '@/api/getWatchProviders'
@@ -49,10 +50,14 @@ function BestContents() {
   console.log(popularContentsWatchProvider)
 
   // const WatchProviderKR = popularContentsWatchProvider?.forEach(item => {
-  //   if (item && item.results.KR.flatrate) {
-  //     item.results.KR.flatrate.forEach(flatrateItem => {
-  //       flatrateItem?.provider_name
-  //     })
+  //   if (item && item?.results?.KR?.flatrate) {
+  //     item.results.KR?.flatrate?.forEach(
+  //       (flatrateItem: { provider_name: any }) => {
+  //         flatrateItem?.provider_name
+  //       }
+  //     )
+  //   } else {
+  //     ;('-')
   //   }
   // })
   // console.log('WatchProviderKR', WatchProviderKR)
@@ -65,9 +70,24 @@ function BestContents() {
       setIsHovered(true)
     }
   }
-  // console.log(
-  //   popularContentsWatchProvider?.map(item => item.results.KR.flatrate)
+  console.log(popularContentsWatchProvider?.map(item => item.results.KR))
+
+  // const WatchProviderKR = popularContentsWatchProvider?.map(item => {
+  //   return [item.id, item.results.KR]
+  // })
+  // const WatchProviderKR = popularContentsWatchProvider?.map(
+  //   item => item?.results?.KR?.flatrate || item?.results?.KR?.buy
   // )
+  // console.log(
+  //   WatchProviderKR?.map(item => item?.map(subItem => subItem?.provider_name))
+  // )
+
+  const watchProviderKR = popularContentsWatchProvider?.map(item =>
+    (item?.results?.KR?.flatrate || item?.results?.KR?.buy)?.map(
+      subItem => subItem?.provider_name
+    )
+  )
+  console.log(watchProviderKR)
 
   return (
     <BestContentsContainer>
@@ -112,10 +132,12 @@ function BestContents() {
               <SubstanceTitle>평점</SubstanceTitle>
               <Substance>{item.vote_average}</Substance>
             </ContentsGenreWrapper>
-            <ContentsGenreWrapper borderbottom="0.5px solid #bbbaba">
+            <ContentsGenreWrapper
+              borderbottom="0.5px solid #bbbaba"
+              key={index}
+            >
               <SubstanceTitle>채널</SubstanceTitle>
-              <Substance></Substance>
-              {/* <Substance>{item.id}</Substance> */}
+              {/* <Substance>{WatchProviderKR}</Substance> */}
             </ContentsGenreWrapper>
           </ContentsWrapper>
           <MoreButton
