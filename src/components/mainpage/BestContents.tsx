@@ -17,6 +17,10 @@ interface BestContentsProps {
   borderbottom?: string
 }
 
+interface SubstanceProps {
+  width?: string
+}
+
 function BestContents() {
   const { populardata, setPopularData } = usePopularDataStore()
   const [popularContentsId, setPopularContentsId] = useState<number[]>([])
@@ -49,19 +53,6 @@ function BestContents() {
 
   console.log(popularContentsWatchProvider)
 
-  // const WatchProviderKR = popularContentsWatchProvider?.forEach(item => {
-  //   if (item && item?.results?.KR?.flatrate) {
-  //     item.results.KR?.flatrate?.forEach(
-  //       (flatrateItem: { provider_name: any }) => {
-  //         flatrateItem?.provider_name
-  //       }
-  //     )
-  //   } else {
-  //     ;('-')
-  //   }
-  // })
-  // console.log('WatchProviderKR', WatchProviderKR)
-
   const handleHover = (event: MouseEvent, item: PopularDataItem) => {
     const target = event.target as HTMLElement
     const targetId = target.id
@@ -72,22 +63,16 @@ function BestContents() {
   }
   console.log(popularContentsWatchProvider?.map(item => item.results.KR))
 
-  // const WatchProviderKR = popularContentsWatchProvider?.map(item => {
-  //   return [item.id, item.results.KR]
-  // })
-  // const WatchProviderKR = popularContentsWatchProvider?.map(
-  //   item => item?.results?.KR?.flatrate || item?.results?.KR?.buy
+  // const watchProviderKR = popularContentsWatchProvider?.map(item =>
+  //   (item?.results?.KR?.flatrate || item?.results?.KR?.buy)?.map(
+  //     subItem => subItem?.provider_name
+  //   )
   // )
-  // console.log(
-  //   WatchProviderKR?.map(item => item?.map(subItem => subItem?.provider_name))
+  // console.log(watchProviderKR)
+  // const watchProviderKR = popularContentsWatchProvider?.map(
+  //   item => item.id || item?.results?.KR?.flatrate || item?.results?.KR?.buy
   // )
-
-  const watchProviderKR = popularContentsWatchProvider?.map(item =>
-    (item?.results?.KR?.flatrate || item?.results?.KR?.buy)?.map(
-      subItem => subItem?.provider_name
-    )
-  )
-  console.log(watchProviderKR)
+  // console.log(watchProviderKR)
 
   return (
     <BestContentsContainer>
@@ -132,12 +117,39 @@ function BestContents() {
               <SubstanceTitle>평점</SubstanceTitle>
               <Substance>{item.vote_average}</Substance>
             </ContentsGenreWrapper>
-            <ContentsGenreWrapper
-              borderbottom="0.5px solid #bbbaba"
-              key={index}
-            >
-              <SubstanceTitle>채널</SubstanceTitle>
-              {/* <Substance>{WatchProviderKR}</Substance> */}
+            <ContentsGenreWrapper borderbottom="0.5px solid #bbbaba">
+              <SubstanceTitle key={index}>채널</SubstanceTitle>
+              {popularContentsWatchProvider?.map((providerItem, index) => {
+                const providerKR = providerItem.results['KR']
+                let providerName = ''
+                if (item.id === providerItem.id && providerKR) {
+                  if (Array.isArray(providerKR.flatrate)) {
+                    providerName = providerKR.flatrate
+                      .map(providerItem => providerItem.provider_name)
+                      .join(', ')
+                  } else if (Array.isArray(providerKR.buy)) {
+                    providerName = providerKR.buy
+                      .map(providerItem => providerItem.provider_name)
+                      .join(', ')
+                  } else {
+                    providerName = '-'
+                  }
+                  return <Substance key={index}>{providerName}</Substance>
+                }
+                return null
+                //  else {
+                //   providerName = '-'
+                // }
+              })}
+              {/* {watchProviderKR
+                ?.slice(0, 3)
+                .map((providerItem, i) => (
+                  <span key={i}>
+                    {providerItem.filter(
+                      providerItem => (providerItem = item.id)
+                    )}
+                  </span>
+                ))} */}
             </ContentsGenreWrapper>
           </ContentsWrapper>
           <MoreButton
@@ -228,7 +240,7 @@ const ContentsGenreWrapper = styled.div<BestContentsProps>`
   padding: 10px 0;
 `
 
-const Substance = styled.span`
+const Substance = styled.span<SubstanceProps>`
   font-weight: 300;
   height: 100%;
   font-size: 14px;
