@@ -41,7 +41,6 @@ function BestContents() {
         const data = await Promise.all(
           popularId?.map((id: number) => getWatchProviders(id))
         )
-        console.log('ProviderData', data)
         setpopularContentsWatchProvider(data)
       }
 
@@ -51,8 +50,6 @@ function BestContents() {
     fetchingPopularData()
   }, [])
 
-  console.log(popularContentsWatchProvider)
-
   const handleHover = (event: MouseEvent, item: PopularDataItem) => {
     const target = event.target as HTMLElement
     const targetId = target.id
@@ -61,18 +58,6 @@ function BestContents() {
       setIsHovered(true)
     }
   }
-  console.log(popularContentsWatchProvider?.map(item => item.results.KR))
-
-  // const watchProviderKR = popularContentsWatchProvider?.map(item =>
-  //   (item?.results?.KR?.flatrate || item?.results?.KR?.buy)?.map(
-  //     subItem => subItem?.provider_name
-  //   )
-  // )
-  // console.log(watchProviderKR)
-  // const watchProviderKR = popularContentsWatchProvider?.map(
-  //   item => item.id || item?.results?.KR?.flatrate || item?.results?.KR?.buy
-  // )
-  // console.log(watchProviderKR)
 
   return (
     <BestContentsContainer>
@@ -99,7 +84,7 @@ function BestContents() {
                   : '#222222'
             }}
           >
-            {' '}
+            {/* {' '} */}
             {item.title}
           </ContentsTitle>
           <ContentsWrapper>
@@ -131,25 +116,15 @@ function BestContents() {
                     providerName = providerKR.buy
                       .map(providerItem => providerItem.provider_name)
                       .join(', ')
-                  } else {
-                    providerName = '-'
                   }
                   return <Substance key={index}>{providerName}</Substance>
+                } else if (item.id === providerItem.id && !providerKR) {
+                  providerName = '-'
+                  return <Substance key={index}>{providerName}</Substance>
+                } else {
+                  return null
                 }
-                return null
-                //  else {
-                //   providerName = '-'
-                // }
               })}
-              {/* {watchProviderKR
-                ?.slice(0, 3)
-                .map((providerItem, i) => (
-                  <span key={i}>
-                    {providerItem.filter(
-                      providerItem => (providerItem = item.id)
-                    )}
-                  </span>
-                ))} */}
             </ContentsGenreWrapper>
           </ContentsWrapper>
           <MoreButton
@@ -192,7 +167,9 @@ const BestContentsWrapper = styled(MotionLink)<BestContentsProps>`
   grid-row: ${({ index }) => (index === 0 ? 'span 2' : 'span 1')};
   display: flex;
   flex-direction: column;
-  /* background-color: teal; */
+  &:active {
+    color: #13cd86;
+  }
 `
 
 const BestContentsImg = styled.img`
@@ -229,6 +206,7 @@ const ContentsOverview = styled.p`
   -webkit-box-orient: vertical;
   font-weight: 300;
   font-size: 14px;
+  color: #444444;
 `
 
 const ContentsGenreWrapper = styled.div<BestContentsProps>`

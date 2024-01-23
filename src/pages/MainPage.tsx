@@ -10,6 +10,7 @@ import { Autoplay, EffectCoverflow } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper-bundle.css'
 import SwiperCore from 'swiper'
+import DiscoverContents from './../components/mainpage/DiscoverContents'
 
 SwiperCore.use([Autoplay, EffectCoverflow])
 
@@ -71,6 +72,7 @@ function MainPage() {
       </PosterWrapper>
       <BestContents />
       <Category />
+      <DiscoverContents />
     </MainWrapper>
   )
 }
