@@ -1,8 +1,9 @@
 import { getDiscoverMovieData, getDiscoverTVData } from '@/api/getDiscoverData'
-import { getPlayingData } from '@/api/getPlayingData'
+import { getAiringData, getPlayingMovieData } from '@/api/getPlayingData'
+import { useAiringDataStore } from '@/store/useAiringDataStore'
 import { useDiscoverMovieStore } from '@/store/useDiscoverMovieStore'
 import { useDiscoverTVStore } from '@/store/useDiscoverTVStore'
-import { usePlayingTVStore } from '@/store/usePlayingTVStore'
+import { usePlayingMovieStore } from '@/store/usePlayingMovieStore'
 import { movieGenres, tvGenres } from '@/utils/genresData'
 import { useEffect } from 'react'
 import styled from 'styled-components'
@@ -15,45 +16,32 @@ interface DiscoverContentsBoxProps {
 }
 
 function DiscoverContents() {
-  const { discoverMovieData, setDiscoverMovieData } = useDiscoverMovieStore()
-  const { discoverTVData, setDiscoverTVData } = useDiscoverTVStore()
-  const { playingTVData, setPlayingTVData } = usePlayingTVStore()
+  const { playingMovieData, setPlayingMovieData } = usePlayingMovieStore()
+  const { airingData, setAiringData } = useAiringDataStore()
 
   useEffect(() => {
-    // const fetchingDiscoverMovieData = async () => {
-    //   const data = await getDiscoverMovieData()
-    //   // console.log('moive', data)
-    //   setDiscoverMovieData(data.results)
-    // }
-    // const fetchingDiscoverTVData = async () => {
-    //   const data = await getDiscoverTVData()
-    //   // console.log('TV', data)
-    //   setDiscoverTVData(data.results)
-    // }
-
-    // fetchingDiscoverMovieData()
-    // fetchingDiscoverTVData()
-
-    const fetchingPlayingData = async () => {
-      const data = await getPlayingData()
-      setPlayingTVData(data.results)
+    const fetchingPlayingMovieData = async () => {
+      const data = await getPlayingMovieData()
+      setPlayingMovieData(data.results)
     }
 
-    fetchingPlayingData()
-  }, [])
-  // console.log('moive', discoverMovieData)
-  // console.log('TV', discoverTVData)
-  console.log('playing', playingTVData)
-  const combineDiscoverData =
-    discoverMovieData && discoverTVData
-      ? [...discoverTVData, ...discoverMovieData]
-      : null
+    const fetchingAiringData = async () => {
+      const data = await getAiringData()
+      console.log(data)
+      setAiringData(data.results)
+    }
 
-  // console.log(combineDiscoverData)
+    fetchingPlayingMovieData()
+    fetchingAiringData()
+  }, [])
+  console.log('playing', playingMovieData)
+  console.log('airing', airingData)
+  const combineData =
+    playingMovieData && airingData ? [...playingMovieData, ...airingData] : null
 
   return (
     <DiscoverContentsSection>
-      {combineDiscoverData?.map(item => (
+      {combineData?.map(item => (
         <DiscoverContentsWrapper>
           <DiscoverContentsLink href="">
             <DiscoverContentsBox
@@ -74,13 +62,14 @@ function DiscoverContents() {
               padding="20px"
             >
               <DiscoverContentsSubstance>
-                {item.overview}
+                {/* {item.overview} */}
               </DiscoverContentsSubstance>
               <DiscoverContentsGenreBox>
                 {item.genre_ids.slice(0, 3).map((id: number, index: number) => {
-                  const genre = (tvGenres || movieGenres).genres.find(
-                    genre => genre.id === id
-                  )
+                  const genre =
+                    (movieGenres.genres || []).find(genre => genre.id === id) ||
+                    (tvGenres.genres || []).find(genre => genre.id === id)
+
                   return (
                     <DiscoverContentsGenre key={index}>
                       {genre?.name}
@@ -108,9 +97,9 @@ const DiscoverContentsWrapper = styled.div`
 `
 
 const DiscoverContentsLink = styled.a`
-  gap: 25px;
+  /* gap: 25px; */
   display: grid;
-  grid-template-rows: 250px 1fr 200px;
+  grid-template-rows: 150px 1fr 100px;
   position: relative;
   &:hover {
     background-color: #f8f8f8;
@@ -135,11 +124,11 @@ const DiscoverContentsSideBox = styled(DiscoverContentsBox)`
 `
 
 const DiscoverContentsTitle = styled.span`
-  font-size: 36px;
+  font-size: 32px;
   color: #444444;
   font-weight: 700;
   align-self: self-end;
-  margin: 30px 0;
+  margin: 30px 10px;
   text-align: center;
 `
 const DiscoverContentImage = styled.img`

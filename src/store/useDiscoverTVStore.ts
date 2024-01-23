@@ -1,7 +1,4 @@
-import {
-  DiscoverTVData,
-  DiscoverTVItems
-} from '@/types/mainPage/discoverContents'
+import { DiscoverTVData, DiscoverTVItems } from '@/types/mainPage/ContentsData'
 import { create } from 'zustand'
 
 interface DiscoverTVState {
