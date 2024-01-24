@@ -40,48 +40,61 @@ function DiscoverContents() {
     playingMovieData && airingData ? [...playingMovieData, ...airingData] : null
 
   return (
-    <DiscoverContentsSection>
-      {combineData?.map(item => (
-        <DiscoverContentsWrapper>
-          <DiscoverContentsLink href="">
-            <DiscoverContentsBox
-              justifycontent="center"
-              borderbottom="1px solid #cbcbcb"
-            >
-              <DiscoverContentsTitle>
-                {item.name || item.title}
-              </DiscoverContentsTitle>
-            </DiscoverContentsBox>
-            <DiscoverContentImage
-              src={`https://image.tmdb.org/t/p/original/${item.poster_path || item.backdrop_path}`}
-              alt=""
-            />
-            <DiscoverContentsSideBox
-              justifycontent="flex-start"
-              bordertop="1px solid #cbcbcb"
-              padding="20px"
-            >
-              <DiscoverContentsSubstance>
-                {/* {item.overview} */}
-              </DiscoverContentsSubstance>
-              <DiscoverContentsGenreBox>
-                {item.genre_ids.slice(0, 3).map((id: number, index: number) => {
-                  const genre =
-                    (movieGenres.genres || []).find(genre => genre.id === id) ||
-                    (tvGenres.genres || []).find(genre => genre.id === id)
+    <>
+      <TitleSectionWrapper>
+        <SectionTitle>Now</SectionTitle>
+        <SubTitleSectionWrapper>
+          <SectionTitle>Playing</SectionTitle>
+          <CircleDiv></CircleDiv>
+        </SubTitleSectionWrapper>
+      </TitleSectionWrapper>
+      <DiscoverContentsSection>
+        {combineData?.map(item => (
+          <DiscoverContentsWrapper>
+            <DiscoverContentsLink href="">
+              <DiscoverContentsBox
+                justifycontent="center"
+                borderbottom="1px solid #cbcbcb"
+              >
+                <DiscoverContentsTitle>
+                  {item.name || item.title}
+                </DiscoverContentsTitle>
+              </DiscoverContentsBox>
+              <DiscoverContentImage
+                src={`https://image.tmdb.org/t/p/original/${item.poster_path || item.backdrop_path}`}
+                alt=""
+              />
+              <DiscoverContentsSideBox
+                justifycontent="flex-start"
+                bordertop="1px solid #cbcbcb"
+                padding="20px"
+              >
+                <DiscoverContentsSubstance>
+                  {/* {item.overview} */}
+                </DiscoverContentsSubstance>
+                <DiscoverContentsGenreBox>
+                  {item.genre_ids
+                    .slice(0, 3)
+                    .map((id: number, index: number) => {
+                      const genre =
+                        (movieGenres.genres || []).find(
+                          genre => genre.id === id
+                        ) ||
+                        (tvGenres.genres || []).find(genre => genre.id === id)
 
-                  return (
-                    <DiscoverContentsGenre key={index}>
-                      {genre?.name}
-                    </DiscoverContentsGenre>
-                  )
-                })}
-              </DiscoverContentsGenreBox>
-            </DiscoverContentsSideBox>
-          </DiscoverContentsLink>
-        </DiscoverContentsWrapper>
-      ))}
-    </DiscoverContentsSection>
+                      return (
+                        <DiscoverContentsGenre key={index}>
+                          {genre?.name}
+                        </DiscoverContentsGenre>
+                      )
+                    })}
+                </DiscoverContentsGenreBox>
+              </DiscoverContentsSideBox>
+            </DiscoverContentsLink>
+          </DiscoverContentsWrapper>
+        ))}
+      </DiscoverContentsSection>
+    </>
   )
 }
 
@@ -121,6 +134,35 @@ const DiscoverContentsSideBox = styled(DiscoverContentsBox)`
   gap: 8px;
   /* background-color: yellow; */
   justify-content: space-between;
+`
+
+const TitleSectionWrapper = styled.div`
+  padding: 16px 0;
+  margin: 10px 0;
+`
+
+const SubTitleSectionWrapper = styled.div`
+  display: flex;
+`
+
+const SectionTitle = styled.p`
+  font-size: 128px;
+  letter-spacing: -0.4rem;
+  line-height: 1;
+  font-family: 'Josefin Sans', sans-serif;
+  margin: 20px 20px 20px 48px;
+  font-weight: 500;
+  /* background-color: red; */
+`
+
+const CircleDiv = styled.div`
+  display: flex;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  align-self: flex-end;
+  background-color: #aaeec4;
+  margin: 0 0 20px 4px;
 `
 
 const DiscoverContentsTitle = styled.span`

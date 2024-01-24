@@ -73,6 +73,7 @@ function MainPage() {
       <BestContents />
       <Category />
       <DiscoverContents />
+      <Footer></Footer>
     </MainWrapper>
   )
 }
@@ -176,4 +177,8 @@ const TrendPosterImg = styled.img`
     filter: grayscale(0) opacity(100);
     transform: scale(1.06);
   }
+`
+
+const Footer = styled.div`
+  height: 100px;
 `
