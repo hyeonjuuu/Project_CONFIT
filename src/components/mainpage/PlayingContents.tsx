@@ -1,10 +1,9 @@
-import { getAiringData, getPlayingMovieData } from '@/api/getPlayingData'
-import { useAiringDataStore } from '@/store/useAiringDataStore'
 import { usePlayingMovieStore } from '@/store/usePlayingMovieStore'
 import { movieGenres, tvGenres } from '@/utils/genresData'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { SwiperSlideWrapper } from './Category'
+import { RenderDataItems } from '@/types/mainPage/ContentsData'
+import { useTrendingTVDataStore } from '@/store/useTrendingTVDataStore'
 
 interface DiscoverContentsBoxProps {
   justifycontent: string
@@ -14,13 +13,22 @@ interface DiscoverContentsBoxProps {
 }
 
 interface PlayingContentsProps {
-  releasedate: string
+  date: string
 }
 
-function PlayingContents({ releasedate }: PlayingContentsProps) {
+function PlayingContents({ date }: PlayingContentsProps) {
   const { playingMovieData } = usePlayingMovieStore()
-  // const { airingData, setAiringData } = useAiringDataStore()
+  const { trendingTVData } = useTrendingTVDataStore()
+  const [renderData, setRenderData] = useState<RenderDataItems[] | undefined>()
   const [hover, setHover] = useState(false)
+
+  useEffect(() => {
+    if (date === '개봉일 : ') {
+      setRenderData(playingMovieData)
+    } else {
+      setRenderData(trendingTVData)
+    }
+  }, [])
 
   const handleHover = () => {
     setHover(true)
@@ -29,7 +37,7 @@ function PlayingContents({ releasedate }: PlayingContentsProps) {
   return (
     <>
       <DiscoverContentsSection>
-        {playingMovieData?.map(item => (
+        {renderData?.map(item => (
           <DiscoverContentsWrapper>
             <DiscoverContentsLink href="">
               <DiscoverContentsBox
@@ -50,11 +58,11 @@ function PlayingContents({ releasedate }: PlayingContentsProps) {
                 padding="12px"
               >
                 <DiscoverContentsSubstance>
-                  <span>{releasedate}</span>
-                  {item.release_date}
+                  <span>{date}</span>
+                  {item.release_date || item.first_air_date}
                 </DiscoverContentsSubstance>
                 <DiscoverContentsGenreBox>
-                  {item.genre_ids
+                  {item?.genre_ids
                     .slice(0, 3)
                     .map((id: number, index: number) => {
                       const genre =

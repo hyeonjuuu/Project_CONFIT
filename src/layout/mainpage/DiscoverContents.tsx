@@ -1,10 +1,7 @@
-import { getDiscoverMovieData, getDiscoverTVData } from '@/api/getDiscoverData'
-import { getAiringData, getPlayingMovieData } from '@/api/getPlayingData'
+import { getPlayingMovieData, getTrendingTVData } from '@/api/getPlayingData'
 import PlayingContents from '@/components/mainpage/PlayingContents'
-import { useAiringDataStore } from '@/store/useAiringDataStore'
-import { useDiscoverMovieStore } from '@/store/useDiscoverMovieStore'
-import { useDiscoverTVStore } from '@/store/useDiscoverTVStore'
 import { usePlayingMovieStore } from '@/store/usePlayingMovieStore'
+import { useTrendingTVDataStore } from '@/store/useTrendingTVDataStore'
 import { movieGenres, tvGenres } from '@/utils/genresData'
 import { useEffect } from 'react'
 import styled from 'styled-components'
@@ -15,10 +12,14 @@ interface DiscoverContentsBoxProps {
   bordertop?: string
   padding?: string
 }
+interface TitleSectionWrapperProps {
+  alignitems?: string
+  padding?: string
+}
 
 function DiscoverContents() {
   const { playingMovieData, setPlayingMovieData } = usePlayingMovieStore()
-  const { airingData, setAiringData } = useAiringDataStore()
+  const { trendingTVData, setTrendingTVData } = useTrendingTVDataStore()
 
   useEffect(() => {
     const fetchingPlayingMovieData = async () => {
@@ -26,53 +27,65 @@ function DiscoverContents() {
       setPlayingMovieData(data.results)
     }
 
-    const fetchingAiringData = async () => {
-      const data = await getAiringData()
+    const fetchingTrendingTVData = async () => {
+      const data = await getTrendingTVData()
       console.log(data)
-      setAiringData(data.results)
+      setTrendingTVData(data.results)
     }
 
     fetchingPlayingMovieData()
-    fetchingAiringData()
+    fetchingTrendingTVData()
   }, [])
-  console.log('playing', playingMovieData)
-  console.log('airing', airingData)
-  const combineData =
-    playingMovieData && airingData ? [...playingMovieData, ...airingData] : null
+  // console.log('playing', playingMovieData)
+  console.log('trending', trendingTVData)
 
   return (
     <>
-      <TitleSectionWrapper>
-        <SectionTitle>Now</SectionTitle>
+      <TitleSectionWrapper alignitems="flex-start">
         <SubTitleSectionWrapper>
+          <SectionTitle>Now</SectionTitle>
           <SectionTitle>Playing</SectionTitle>
-          <CircleDiv></CircleDiv>
         </SubTitleSectionWrapper>
+        <CircleDiv></CircleDiv>
       </TitleSectionWrapper>
-      <PlayingContents releasedate="개봉일 : " />
+      <PlayingContents date="개봉일 : " />
+      <TitleSectionWrapper alignitems="flex-end">
+        <SubTitleSectionWrapper>
+          <SectionTitle padding="30px">Now</SectionTitle>
+          <SectionTitle>Trending</SectionTitle>
+        </SubTitleSectionWrapper>
+        <CircleDiv></CircleDiv>
+      </TitleSectionWrapper>
+      <PlayingContents date="첫방송 : " />
     </>
   )
 }
 
 export default DiscoverContents
 
-const TitleSectionWrapper = styled.div`
-  padding: 16px 0;
+const TitleSectionWrapper = styled.div<TitleSectionWrapperProps>`
+  display: flex;
+  flex-direction: row;
+  padding: 28px 0;
   margin: 10px 0;
+  align-items: flex-end;
+  align-items: ${({ alignitems }) => alignitems};
 `
 
 const SubTitleSectionWrapper = styled.div`
   display: flex;
+  flex-direction: column;
 `
 
-const SectionTitle = styled.p`
-  font-size: 128px;
-  letter-spacing: -0.4rem;
+const SectionTitle = styled.p<TitleSectionWrapperProps>`
+  /* font-size: 128px; */
+  font-size: 94px;
+  letter-spacing: -0.2rem;
   line-height: 1;
   font-family: 'Josefin Sans', sans-serif;
-  margin: 20px 20px 20px 48px;
-  font-weight: 500;
-  /* background-color: red; */
+  margin: 0px 20px 0px 48px;
+  font-weight: 600;
+  padding-right: ${({ padding }) => padding};
 `
 
 const CircleDiv = styled.div`
