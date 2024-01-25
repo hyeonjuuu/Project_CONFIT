@@ -10,7 +10,7 @@ import { Autoplay, EffectCoverflow } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper-bundle.css'
 import SwiperCore from 'swiper'
-import DiscoverContents from './../components/mainpage/DiscoverContents'
+import DiscoverContents from '../layout/mainpage/DiscoverContents'
 
 SwiperCore.use([Autoplay, EffectCoverflow])
 

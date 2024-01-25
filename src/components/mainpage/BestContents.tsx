@@ -84,7 +84,6 @@ function BestContents() {
                   : '#222222'
             }}
           >
-            {/* {' '} */}
             {item.title}
           </ContentsTitle>
           <ContentsWrapper>
