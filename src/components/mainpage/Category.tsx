@@ -66,6 +66,8 @@ export default Category
 
 const CategorySection = styled.section`
   background-color: #edece8;
+  padding: 60px 0;
+  border-bottom: 1px solid #cbcbcb;
 `
 export const SwiperWrapper = styled(Swiper)`
   display: flex;

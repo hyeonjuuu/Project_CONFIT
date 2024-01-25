@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-const getPopularData = async () => {
+const getWatchProviders = async (movieId: number) => {
   try {
     const response = await axios.get(
-      'https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1',
+      `https://api.themoviedb.org/3/movie/${movieId}/watch/providers`,
       {
         headers: {
           Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
@@ -17,4 +17,4 @@ const getPopularData = async () => {
   }
 }
 
-export default getPopularData
+export default getWatchProviders

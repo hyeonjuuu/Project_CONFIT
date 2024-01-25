@@ -5,16 +5,27 @@ import styled from 'styled-components'
 import getPopularData from '@/api/getPopularData'
 import { Link as RouterLink } from 'react-router-dom'
 import { movieGenres } from '@/utils/genresData'
-import { PopularDataItem } from '@/types/mainPage/bestContents'
+import {
+  PopularDataItem,
+  WatchProviderKRItems,
+  popularContentsWatchProviderData
+} from '@/types/mainPage/bestContents'
+import getWatchProviders from '@/api/getWatchProviders'
 
 interface BestContentsProps {
   index?: number
   borderbottom?: string
 }
 
+interface SubstanceProps {
+  width?: string
+}
+
 function BestContents() {
   const { populardata, setPopularData } = usePopularDataStore()
-  const [popularContentsGenre, setPopularContentsGenre] = useState<number[]>([])
+  const [popularContentsId, setPopularContentsId] = useState<number[]>([])
+  const [popularContentsWatchProvider, setpopularContentsWatchProvider] =
+    useState<popularContentsWatchProviderData>()
   const [isHovered, setIsHovered] = useState(false)
   const [hoverItemId, setHoverItemId] = useState<number>()
 
@@ -22,10 +33,18 @@ function BestContents() {
     const fetchingPopularData = async () => {
       const data = await getPopularData()
       setPopularData(data)
-      const popularGenre = data?.results.map(
-        (item: { genre_ids: number[] }) => item.genre_ids
-      )
-      setPopularContentsGenre(popularGenre)
+      const popularId = data.results.map((item: { id: number }) => item.id)
+
+      setPopularContentsId(popularId)
+
+      const fetchingWatchProvider = async () => {
+        const data = await Promise.all(
+          popularId?.map((id: number) => getWatchProviders(id))
+        )
+        setpopularContentsWatchProvider(data)
+      }
+
+      fetchingWatchProvider()
     }
 
     fetchingPopularData()
@@ -34,9 +53,7 @@ function BestContents() {
   const handleHover = (event: MouseEvent, item: PopularDataItem) => {
     const target = event.target as HTMLElement
     const targetId = target.id
-    console.log(hoverItemId?.toString())
     setHoverItemId(item.id)
-    console.log('targetID', targetId)
     if (item.id.toString() === targetId) {
       setIsHovered(true)
     }
@@ -67,7 +84,6 @@ function BestContents() {
                   : '#222222'
             }}
           >
-            {' '}
             {item.title}
           </ContentsTitle>
           <ContentsWrapper>
@@ -81,9 +97,33 @@ function BestContents() {
                 return <Substance key={index}>{genre?.name}</Substance>
               })}
             </ContentsGenreWrapper>
-            <ContentsGenreWrapper borderbottom="0.5px solid #bbbaba">
+            <ContentsGenreWrapper>
               <SubstanceTitle>평점</SubstanceTitle>
               <Substance>{item.vote_average}</Substance>
+            </ContentsGenreWrapper>
+            <ContentsGenreWrapper borderbottom="0.5px solid #bbbaba">
+              <SubstanceTitle key={index}>채널</SubstanceTitle>
+              {popularContentsWatchProvider?.map((providerItem, index) => {
+                const providerKR = providerItem.results['KR']
+                let providerName = ''
+                if (item.id === providerItem.id && providerKR) {
+                  if (Array.isArray(providerKR.flatrate)) {
+                    providerName = providerKR.flatrate
+                      .map(providerItem => providerItem.provider_name)
+                      .join(', ')
+                  } else if (Array.isArray(providerKR.buy)) {
+                    providerName = providerKR.buy
+                      .map(providerItem => providerItem.provider_name)
+                      .join(', ')
+                  }
+                  return <Substance key={index}>{providerName}</Substance>
+                } else if (item.id === providerItem.id && !providerKR) {
+                  providerName = '-'
+                  return <Substance key={index}>{providerName}</Substance>
+                } else {
+                  return null
+                }
+              })}
             </ContentsGenreWrapper>
           </ContentsWrapper>
           <MoreButton
@@ -115,7 +155,7 @@ const BestContentsContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1.2fr 0.8fr;
-  height: 580px;
+  height: 720px;
   grid-column-gap: 3rem;
   margin: 150px 50px 100px;
 `
@@ -126,7 +166,9 @@ const BestContentsWrapper = styled(MotionLink)<BestContentsProps>`
   grid-row: ${({ index }) => (index === 0 ? 'span 2' : 'span 1')};
   display: flex;
   flex-direction: column;
-  /* background-color: teal; */
+  &:active {
+    color: #13cd86;
+  }
 `
 
 const BestContentsImg = styled.img`
@@ -163,6 +205,7 @@ const ContentsOverview = styled.p`
   -webkit-box-orient: vertical;
   font-weight: 300;
   font-size: 14px;
+  color: #444444;
 `
 
 const ContentsGenreWrapper = styled.div<BestContentsProps>`
@@ -174,7 +217,7 @@ const ContentsGenreWrapper = styled.div<BestContentsProps>`
   padding: 10px 0;
 `
 
-const Substance = styled.span`
+const Substance = styled.span<SubstanceProps>`
   font-weight: 300;
   height: 100%;
   font-size: 14px;

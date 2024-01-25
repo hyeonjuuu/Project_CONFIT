@@ -10,6 +10,7 @@ import { Autoplay, EffectCoverflow } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper-bundle.css'
 import SwiperCore from 'swiper'
+import DiscoverContents from '../layout/mainpage/DiscoverContents'
 
 SwiperCore.use([Autoplay, EffectCoverflow])
 
@@ -71,6 +72,8 @@ function MainPage() {
       </PosterWrapper>
       <BestContents />
       <Category />
+      <DiscoverContents />
+      <Footer></Footer>
     </MainWrapper>
   )
 }
@@ -174,4 +177,8 @@ const TrendPosterImg = styled.img`
     filter: grayscale(0) opacity(100);
     transform: scale(1.06);
   }
+`
+
+const Footer = styled.div`
+  height: 100px;
 `
