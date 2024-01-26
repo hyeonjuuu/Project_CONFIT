@@ -2,9 +2,9 @@ import { getPlayingMovieData, getTrendingTVData } from '@/api/getPlayingData'
 import PlayingContents from '@/components/mainpage/PlayingContents'
 import { usePlayingMovieStore } from '@/store/usePlayingMovieStore'
 import { useTrendingTVDataStore } from '@/store/useTrendingTVDataStore'
-import { movieGenres, tvGenres } from '@/utils/genresData'
 import { useEffect } from 'react'
 import styled from 'styled-components'
+import RecentPlayingContents from './../../components/mainpage/RecentPlayingContents'
 
 interface DiscoverContentsBoxProps {
   justifycontent: string
@@ -41,7 +41,7 @@ function DiscoverContents() {
 
   return (
     <>
-      <TitleSectionWrapper alignitems="flex-start">
+      {/* <TitleSectionWrapper alignitems="flex-start">
         <SubTitleSectionWrapper>
           <SectionTitle>Now</SectionTitle>
           <SectionTitle>Playing</SectionTitle>
@@ -56,7 +56,8 @@ function DiscoverContents() {
         </SubTitleSectionWrapper>
         <CircleDiv></CircleDiv>
       </TitleSectionWrapper>
-      <PlayingContents date="첫방송 : " />
+      <PlayingContents date="첫방송 : " /> */}
+      <RecentPlayingContents />
     </>
   )
 }
@@ -78,7 +79,6 @@ const SubTitleSectionWrapper = styled.div`
 `
 
 const SectionTitle = styled.p<TitleSectionWrapperProps>`
-  /* font-size: 128px; */
   font-size: 94px;
   letter-spacing: -0.2rem;
   line-height: 1;
