@@ -1,5 +1,4 @@
 import { useTrendingTVDataStore } from '@/store/useTrendingTVDataStore'
-import React from 'react'
 import styled from 'styled-components'
 
 function RecentPlayingContents() {
@@ -7,7 +6,7 @@ function RecentPlayingContents() {
   console.log(trendingTVData)
 
   return (
-    <>
+    <RecentContentsWrapper>
       {trendingTVData
         ?.filter(item => item !== undefined)
         ?.map((item, index) => (
@@ -73,14 +72,17 @@ function RecentPlayingContents() {
             )}
           </ContentsWrapper>
         ))}
-    </>
+    </RecentContentsWrapper>
   )
 }
 
 export default RecentPlayingContents
 
+const RecentContentsWrapper = styled.div``
+
 const ContentsWrapper = styled.div`
   padding: 0 50px;
+  margin: 32px 0;
 `
 
 const LargeContentsBox = styled.div`
@@ -104,7 +106,6 @@ const LargeImg = styled.img`
   /* width: 500px; */
   width: ${({ width }) => width};
   object-fit: contain;
-  /* border: 2px solid #ffffff; */
   border-radius: 10px;
   height: 100%;
   /* max-width: 100%; */
@@ -125,7 +126,6 @@ const ContentsTextBox = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 16px 10px;
-  /* background-color: yellow; */
 `
 
 const ContentsTitle = styled.span`
