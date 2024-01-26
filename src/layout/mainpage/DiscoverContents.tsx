@@ -57,6 +57,14 @@ function DiscoverContents() {
         <CircleDiv></CircleDiv>
       </TitleSectionWrapper>
       <PlayingContents date="첫방송 : " /> */}
+
+      <TitleSectionWrapper alignitems="flex-start">
+        <SubTitleSectionWrapper>
+          <SectionTitle>Now</SectionTitle>
+          <SectionTitle>Trending</SectionTitle>
+        </SubTitleSectionWrapper>
+        <CircleDiv></CircleDiv>
+      </TitleSectionWrapper>
       <RecentPlayingContents />
     </>
   )
