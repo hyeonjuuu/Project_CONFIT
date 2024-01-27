@@ -9,7 +9,7 @@ function Header() {
     <HeaderContainer>
       <MenuButton>Home</MenuButton>
       <MenuButton>Search</MenuButton>
-      <MenuButton>Writing</MenuButton>
+      <MenuButton>Review</MenuButton>
       <MenuButton>Sign in</MenuButton>
       <MenuButton>Join</MenuButton>
     </HeaderContainer>
