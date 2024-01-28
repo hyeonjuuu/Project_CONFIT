@@ -1,6 +1,5 @@
 import { useTrendingTVDataStore } from '@/store/useTrendingTVDataStore'
 import styled from 'styled-components'
-import VerticalLinesExample from './VerticalLinesExample'
 
 function RecentPlayingContents() {
   const { trendingTVData } = useTrendingTVDataStore()
@@ -75,7 +74,6 @@ function RecentPlayingContents() {
             </ContentsWrapper>
           ))}
       </RecentContentsWrapper>
-      <VerticalLinesExample />
     </>
   )
 }
@@ -83,18 +81,20 @@ function RecentPlayingContents() {
 export default RecentPlayingContents
 
 const RecentContentsWrapper = styled.div`
-  /* background-color: white; */
-  /* background-color: transparent; */
-  position: absolute;
-  /* overflow: hidden; */
+  background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      #edece8 1px,
+      #edece8 200px
+    ),
+    linear-gradient(to bottom, #cbc9c9, #cbc9c9);
+  padding: 20px 0;
 `
 
 const ContentsWrapper = styled.div`
   padding: 0 50px;
-  position: relative;
   z-index: 1;
   margin: 32px 0;
-  /* background-color: yellow; */
 `
 
 const LargeContentsBox = styled.div`
@@ -102,7 +102,6 @@ const LargeContentsBox = styled.div`
   gap: 28px;
   margin: 48px 0;
   align-items: center;
-  /* background-color: teal; */
 `
 
 const ContentsItemBox = styled.div`
@@ -115,12 +114,10 @@ const SmallContentsBox = styled(LargeContentsBox)`
 `
 
 const LargeImg = styled.img`
-  /* width: 500px; */
   width: ${({ width }) => width};
   object-fit: contain;
   border-radius: 10px;
   height: 100%;
-  /* max-width: 100%; */
 `
 
 const ContentsTextBox = styled.div`
