@@ -94,6 +94,7 @@ const ContentsWrapper = styled.div`
   position: relative;
   z-index: 1;
   margin: 32px 0;
+  /* background-color: yellow; */
 `
 
 const LargeContentsBox = styled.div`
@@ -120,16 +121,6 @@ const LargeImg = styled.img`
   border-radius: 10px;
   height: 100%;
   /* max-width: 100%; */
-`
-
-const SmallImg = styled.img`
-  /* aspect-ratio: 16/9; */
-  /* border: 5px solid #cbcbcb; */
-  width: 600px;
-  /* width: 300px; */
-  height: 100%;
-  /* width: ${({ width }) => width}; */
-  object-fit: cover;
 `
 
 const ContentsTextBox = styled.div`

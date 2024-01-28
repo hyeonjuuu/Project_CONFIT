@@ -1,40 +1,28 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const LinesContainer = styled.div`
+const Wrapper = styled.div`
+  position: relative;
+  border: 10px solid red;
+  /* width: 100vh; */
+  height: 100vh;
+`
+
+const Line = styled.div`
   position: absolute;
-  /* border: 10px solid red; */
-  height: 100vh;
-  width: 100%; /* 부모 너비를 가득 채우도록 설정 */
-  z-index: -1;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: black;
 `
 
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(8, auto);
-  gap: 1px;
-`
-
-const Column = styled.div`
-  background-color: #c0c0c0;
-  height: 100vh;
-  /* width: 100px; */
-`
-
-const VerticalLinesExample: React.FC = () => {
+const VerticalLinesExample = () => {
   return (
-    <LinesContainer>
-      <Container>
-        <Column></Column>
-        <Column></Column>
-        <Column></Column>
-        <Column></Column>
-        <Column></Column>
-        <Column></Column>
-        <Column></Column>
-        <Column></Column>
-      </Container>
-    </LinesContainer>
+    <Wrapper>
+      {[...Array(8)].map((_, index) => (
+        <Line key={index} style={{ left: `${(index + 1) * 12.5}%` }} />
+      ))}
+    </Wrapper>
   )
 }
 
