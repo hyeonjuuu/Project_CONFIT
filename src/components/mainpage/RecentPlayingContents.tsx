@@ -8,6 +8,9 @@ import { TrendingTVItems } from '@/types/mainPage/ContentsData'
 
 type ViewMoreButtonProps = {
   $ishovered?: boolean
+  $position?: string
+  $bottom?: string
+  $left?: string
 }
 
 function RecentPlayingContents() {
@@ -37,7 +40,13 @@ function RecentPlayingContents() {
             <ContentsWrapper key={index}>
               {index * 4 < trendingTVData.length && (
                 <LargeContentsBox>
-                  <ContentsItemBox to="">
+                  <ContentsItemBox
+                    to=""
+                    onMouseEnter={event =>
+                      handleHover(event, trendingTVData[index * 4 + 3].id)
+                    }
+                    onMouseLeave={handleMouseLeave}
+                  >
                     <LargeImgBox>
                       <LargeImg
                         src={`https://image.tmdb.org/t/p/original/${trendingTVData[index * 4]?.backdrop_path}`}
@@ -45,6 +54,15 @@ function RecentPlayingContents() {
                         key={index * 4}
                         width="720px"
                       />
+                      <ViewMoreButton
+                        $ishovered={isHovered}
+                        $position="absolute"
+                        $bottom="16%"
+                        $left="70%"
+                      >
+                        <span>View More</span>
+                        <ButtonArrowIcon $ishovered={isHovered} />
+                      </ViewMoreButton>
                     </LargeImgBox>
                     <ContentsTextBox>
                       <ContentsTitle>
@@ -55,8 +73,15 @@ function RecentPlayingContents() {
                       </ContentsDate>
                     </ContentsTextBox>
                   </ContentsItemBox>
+
                   {index * 4 + 1 < trendingTVData.length && (
-                    <ContentsItemBox to="">
+                    <ContentsItemBox
+                      to=""
+                      onMouseEnter={event =>
+                        handleHover(event, trendingTVData[index * 4 + 3].id)
+                      }
+                      onMouseLeave={handleMouseLeave}
+                    >
                       <LargeImgBox>
                         <LargeImg
                           src={`https://image.tmdb.org/t/p/original/${trendingTVData[index * 4 + 1]?.backdrop_path}`}
@@ -64,6 +89,15 @@ function RecentPlayingContents() {
                           key={index * 4 + 1}
                           width="720px"
                         />
+                        <ViewMoreButton
+                          $ishovered={isHovered}
+                          $position="absolute"
+                          $bottom="16%"
+                          $left="70%"
+                        >
+                          <span>View More</span>
+                          <ButtonArrowIcon $ishovered={isHovered} />
+                        </ViewMoreButton>
                       </LargeImgBox>
                       <ContentsTextBox>
                         <ContentsTitle>
@@ -107,10 +141,7 @@ function RecentPlayingContents() {
                       </HoverContentsDate>
                       <ViewMoreButton $ishovered={isHovered}>
                         <span>View More</span>
-                        <ButtonArrowIcon
-                          fillcolor="#ce8a8a"
-                          $ishovered={isHovered}
-                        />
+                        <ButtonArrowIcon $ishovered={isHovered} />
                       </ViewMoreButton>
                     </HoverContents>
                   </HoverWrapper>
@@ -139,10 +170,7 @@ function RecentPlayingContents() {
                         </HoverContentsDate>
                         <ViewMoreButton $ishovered={isHovered}>
                           <span>View More</span>
-                          <ButtonArrowIcon
-                            fillcolor="#ce8a8a"
-                            $ishovered={isHovered}
-                          />
+                          <ButtonArrowIcon $ishovered={isHovered} />
                         </ViewMoreButton>
                       </HoverContents>
                     </HoverWrapper>
@@ -247,10 +275,20 @@ const ContentsItemBox = styled(Link)`
 `
 
 const LargeImgBox = styled.div`
-  overflow: hidden;
   border-radius: 10px;
-  aspect-ratio: 16/9;
   background: #aaeec4;
+  transition: all 0.5s;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  > img {
+    filter: saturate(100%) brightness(100%) blur(0) opacity(100%);
+    transition: 0.5s all ease;
+  }
+  > button {
+    transition: 0.6s;
+    opacity: 0%;
+  }
+
   &:hover {
     > img {
       filter: saturate(0%) brightness(70%) blur(2px) opacity(50%);
@@ -258,15 +296,8 @@ const LargeImgBox = styled.div`
       height: 100%;
       transition: 0.5s all ease;
     }
-  }
-`
-
-const LargeHoverWrapper = styled(HoverWrapper)`
-  flex-direction: column;
-  &:hover {
-    > img {
-      filter: saturate(0%) brightness(70%);
-      transition: 0.5s;
+    > button {
+      opacity: 100%;
     }
   }
 `
@@ -278,11 +309,8 @@ const HoverContents = styled.div`
   align-items: center;
   word-break: keep-all;
   text-align: center;
-  /* visibility: hidden; */
   filter: opacity(0);
   flex-direction: column;
-  /* height: 100%; */
-  /* justify-content: space-between; */
 `
 
 const HoverContentsItem = styled.span`
@@ -322,6 +350,10 @@ const unhoveredFillcolor = keyframes`
 `
 
 const ViewMoreButton = styled.button<ViewMoreButtonProps>`
+  position: ${({ $position }) =>
+    $position === 'absolute' ? 'absolute' : 'relative'};
+  bottom: ${({ $bottom }) => $bottom};
+  left: ${({ $left }) => $left};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -339,10 +371,10 @@ const ViewMoreButton = styled.button<ViewMoreButtonProps>`
   animation: ${({ $ishovered }) =>
     $ishovered
       ? css`
-          ${hoveredFillcolor} 0.5s forwards
+          ${hoveredFillcolor} 0.8s forwards
         `
       : css`
-          ${unhoveredFillcolor} 0.5s forwards
+          ${unhoveredFillcolor} 0.8s forwards
         `};
   color: ${({ $ishovered }) => ($ishovered ? '#aaeec4' : '#444444')};
 `

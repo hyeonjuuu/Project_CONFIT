@@ -1,11 +1,10 @@
 import styled from 'styled-components'
 
 export interface ButtonArrowProps {
-  fillcolor?: string
   $ishovered: boolean
 }
 
-function ButtonArrow({ fillcolor, $ishovered }: ButtonArrowProps) {
+function ButtonArrow({ $ishovered }: ButtonArrowProps) {
   return (
     <IconContainer>
       <svg
