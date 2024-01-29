@@ -1,11 +1,35 @@
 import { useTrendingTVDataStore } from '@/store/useTrendingTVDataStore'
 import { Link } from 'react-router-dom'
-import styled, { keyframes } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 import buttonArrow from '@/assets/buttonArrow.svg'
+import ButtonArrowIcon, { ButtonArrowProps } from '@/assets/ButtonArrow'
+import { useState } from 'react'
+import { TrendingTVItems } from '@/types/mainPage/ContentsData'
+
+type ViewMoreButtonProps = {
+  $ishovered?: boolean
+}
 
 function RecentPlayingContents() {
   const { trendingTVData } = useTrendingTVDataStore()
-  console.log(trendingTVData)
+  const [isHovered, setIsHovered] = useState(false)
+  const [hoverItemId, setHoverItemId] = useState<number>()
+
+  const handleHover = (
+    event: React.MouseEvent<HTMLImageElement, MouseEvent>,
+    itemId: number
+  ) => {
+    console.log('itemid', itemId)
+
+    setIsHovered(true)
+    setHoverItemId(itemId)
+  }
+  console.log('hoverid', hoverItemId)
+
+  const handleMouseLeave = () => {
+    setIsHovered(false)
+    setHoverItemId(undefined)
+  }
 
   return (
     <>
@@ -77,6 +101,10 @@ function RecentPlayingContents() {
                         alt=""
                         key={index * 4 + 3}
                         width="480"
+                        onMouseEnter={event =>
+                          handleHover(event, trendingTVData[index * 4 + 3].id)
+                        }
+                        onMouseLeave={handleMouseLeave}
                       />
                       <HoverContents>
                         <HoverContentsItem>
@@ -88,9 +116,10 @@ function RecentPlayingContents() {
                             4
                           )}
                         </HoverContentsDate>
-                        <ViewMoreButton>
-                          View More
-                          <ButtonArrow src={buttonArrow} alt="" />
+                        <ViewMoreButton $ishovered={isHovered}>
+                          <span>View More</span>
+                          {/* <ButtonArrow src={buttonArrow} alt="" /> */}
+                          <ButtonArrowIcon fillcolor="#ce8a8a" />
                         </ViewMoreButton>
                       </HoverContents>
                     </HoverWrapper>
@@ -178,15 +207,6 @@ const HoverWrapper = styled.a`
       visibility: visible;
     }
   }
-
-  @keyframes fadeOut {
-    0% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0.5;
-    }
-  }
 `
 
 const ContentsItemBox = styled(Link)`
@@ -226,7 +246,7 @@ const HoverContents = styled.div`
   align-items: center;
   word-break: keep-all;
   text-align: center;
-  visibility: hidden;
+  /* visibility: hidden; */
   flex-direction: column;
   /* height: 100%; */
   /* justify-content: space-between; */
@@ -249,23 +269,44 @@ const HoverContentsDate = styled(HoverContentsItem)`
   font-weight: 300;
   margin: 14px 0;
 `
-const ViewMoreButton = styled.button`
+
+const fillcolor = keyframes`
+  0% {
+    background-position: 0 0%;
+  }
+  100% {
+    background-position: 0 100%;
+  }
+`
+
+const ViewMoreButton = styled.button<ViewMoreButtonProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 1px solid #cdcdcd;
-  padding: 10px 20px;
+  border: 1px solid #444444;
+  padding: 6px 20px 12px;
   border-radius: 30px;
-  /* background-image: url(${buttonArrow});
-  background-position: bottom;
-  background-position-y: 80%;
-  background-position-x: 60%;
-  background-size: 80%;
-  background-repeat: no-repeat; */
   overflow: hidden;
   width: 200px;
-  color: #cdcdcd;
+  color: #444444;
+  background: linear-gradient(to bottom, transparent 50%, #303032 50%);
+  background-size: 100% 200%;
+  transition: all 0.5s;
+  position: relative;
+  animation: ${({ $ishovered }) =>
+    $ishovered
+      ? css`
+          ${fillcolor} 0.5s forwards
+        `
+      : 'none'};
+  color: ${({ $ishovered }) => ($ishovered ? '#aaeec4' : '#444444')};
+
+  &:hover {
+    animation: ${fillcolor} 0.5s forwards;
+    color: #aaeec4;
+    border: 1px solid #cdcdcd;
+  }
 `
 const ButtonArrow = styled.img`
   position: absolute;
