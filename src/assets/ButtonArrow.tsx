@@ -2,9 +2,10 @@ import styled from 'styled-components'
 
 export interface ButtonArrowProps {
   fillcolor?: string
+  $ishovered: boolean
 }
 
-function ButtonArrow({ fillcolor }: ButtonArrowProps) {
+function ButtonArrow({ fillcolor, $ishovered }: ButtonArrowProps) {
   return (
     <IconContainer>
       <svg
@@ -16,7 +17,7 @@ function ButtonArrow({ fillcolor }: ButtonArrowProps) {
       >
         <path
           d="M95 1L111.1 12H0.899994"
-          stroke={fillcolor}
+          stroke={$ishovered === true ? '#aaeec4' : '#444444'}
           strokeMiterlimit="10"
           strokeLinejoin="round"
         />

@@ -16,15 +16,12 @@ function RecentPlayingContents() {
   const [hoverItemId, setHoverItemId] = useState<number>()
 
   const handleHover = (
-    event: React.MouseEvent<HTMLImageElement, MouseEvent>,
+    event: React.MouseEvent<HTMLElement, MouseEvent>,
     itemId: number
   ) => {
-    console.log('itemid', itemId)
-
     setIsHovered(true)
     setHoverItemId(itemId)
   }
-  console.log('hoverid', hoverItemId)
 
   const handleMouseLeave = () => {
     setIsHovered(false)
@@ -86,25 +83,49 @@ function RecentPlayingContents() {
 
               {index * 4 + 2 < trendingTVData.length && (
                 <SmallContentsBox>
-                  <HoverWrapper>
+                  <HoverWrapper
+                    onMouseEnter={event =>
+                      handleHover(event, trendingTVData[index * 4 + 3].id)
+                    }
+                    onMouseLeave={handleMouseLeave}
+                  >
                     <LargeImg
                       src={`https://image.tmdb.org/t/p/original/${trendingTVData[index * 4 + 2]?.poster_path}`}
                       alt=""
                       key={index * 4 + 2}
                       width="480"
                     />
+                    <HoverContents>
+                      <HoverContentsItem>
+                        {trendingTVData[index * 4 + 2]?.name}
+                      </HoverContentsItem>
+                      <HoverContentsDate>
+                        {trendingTVData[index * 4 + 2]?.first_air_date.slice(
+                          0,
+                          4
+                        )}
+                      </HoverContentsDate>
+                      <ViewMoreButton $ishovered={isHovered}>
+                        <span>View More</span>
+                        <ButtonArrowIcon
+                          fillcolor="#ce8a8a"
+                          $ishovered={isHovered}
+                        />
+                      </ViewMoreButton>
+                    </HoverContents>
                   </HoverWrapper>
                   {index * 4 + 3 < trendingTVData.length && (
-                    <HoverWrapper>
+                    <HoverWrapper
+                      onMouseEnter={event =>
+                        handleHover(event, trendingTVData[index * 4 + 3].id)
+                      }
+                      onMouseLeave={handleMouseLeave}
+                    >
                       <LargeImg
                         src={`https://image.tmdb.org/t/p/original/${trendingTVData[index * 4 + 3]?.poster_path}`}
                         alt=""
                         key={index * 4 + 3}
                         width="480"
-                        onMouseEnter={event =>
-                          handleHover(event, trendingTVData[index * 4 + 3].id)
-                        }
-                        onMouseLeave={handleMouseLeave}
                       />
                       <HoverContents>
                         <HoverContentsItem>
@@ -118,8 +139,10 @@ function RecentPlayingContents() {
                         </HoverContentsDate>
                         <ViewMoreButton $ishovered={isHovered}>
                           <span>View More</span>
-                          {/* <ButtonArrow src={buttonArrow} alt="" /> */}
-                          <ButtonArrowIcon fillcolor="#ce8a8a" />
+                          <ButtonArrowIcon
+                            fillcolor="#ce8a8a"
+                            $ishovered={isHovered}
+                          />
                         </ViewMoreButton>
                       </HoverContents>
                     </HoverWrapper>
@@ -196,6 +219,15 @@ const HoverWrapper = styled.a`
   justify-content: center;
   transition: all 0.5s;
   overflow: hidden;
+  > img {
+    filter: saturate(100%) brightness(100%) blur(0) opacity(100%);
+    transition: 0.5s all ease;
+  }
+
+  > div {
+    transition: 0.5s all ease;
+    filter: opacity(0);
+  }
   &:hover {
     > img {
       filter: saturate(0%) brightness(70%) blur(2px) opacity(50%);
@@ -204,7 +236,7 @@ const HoverWrapper = styled.a`
     }
 
     > div {
-      visibility: visible;
+      filter: opacity(100);
     }
   }
 `
@@ -247,6 +279,7 @@ const HoverContents = styled.div`
   word-break: keep-all;
   text-align: center;
   /* visibility: hidden; */
+  filter: opacity(0);
   flex-direction: column;
   /* height: 100%; */
   /* justify-content: space-between; */
@@ -270,12 +303,21 @@ const HoverContentsDate = styled(HoverContentsItem)`
   margin: 14px 0;
 `
 
-const fillcolor = keyframes`
+const hoveredFillcolor = keyframes`
   0% {
     background-position: 0 0%;
   }
   100% {
     background-position: 0 100%;
+  }
+`
+
+const unhoveredFillcolor = keyframes`
+  0% {
+    background-position: 0 100%;
+  }
+  100% {
+    background-position: 0 0%;
   }
 `
 
@@ -285,7 +327,7 @@ const ViewMoreButton = styled.button<ViewMoreButtonProps>`
   justify-content: center;
   align-items: center;
   border: 1px solid #444444;
-  padding: 6px 20px 12px;
+  padding: 8px 20px 12px;
   border-radius: 30px;
   overflow: hidden;
   width: 200px;
@@ -297,20 +339,10 @@ const ViewMoreButton = styled.button<ViewMoreButtonProps>`
   animation: ${({ $ishovered }) =>
     $ishovered
       ? css`
-          ${fillcolor} 0.5s forwards
+          ${hoveredFillcolor} 0.5s forwards
         `
-      : 'none'};
+      : css`
+          ${unhoveredFillcolor} 0.5s forwards
+        `};
   color: ${({ $ishovered }) => ($ishovered ? '#aaeec4' : '#444444')};
-
-  &:hover {
-    animation: ${fillcolor} 0.5s forwards;
-    color: #aaeec4;
-    border: 1px solid #cdcdcd;
-  }
-`
-const ButtonArrow = styled.img`
-  position: absolute;
-  width: 120px;
-  padding-top: 6px;
-  margin: 0 auto;
 `
