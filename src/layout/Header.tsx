@@ -1,6 +1,5 @@
-import { useLocationStore } from '@/store/useLocationStore'
-import { HeaderDivProps } from '@/types/mainPage/header'
 import styled, { keyframes } from 'styled-components'
+import { Link } from 'react-router-dom'
 
 function Header() {
   // const { locationPath } = useLocationStore()
@@ -11,7 +10,9 @@ function Header() {
       <MenuButton>Search</MenuButton>
       <MenuButton>Review</MenuButton>
       <MenuButton>Sign in</MenuButton>
-      <MenuButton>Join</MenuButton>
+      <Link to="/joinpage">
+        <MenuButton>Join</MenuButton>
+      </Link>
     </HeaderContainer>
   )
 }
