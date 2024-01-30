@@ -73,7 +73,7 @@ function MainPage() {
       <BestContents />
       <Category />
       <DiscoverContents />
-      <Footer></Footer>
+      {/* <Footer></Footer> */}
     </MainWrapper>
   )
 }
