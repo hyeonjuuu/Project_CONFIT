@@ -1,7 +1,46 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { createClient } from '@supabase/supabase-js'
+import { supabase } from '@/supabase/supabase'
 
 function JoinPage() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [passwordConfirm, setPasswordConfirm] = useState('')
+
+  useEffect(() => {
+    console.log(email)
+    console.log(password)
+  }, [email, password])
+
+  const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value)
+  }
+  const passwordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value)
+  }
+  const passwordConfirmHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPasswordConfirm(e.target.value)
+  }
+
+  const signupHandler = async (e: React.FormEvent) => {
+    e.preventDefault()
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password
+      })
+      if (error) {
+        console.log(error)
+        alert('이메일과 비밀번호를 확인해주세요')
+      } else {
+        alert('회원가입이 완료되었습니다.')
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <JoinWrapper>
       <JoinContainer>
@@ -16,6 +55,7 @@ function JoinPage() {
               name="email"
               placeholder="이메일"
               id="email"
+              onChange={emailHandler}
             />
           </JoinField>
           <JoinField>
@@ -27,6 +67,7 @@ function JoinPage() {
               type="password"
               placeholder="비밀번호"
               id="password"
+              onChange={passwordHandler}
             />
           </JoinField>
           <JoinField>
@@ -38,10 +79,16 @@ function JoinPage() {
               name="passwordConfirm"
               placeholder="비밀번호 확인"
               id="passwordConfirm"
+              onChange={passwordConfirmHandler}
             />
           </JoinField>
           <JoinField>
-            <SubmitButton type="submit" name="JoinIn" value="회원가입" />
+            <SubmitButton
+              type="submit"
+              name="JoinIn"
+              value="회원가입"
+              onClick={e => signupHandler(e)}
+            />
           </JoinField>
         </JoinForm>
       </JoinContainer>
