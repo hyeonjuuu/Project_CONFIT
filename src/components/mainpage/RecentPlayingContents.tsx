@@ -5,6 +5,7 @@ import buttonArrow from '@/assets/buttonArrow.svg'
 import ButtonArrowIcon, { ButtonArrowProps } from '@/assets/ButtonArrow'
 import { useState } from 'react'
 import { TrendingTVItems } from '@/types/mainPage/ContentsData'
+import { useHoverItemStore } from '@/store/useHoverItemStore'
 
 type ViewMoreButtonProps = {
   $ishovered?: boolean
@@ -17,18 +18,21 @@ function RecentPlayingContents() {
   const { trendingTVData } = useTrendingTVDataStore()
   const [isHovered, setIsHovered] = useState(false)
   const [hoverItemId, setHoverItemId] = useState<number>()
+  const { hoverItem, setHoverItem } = useHoverItemStore()
 
   const handleHover = (
     event: React.MouseEvent<HTMLElement, MouseEvent>,
     itemId: number
   ) => {
-    setIsHovered(true)
-    setHoverItemId(itemId)
+    if (hoverItem !== itemId) {
+      setIsHovered(true)
+    }
+    setHoverItem(itemId)
   }
 
   const handleMouseLeave = () => {
     setIsHovered(false)
-    setHoverItemId(undefined)
+    setHoverItem(0)
   }
 
   return (
@@ -43,7 +47,7 @@ function RecentPlayingContents() {
                   <ContentsItemBox
                     to=""
                     onMouseEnter={event =>
-                      handleHover(event, trendingTVData[index * 4 + 3].id)
+                      handleHover(event, trendingTVData[index * 4].id)
                     }
                     onMouseLeave={handleMouseLeave}
                   >
@@ -78,7 +82,7 @@ function RecentPlayingContents() {
                     <ContentsItemBox
                       to=""
                       onMouseEnter={event =>
-                        handleHover(event, trendingTVData[index * 4 + 3].id)
+                        handleHover(event, trendingTVData[index * 4 + 1].id)
                       }
                       onMouseLeave={handleMouseLeave}
                     >
@@ -119,7 +123,7 @@ function RecentPlayingContents() {
                 <SmallContentsBox>
                   <HoverWrapper
                     onMouseEnter={event =>
-                      handleHover(event, trendingTVData[index * 4 + 3].id)
+                      handleHover(event, trendingTVData[index * 4 + 2].id)
                     }
                     onMouseLeave={handleMouseLeave}
                   >
