@@ -1,19 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { createClient } from '@supabase/supabase-js'
 import { supabase } from '@/supabase/supabase'
+import { useNavigate } from 'react-router-dom'
+import { AuthInvalidCredentialsError } from '@supabase/supabase-js'
 
 function JoinPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
 
+  const navigate = useNavigate()
+  const goToMain = () => {
+    navigate('/')
+  }
+
   useEffect(() => {
     console.log(email)
     console.log(password)
   }, [email, password])
 
-  const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const validateEmailSpan = useRef<HTMLSpanElement>(null)
+
+  const emailHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value)
   }
   const passwordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,11 +38,16 @@ function JoinPage() {
         email,
         password
       })
+
       if (error) {
         console.log(error)
-        alert('이메일과 비밀번호를 확인해주세요')
+        // alert('이메일과 비밀번호를 확인해주세요')
+        if (validateEmailSpan.current !== null) {
+          validateEmailSpan.current.style.visibility = 'visible'
+        }
       } else {
         alert('회원가입이 완료되었습니다.')
+        goToMain()
       }
     } catch (error) {
       console.error(error)
@@ -57,6 +70,9 @@ function JoinPage() {
               id="email"
               onChange={emailHandler}
             />
+            <ValidateEmail ref={validateEmailSpan}>
+              중복된 이메일입니다.
+            </ValidateEmail>
           </JoinField>
           <JoinField>
             <Label htmlFor="password">
@@ -122,7 +138,7 @@ const LogoBox = styled.div`
 const JoinForm = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  /* gap: 10px; */
   margin: auto;
   /* background-color: yellow; */
   width: 340px;
@@ -161,4 +177,10 @@ const SubmitButton = styled.input`
 `
 const JoinText = styled.strong`
   color: #303032;
+`
+const ValidateEmail = styled.span`
+  background-color: red;
+  font-size: 12px;
+  padding-left: 6px;
+  visibility: hidden;
 `
