@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { supabase } from '@/supabase/supabase'
 import { useNavigate } from 'react-router-dom'
 import { AuthInvalidCredentialsError } from '@supabase/supabase-js'
+import { enterUserData, insertUserData } from '@/utils/joinin'
 
 function JoinPage() {
   const [email, setEmail] = useState('')
@@ -34,33 +35,46 @@ function JoinPage() {
     setPasswordConfirm(e.target.value)
   }
 
+  // const signupHandler = async (e: React.FormEvent) => {
+  //   e.preventDefault()
+  //   try {
+  //     const { data, error } = await supabase.auth.signUp({
+  //       email,
+  //       password
+  //     })
+
+  //     if (error) {
+  //       console.log(error)
+  //       // alert('이메일과 비밀번호를 확인해주세요')
+  //       if (validateEmailSpan.current !== null) {
+  //         validateEmailSpan.current.style.visibility = 'visible'
+  //       }
+  //     } else {
+  //       alert('회원가입이 완료되었습니다.')
+  //       goToMain()
+  //     }
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }
   const signupHandler = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const { data, error } = await supabase.auth.signUp({
+      const uuid = await supabase.auth.signUp({
         email,
         password
       })
-      console.log(data)
 
-      const {
-        data: { users },
-        error: userError
-      } = await supabase.auth.admin.listUsers()
-      console.log(users)
-
-      if (error) {
-        console.log(error)
-        // alert('이메일과 비밀번호를 확인해주세요')
-        if (validateEmailSpan.current !== null) {
-          validateEmailSpan.current.style.visibility = 'visible'
-        }
+      if (uuid) {
+        const userId = uuid.data.user?.id
+        await insertUserData(email, userId)
+        // alert('회원가입이 완료되었습니다.')
+        // goToMain()
       } else {
-        alert('회원가입이 완료되었습니다.')
-        goToMain()
+        console.error('이메일과 비밀번호를 확인해주세요')
       }
     } catch (error) {
-      console.error(error)
+      console.error(`Error: ${error}`)
     }
   }
 

@@ -29,7 +29,6 @@ function DiscoverContents() {
 
     const fetchingTrendingTVData = async () => {
       const data = await getTrendingTVData()
-      console.log(data)
       setTrendingTVData(data.results)
     }
 
@@ -37,7 +36,6 @@ function DiscoverContents() {
     fetchingTrendingTVData()
   }, [])
   // console.log('playing', playingMovieData)
-  console.log('trending', trendingTVData)
 
   return (
     <>
