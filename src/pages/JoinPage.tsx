@@ -5,6 +5,10 @@ import { useNavigate } from 'react-router-dom'
 import { AuthInvalidCredentialsError } from '@supabase/supabase-js'
 import { enterUserData, insertUserData } from '@/utils/joinin'
 
+interface InputProps {
+  marginbottom?: string
+}
+
 function JoinPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -16,16 +20,33 @@ function JoinPage() {
   }
 
   useEffect(() => {
-    console.log(email)
-    console.log(password)
-  }, [email, password])
+    // console.log(email)
+    // console.log('pw', password)
+    // console.log('pwc', passwordConfirm)
+    if (passwordConfirm !== '') {
+      validatePassword()
+    }
+  }, [email, password, passwordConfirm])
 
   const validateEmailSpan = useRef<HTMLSpanElement>(null)
+  const validatePWSpan = useRef<HTMLSpanElement>(null)
+
+  function validatePassword() {
+    if (password !== passwordConfirm) {
+      if (validatePWSpan.current !== null) {
+        validatePWSpan.current.style.visibility = 'visible'
+      }
+    } else if (password === passwordConfirm) {
+      if (validatePWSpan.current !== null) {
+        validatePWSpan.current.style.visibility = 'hidden'
+      }
+    }
+  }
 
   const emailHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value)
-
     setTimeout(async () => {
+      setEmail(e.target.value)
+
       let { data: users, error } = await supabase
         .from('user')
         .select('email')
@@ -33,22 +54,26 @@ function JoinPage() {
 
       if (users && users.length > 0) {
         console.log(`이메일이 이미 존재합니다: ${e.target.value}`)
+        if (validateEmailSpan.current !== null) {
+          validateEmailSpan.current.style.visibility = 'visible'
+        }
       } else {
         console.log(`이메일을 사용할 수 있습니다: ${e.target.value}`)
+        if (validateEmailSpan.current !== null) {
+          validateEmailSpan.current.style.visibility = 'hidden'
+        }
       }
 
       if (error) {
         console.error('에러 발생:', error.message)
       }
-    }, 1000)
+    }, 1200)
   }
 
-  const passwordHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const passwordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value)
   }
-  const passwordConfirmHandler = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const passwordConfirmHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordConfirm(e.target.value)
   }
 
@@ -85,10 +110,13 @@ function JoinPage() {
       if (uuid) {
         const userId = uuid.data.user?.id
         await insertUserData(email, userId)
+        alert('회원가입이 완료되었습니다.')
+        goToMain()
       } else {
         console.error('데이터 삽입 실패')
       }
     } catch (error) {
+      alert('이메일과 비밀번호를 확인해주세요')
       console.error(`Error: ${error}`)
     }
   }
@@ -109,9 +137,9 @@ function JoinPage() {
               id="email"
               onChange={emailHandler}
             />
-            <ValidateEmail ref={validateEmailSpan}>
-              중복된 이메일입니다.
-            </ValidateEmail>
+            <Validate ref={validateEmailSpan}>
+              이메일이 이미 존재합니다.
+            </Validate>
           </JoinField>
           <JoinField>
             <Label htmlFor="password">
@@ -122,6 +150,7 @@ function JoinPage() {
               type="password"
               placeholder="비밀번호"
               id="password"
+              marginbottom="20px"
               onChange={passwordHandler}
             />
           </JoinField>
@@ -136,6 +165,9 @@ function JoinPage() {
               id="passwordConfirm"
               onChange={passwordConfirmHandler}
             />
+            <Validate ref={validatePWSpan}>
+              비밀번호가 일치하지 않습니다.
+            </Validate>
           </JoinField>
           <JoinField>
             <SubmitButton
@@ -187,6 +219,7 @@ const JoinField = styled.p`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin: 6px 0;
   /* background-color: teal; */
 `
 
@@ -197,12 +230,13 @@ const Label = styled.label`
   height: fit-content;
 `
 
-const InputField = styled.input`
+const InputField = styled.input<InputProps>`
   /* background-color: red; */
   height: 36px;
   border-radius: 6px;
   border: 1px solid #cdcdcd;
   padding: 0 8px;
+  margin-bottom: ${({ marginbottom }) => marginbottom};
 `
 
 const SubmitButton = styled.input`
@@ -213,13 +247,16 @@ const SubmitButton = styled.input`
   font-size: 16px;
   border: none;
   cursor: pointer;
+  margin: 4px 0;
 `
 const JoinText = styled.strong`
   color: #303032;
 `
-const ValidateEmail = styled.span`
-  background-color: red;
+const Validate = styled.span`
   font-size: 12px;
   padding-left: 6px;
   visibility: hidden;
+  color: #ec4848;
+  font-weight: 500;
+  margin-bottom: 4px;
 `
