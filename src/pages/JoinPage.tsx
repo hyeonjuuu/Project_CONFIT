@@ -24,6 +24,23 @@ function JoinPage() {
 
   const emailHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value)
+
+    setTimeout(async () => {
+      let { data: users, error } = await supabase
+        .from('user')
+        .select('email')
+        .eq('email', e.target.value)
+
+      if (users && users.length > 0) {
+        console.log(`이메일이 이미 존재합니다: ${e.target.value}`)
+      } else {
+        console.log(`이메일을 사용할 수 있습니다: ${e.target.value}`)
+      }
+
+      if (error) {
+        console.error('에러 발생:', error.message)
+      }
+    }, 1000)
   }
 
   const passwordHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,10 +85,8 @@ function JoinPage() {
       if (uuid) {
         const userId = uuid.data.user?.id
         await insertUserData(email, userId)
-        // alert('회원가입이 완료되었습니다.')
-        // goToMain()
       } else {
-        console.error('이메일과 비밀번호를 확인해주세요')
+        console.error('데이터 삽입 실패')
       }
     } catch (error) {
       console.error(`Error: ${error}`)
