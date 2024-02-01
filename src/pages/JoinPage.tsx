@@ -24,10 +24,13 @@ function JoinPage() {
   const emailHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value)
   }
-  const passwordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+  const passwordHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value)
   }
-  const passwordConfirmHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const passwordConfirmHandler = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setPasswordConfirm(e.target.value)
   }
 
@@ -38,6 +41,13 @@ function JoinPage() {
         email,
         password
       })
+      console.log(data)
+
+      const {
+        data: { users },
+        error: userError
+      } = await supabase.auth.admin.listUsers()
+      console.log(users)
 
       if (error) {
         console.log(error)
