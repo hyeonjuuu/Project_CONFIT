@@ -23,22 +23,47 @@ function JoinPage() {
     // console.log(email)
     // console.log('pw', password)
     // console.log('pwc', passwordConfirm)
+    if (password !== '') {
+      setTimeout(() => {
+        validatePassword(password)
+      }, 1500)
+    }
+
     if (passwordConfirm !== '') {
-      validatePassword()
+      setTimeout(() => {
+        validateConfirmPassword()
+      }, 1200)
     }
   }, [email, password, passwordConfirm])
 
   const validateEmailSpan = useRef<HTMLSpanElement>(null)
   const validatePWSpan = useRef<HTMLSpanElement>(null)
+  const validatePWConfirmSpan = useRef<HTMLSpanElement>(null)
 
-  function validatePassword() {
-    if (password !== passwordConfirm) {
+  function validatePassword(password: string) {
+    const passwordValidation = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+    // return passwordValidation.test(password)
+    console.log(passwordValidation.test(password))
+
+    if (passwordValidation.test(password) === true) {
+      if (validatePWSpan.current !== null) {
+        validatePWSpan.current.style.visibility = 'hidden'
+      }
+    } else if (passwordValidation.test(password) === false) {
       if (validatePWSpan.current !== null) {
         validatePWSpan.current.style.visibility = 'visible'
       }
+    }
+  }
+
+  function validateConfirmPassword() {
+    if (password !== passwordConfirm) {
+      if (validatePWConfirmSpan.current !== null) {
+        validatePWConfirmSpan.current.style.visibility = 'visible'
+      }
     } else if (password === passwordConfirm) {
-      if (validatePWSpan.current !== null) {
-        validatePWSpan.current.style.visibility = 'hidden'
+      if (validatePWConfirmSpan.current !== null) {
+        validatePWConfirmSpan.current.style.visibility = 'hidden'
       }
     }
   }
@@ -77,28 +102,6 @@ function JoinPage() {
     setPasswordConfirm(e.target.value)
   }
 
-  // const signupHandler = async (e: React.FormEvent) => {
-  //   e.preventDefault()
-  //   try {
-  //     const { data, error } = await supabase.auth.signUp({
-  //       email,
-  //       password
-  //     })
-
-  //     if (error) {
-  //       console.log(error)
-  //       // alert('이메일과 비밀번호를 확인해주세요')
-  //       if (validateEmailSpan.current !== null) {
-  //         validateEmailSpan.current.style.visibility = 'visible'
-  //       }
-  //     } else {
-  //       alert('회원가입이 완료되었습니다.')
-  //       goToMain()
-  //     }
-  //   } catch (error) {
-  //     console.error(error)
-  //   }
-  // }
   const signupHandler = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
@@ -148,11 +151,14 @@ function JoinPage() {
             <InputField
               name="password"
               type="password"
-              placeholder="비밀번호"
+              placeholder="영문 / 숫자를 포함한 8자 이상을 입력해주세요."
               id="password"
-              marginbottom="20px"
+              // marginbottom="20px"
               onChange={passwordHandler}
             />
+            <Validate ref={validatePWSpan}>
+              비밀번호 형식이 일치하지 않습니다.
+            </Validate>
           </JoinField>
           <JoinField>
             <Label htmlFor="passwordConfirm">
@@ -165,7 +171,7 @@ function JoinPage() {
               id="passwordConfirm"
               onChange={passwordConfirmHandler}
             />
-            <Validate ref={validatePWSpan}>
+            <Validate ref={validatePWConfirmSpan}>
               비밀번호가 일치하지 않습니다.
             </Validate>
           </JoinField>
