@@ -12,15 +12,19 @@ const RootLayout: React.LazyExoticComponent<() => React.JSX.Element> = lazy(
 const MainPage: React.LazyExoticComponent<() => React.JSX.Element> = lazy(
   () => import('./src/pages/MainPage')
 )
-const JoinPage: React.LazyExoticComponent<() => React.JSX.Element> = lazy(
-  () => import('./src/pages/JoinPage')
+const SignupPage: React.LazyExoticComponent<() => React.JSX.Element> = lazy(
+  () => import('./src/pages/SignupPage')
+)
+const SigninPage: React.LazyExoticComponent<() => React.JSX.Element> = lazy(
+  () => import('./src/pages/SigninPage')
 )
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
       <Route index element={<MainPage />} />
-      <Route path="/joinpage" element={<JoinPage />} />
+      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/signin" element={<SigninPage />} />
     </Route>
   )
 )

@@ -1,17 +1,33 @@
 import styled, { keyframes } from 'styled-components'
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { supabase } from '@/supabase/supabase'
 
 function Header() {
   // const { locationPath } = useLocationStore()
+  useEffect(() => {
+    const SignSession = async () => {
+      const { data, error } = await supabase.auth.getSession()
+      try {
+        console.log(data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    SignSession()
+  }, [])
 
   return (
     <HeaderContainer>
       <MenuButton>Home</MenuButton>
       <MenuButton>Search</MenuButton>
       <MenuButton>Review</MenuButton>
-      <MenuButton>Sign in</MenuButton>
-      <Link to="/joinpage">
-        <MenuButton>Join</MenuButton>
+      <Link to="/signin">
+        <MenuButton>Sign in</MenuButton>
+      </Link>
+      <Link to="/signup">
+        <MenuButton>Sign up</MenuButton>
       </Link>
     </HeaderContainer>
   )

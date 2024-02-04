@@ -3,13 +3,18 @@ import styled from 'styled-components'
 import { supabase } from '@/supabase/supabase'
 import { useNavigate } from 'react-router-dom'
 import { AuthInvalidCredentialsError } from '@supabase/supabase-js'
-import { enterUserData, insertUserData } from '@/utils/joinin'
+import { enterUserData, insertUserData } from '@/utils/signup'
+import SignForm from '@/components/Sign/SignForm'
 
 interface InputProps {
   marginbottom?: string
 }
 
-function JoinPage() {
+interface PProps {
+  height?: string
+}
+
+function SignupPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
@@ -20,9 +25,6 @@ function JoinPage() {
   }
 
   useEffect(() => {
-    // console.log(email)
-    // console.log('pw', password)
-    // console.log('pwc', passwordConfirm)
     if (password !== '') {
       setTimeout(() => {
         validatePassword(password)
@@ -43,7 +45,6 @@ function JoinPage() {
   function validatePassword(password: string) {
     const passwordValidation = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
     // return passwordValidation.test(password)
-    console.log(passwordValidation.test(password))
 
     if (passwordValidation.test(password) === true) {
       if (validatePWSpan.current !== null) {
@@ -78,12 +79,12 @@ function JoinPage() {
         .eq('email', e.target.value)
 
       if (users && users.length > 0) {
-        console.log(`이메일이 이미 존재합니다: ${e.target.value}`)
+        // console.log(`이메일이 이미 존재합니다: ${e.target.value}`)
         if (validateEmailSpan.current !== null) {
           validateEmailSpan.current.style.visibility = 'visible'
         }
       } else {
-        console.log(`이메일을 사용할 수 있습니다: ${e.target.value}`)
+        // console.log(`이메일을 사용할 수 있습니다: ${e.target.value}`)
         if (validateEmailSpan.current !== null) {
           validateEmailSpan.current.style.visibility = 'hidden'
         }
@@ -129,6 +130,7 @@ function JoinPage() {
       <JoinContainer>
         <LogoBox>로고 넣기!</LogoBox>
         <JoinForm action="">
+          {/* <SignForm onChange={emailHandler} /> */}
           <JoinField>
             <Label htmlFor="email">
               <JoinText>이메일</JoinText>
@@ -189,14 +191,14 @@ function JoinPage() {
   )
 }
 
-export default JoinPage
+export default SignupPage
 
-const JoinWrapper = styled.div`
+export const JoinWrapper = styled.div`
   background-color: #edece8;
   height: 100vh;
 `
 
-const JoinContainer = styled.div`
+export const JoinContainer = styled.div`
   margin: auto;
   width: 640px;
   height: 100vh;
@@ -205,14 +207,14 @@ const JoinContainer = styled.div`
   flex-direction: column;
 `
 
-const LogoBox = styled.div`
+export const LogoBox = styled.button`
   background-color: red;
   width: 120px;
   height: 120px;
   margin: 0 auto;
 `
 
-const JoinForm = styled.form`
+export const JoinForm = styled.form`
   display: flex;
   flex-direction: column;
   /* gap: 10px; */
@@ -221,22 +223,23 @@ const JoinForm = styled.form`
   width: 340px;
 `
 
-const JoinField = styled.p`
+export const JoinField = styled.p<PProps>`
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin: 6px 0;
   /* background-color: teal; */
+  height: ${({ height }) => height};
 `
 
-const Label = styled.label`
+export const Label = styled.label`
   position: relative;
   overflow: visible;
   width: fit-content;
   height: fit-content;
 `
 
-const InputField = styled.input<InputProps>`
+export const InputField = styled.input<InputProps>`
   /* background-color: red; */
   height: 36px;
   border-radius: 6px;
@@ -245,7 +248,7 @@ const InputField = styled.input<InputProps>`
   margin-bottom: ${({ marginbottom }) => marginbottom};
 `
 
-const SubmitButton = styled.input`
+export const SubmitButton = styled.input`
   height: 48px;
   border-radius: 6px;
   background-color: #303032;
@@ -255,10 +258,10 @@ const SubmitButton = styled.input`
   cursor: pointer;
   margin: 4px 0;
 `
-const JoinText = styled.strong`
+export const JoinText = styled.strong`
   color: #303032;
 `
-const Validate = styled.span`
+export const Validate = styled.span`
   font-size: 12px;
   padding-left: 6px;
   visibility: hidden;

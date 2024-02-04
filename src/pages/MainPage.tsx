@@ -20,6 +20,7 @@ function MainPage() {
   useEffect(() => {
     const trendingData = async () => {
       const data = await getTrendingData()
+      console.log(data)
 
       setTrendData(data.results)
     }
