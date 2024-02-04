@@ -1,15 +1,25 @@
 import styled, { keyframes } from 'styled-components'
 import { Link } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { supabase } from '@/supabase/supabase'
+import { useUserSessionStore } from '@/store/useUserSessionStore'
 
 function Header() {
+  const { userSession, setUserSession } = useUserSessionStore()
+  // const [userSession, setUserSession] = useState()
+
   // const { locationPath } = useLocationStore()
   useEffect(() => {
     const SignSession = async () => {
       const { data, error } = await supabase.auth.getSession()
+
       try {
-        console.log(data)
+        console.log(data.session)
+        if (data && data.session) {
+          setUserSession(data)
+        } else {
+          setUserSession({ session: null })
+        }
       } catch (error) {
         console.error(error)
       }
@@ -17,18 +27,35 @@ function Header() {
 
     SignSession()
   }, [])
+  console.log('ssession', userSession)
+
+  const handleSignOut = async () => {
+    const { error } = await supabase.auth.signOut()
+    console.error(error)
+
+    window.location.reload()
+  }
+  console.log('ssession', userSession)
 
   return (
     <HeaderContainer>
       <MenuButton>Home</MenuButton>
       <MenuButton>Search</MenuButton>
       <MenuButton>Review</MenuButton>
-      <Link to="/signin">
-        <MenuButton>Sign in</MenuButton>
-      </Link>
-      <Link to="/signup">
-        <MenuButton>Sign up</MenuButton>
-      </Link>
+      {userSession === null ? (
+        <>
+          <Link to="/signin">
+            <MenuButton>Sign in</MenuButton>
+          </Link>
+          <Link to="/signup">
+            <MenuButton>Sign up</MenuButton>
+          </Link>
+        </>
+      ) : (
+        <Link to="/">
+          <MenuButton onClick={handleSignOut}>Sign out</MenuButton>
+        </Link>
+      )}
     </HeaderContainer>
   )
 }
