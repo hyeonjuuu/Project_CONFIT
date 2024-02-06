@@ -6,9 +6,7 @@ import { useUserSessionStore } from '@/store/useUserSessionStore'
 
 function Header() {
   const { userSession, setUserSession } = useUserSessionStore()
-  // const [userSession, setUserSession] = useState()
 
-  // const { locationPath } = useLocationStore()
   useEffect(() => {
     const SignSession = async () => {
       const { data, error } = await supabase.auth.getSession()
@@ -27,7 +25,10 @@ function Header() {
 
     SignSession()
   }, [])
+
+  const userName = userSession?.user.email?.split('@')[0]
   console.log('ssession', userSession)
+  console.log(userName)
 
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut()
@@ -52,9 +53,17 @@ function Header() {
           </Link>
         </>
       ) : (
-        <Link to="/">
-          <MenuButton onClick={handleSignOut}>Sign out</MenuButton>
-        </Link>
+        <>
+          {/* <Link to="/">
+            <MenuButton>My Page</MenuButton>
+          </Link> */}
+          <Link to="/">
+            <MenuButton>{`${userName} 님`}</MenuButton>
+          </Link>
+          <Link to="/">
+            <MenuButton onClick={handleSignOut}>Sign out</MenuButton>
+          </Link>
+        </>
       )}
     </HeaderContainer>
   )
