@@ -2,9 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { supabase } from '@/supabase/supabase'
 import { useNavigate } from 'react-router-dom'
-import { AuthInvalidCredentialsError } from '@supabase/supabase-js'
-import { enterUserData, insertUserData } from '@/utils/signup'
-import SignForm from '@/components/Sign/SignForm'
+import { insertUserData } from '@/utils/signup'
 
 interface InputProps {
   marginbottom?: string
@@ -44,7 +42,6 @@ function SignupPage() {
 
   function validatePassword(password: string) {
     const passwordValidation = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
-    // return passwordValidation.test(password)
 
     if (passwordValidation.test(password) === true) {
       if (validatePWSpan.current !== null) {
@@ -79,12 +76,10 @@ function SignupPage() {
         .eq('email', e.target.value)
 
       if (users && users.length > 0) {
-        // console.log(`이메일이 이미 존재합니다: ${e.target.value}`)
         if (validateEmailSpan.current !== null) {
           validateEmailSpan.current.style.visibility = 'visible'
         }
       } else {
-        // console.log(`이메일을 사용할 수 있습니다: ${e.target.value}`)
         if (validateEmailSpan.current !== null) {
           validateEmailSpan.current.style.visibility = 'hidden'
         }
@@ -129,8 +124,7 @@ function SignupPage() {
     <JoinWrapper>
       <JoinContainer>
         <LogoBox>로고 넣기!</LogoBox>
-        <JoinForm action="">
-          {/* <SignForm onChange={emailHandler} /> */}
+        <JoinForm action={`${import.meta.env.BASE_URL}`}>
           <JoinField>
             <Label htmlFor="email">
               <JoinText>이메일</JoinText>
@@ -155,7 +149,6 @@ function SignupPage() {
               type="password"
               placeholder="영문 / 숫자를 포함한 8자 이상을 입력해주세요."
               id="password"
-              // marginbottom="20px"
               onChange={passwordHandler}
             />
             <Validate ref={validatePWSpan}>
