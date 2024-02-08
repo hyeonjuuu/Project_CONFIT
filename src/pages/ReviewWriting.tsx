@@ -17,6 +17,7 @@ function ReviewWriting() {
   const [activeUserImage, setActiveUserImage] = useState('')
   const searchInput = useRef<HTMLInputElement>(null)
   const searchList = useRef<HTMLUListElement>(null)
+  const [imageSrc, setImageSrc]: any = useState(null)
 
   useEffect(() => {
     const Search = async () => {
@@ -60,18 +61,28 @@ function ReviewWriting() {
     }
   }
 
-  // const handleSelectImage = (e: React.MouseEvent) => {
-  //   const target = e.target
-  //   const targetText = e.currentTarget.textContent
-  //   console.log(target)
-  //   if (targetText) {
-  //     setActiveUserImage(targetText)
-  //   }
-  // }
   const handleSelectImage = (value: string) => {
     setActiveUserImage(value)
   }
-  console.log(searchKeyword)
+  console.log('searchkeyword', searchKeyword)
+  console.log('writingcon', writingContents)
+
+  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files !== null) {
+      const file = e.target.files[0]
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+
+      console.log(file)
+      console.log(reader)
+      return new Promise<void>(resolve => {
+        reader.onload = () => {
+          setImageSrc(reader.result || null)
+          resolve()
+        }
+      })
+    }
+  }
 
   return (
     <WriteReviewWrapper>
@@ -135,7 +146,7 @@ function ReviewWriting() {
                   alt={`${writingContents?.title || writingContents?.name} 포스터`}
                 />
               )} */}
-              {writingContents === undefined && searchKeyword === '' ? (
+              {/* {writingContents === undefined && searchKeyword === '' ? (
                 <EmptyImage>콘텐츠를 검색해보세요.</EmptyImage>
               ) : writingContents && activeUserImage === '영화 포스터' ? (
                 <WritingContentsImage
@@ -144,6 +155,26 @@ function ReviewWriting() {
                 />
               ) : (
                 <input type="file" />
+              )} */}
+              {writingContents !== undefined &&
+              searchKeyword &&
+              activeUserImage === '영화 포스터' ? (
+                <WritingContentsImage
+                  src={`https://image.tmdb.org/t/p/original/${writingContents?.poster_path}`}
+                  alt={`${writingContents?.title || writingContents?.name} 포스터`}
+                />
+              ) : writingContents !== undefined &&
+                activeUserImage === '사용자 이미지' ? (
+                <>
+                  <SelectImage
+                    type="file"
+                    accept="image/*"
+                    onChange={e => handleUpload(e)}
+                  />
+                  <WritingContentsImage src={imageSrc} alt="" />
+                </>
+              ) : (
+                <EmptyImage>콘텐츠를 검색해보세요.</EmptyImage>
               )}
             </ImageBox>
           </div>
@@ -219,6 +250,12 @@ const ImageBox = styled.div<{ searchkeyword: string }>`
 
 const EmptyImage = styled.p`
   margin: auto;
+  font-size: 14px;
+`
+
+const SelectImage = styled.input`
+  margin: auto;
+  text-align: center;
 `
 
 const WritingContentsImage = styled.img`
