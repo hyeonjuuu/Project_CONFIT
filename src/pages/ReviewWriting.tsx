@@ -1,8 +1,10 @@
 import { getSearchData } from '@/api/getSearchData'
 import SectionTitle from '@/components/SectionTitle'
 import { useSearchStore } from '@/store/useSearchStore'
+import { supabase } from '@/supabase/supabase'
 import { debounce } from '@/utils/debounce'
 import { ReactEventHandler, useEffect, useRef, useState } from 'react'
+
 import styled from 'styled-components'
 
 interface SelectButtonProps {
@@ -17,7 +19,7 @@ function ReviewWriting() {
   const [activeUserImage, setActiveUserImage] = useState('')
   const searchInput = useRef<HTMLInputElement>(null)
   const searchList = useRef<HTMLUListElement>(null)
-  const [imageSrc, setImageSrc]: any = useState(null)
+  const [imageSrc, setImageSrc]: any = useState([])
 
   useEffect(() => {
     const Search = async () => {
@@ -69,20 +71,53 @@ function ReviewWriting() {
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files !== null) {
-      const file = e.target.files[0]
-      const reader = new FileReader()
-      reader.readAsDataURL(file)
+      const files = Array.from(e.target.files)
+      const promises = files.map(file => {
+        return new Promise<void>(resolve => {
+          const reader = new FileReader()
+          reader.readAsDataURL(file)
+          reader.onload = () => {
+            setImageSrc((prevState: any) => [
+              ...prevState,
+              reader.result || null
+            ])
+            resolve()
+          }
+        })
+      })
 
-      console.log(file)
-      console.log(reader)
-      return new Promise<void>(resolve => {
-        reader.onload = () => {
-          setImageSrc(reader.result || null)
-          resolve()
-        }
+      Promise.all(promises).then(() => {
+        console.log(imageSrc)
       })
     }
   }
+
+  const handleDeleteImage = (e: React.MouseEvent) => {
+    const targetImage = e.currentTarget.parentNode?.querySelector('img')
+    const targetImageSrc = targetImage?.getAttribute('src')
+
+    if (targetImageSrc) {
+      setImageSrc((prevImageSrc: any) =>
+        prevImageSrc.filter((item: string) => item !== targetImageSrc)
+      )
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    try {
+      const { data, error } = await supabase.from('reviews').insert([
+        {
+          contents_data: writingContents,
+          review_data: '안녕'
+        }
+      ])
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  console.log(imageSrc)
 
   return (
     <WriteReviewWrapper>
@@ -138,24 +173,6 @@ function ReviewWriting() {
             </ButtonContainer>
 
             <ImageBox searchkeyword={searchKeyword}>
-              {/* {writingContents === undefined && searchKeyword === '' ? (
-                <EmptyImage>콘텐츠를 검색해보세요.</EmptyImage>
-              ) : (
-                <WritingContentsImage
-                  src={`https://image.tmdb.org/t/p/original/${writingContents?.poster_path}`}
-                  alt={`${writingContents?.title || writingContents?.name} 포스터`}
-                />
-              )} */}
-              {/* {writingContents === undefined && searchKeyword === '' ? (
-                <EmptyImage>콘텐츠를 검색해보세요.</EmptyImage>
-              ) : writingContents && activeUserImage === '영화 포스터' ? (
-                <WritingContentsImage
-                  src={`https://image.tmdb.org/t/p/original/${writingContents?.poster_path}`}
-                  alt={`${writingContents?.title || writingContents?.name} 포스터`}
-                />
-              ) : (
-                <input type="file" />
-              )} */}
               {writingContents !== undefined &&
               searchKeyword &&
               activeUserImage === '영화 포스터' ? (
@@ -163,16 +180,30 @@ function ReviewWriting() {
                   src={`https://image.tmdb.org/t/p/original/${writingContents?.poster_path}`}
                   alt={`${writingContents?.title || writingContents?.name} 포스터`}
                 />
-              ) : writingContents !== undefined &&
+              ) : imageSrc.length !== 0 &&
                 activeUserImage === '사용자 이미지' ? (
                 <>
-                  <SelectImage
-                    type="file"
-                    accept="image/*"
-                    onChange={e => handleUpload(e)}
-                  />
-                  <WritingContentsImage src={imageSrc} alt="" />
+                  {imageSrc.map((image: string | undefined, index: number) => (
+                    <SelectImageBox>
+                      <WritingContentsImage src={image} alt="" key={index} />
+                      <DeleteImageButton
+                        type="button"
+                        onClick={handleDeleteImage}
+                      >
+                        엑스
+                      </DeleteImageButton>
+                    </SelectImageBox>
+                  ))}
                 </>
+              ) : writingContents !== undefined &&
+                imageSrc.length === 0 &&
+                activeUserImage === '사용자 이미지' ? (
+                <SelectImage
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={e => handleUpload(e)}
+                />
               ) : (
                 <EmptyImage>콘텐츠를 검색해보세요.</EmptyImage>
               )}
@@ -181,7 +212,11 @@ function ReviewWriting() {
           <TextAreaP>
             <TextArea name="" id="" cols={30} rows={10}></TextArea>
           </TextAreaP>
-          <WriteButton type="submit" value="작성하기" />
+          <WriteButton
+            type="submit"
+            value="작성하기"
+            onClick={e => handleSubmit(e)}
+          />
         </SearchForm>
       </FormContainer>
     </WriteReviewWrapper>
@@ -252,6 +287,10 @@ const EmptyImage = styled.p`
   margin: auto;
   font-size: 14px;
 `
+const SelectImageBox = styled.div`
+  position: relative;
+  display: flex;
+`
 
 const SelectImage = styled.input`
   margin: auto;
@@ -262,6 +301,12 @@ const WritingContentsImage = styled.img`
   aspect-ratio: 3/4;
   height: 120px;
   margin: 4px;
+`
+
+const DeleteImageButton = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
 `
 
 const SelectButton = styled.button<SelectButtonProps>`
