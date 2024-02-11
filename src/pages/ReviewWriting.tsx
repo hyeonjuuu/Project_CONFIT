@@ -1,10 +1,10 @@
 import { getSearchData } from '@/api/getSearchData'
+import { uploadImageFunction } from '@/api/uploadeReviewData'
 import SectionTitle from '@/components/SectionTitle'
 import { useSearchStore } from '@/store/useSearchStore'
 import { supabase } from '@/supabase/supabase'
 import { debounce } from '@/utils/debounce'
-import { ReactEventHandler, useEffect, useRef, useState } from 'react'
-
+import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 interface SelectButtonProps {
@@ -19,6 +19,7 @@ function ReviewWriting() {
   const [activeUserImage, setActiveUserImage] = useState('')
   const searchInput = useRef<HTMLInputElement>(null)
   const searchList = useRef<HTMLUListElement>(null)
+  const [uploadImage, setUploadImage]: any = useState([])
   const [imageSrc, setImageSrc]: any = useState([])
 
   useEffect(() => {
@@ -72,6 +73,9 @@ function ReviewWriting() {
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files !== null) {
       const files = Array.from(e.target.files)
+      console.log(files)
+      setUploadImage(files)
+
       const promises = files.map(file => {
         return new Promise<void>(resolve => {
           const reader = new FileReader()
@@ -112,12 +116,14 @@ function ReviewWriting() {
           review_data: '안녕'
         }
       ])
+      const imgUrl = await uploadImageFunction(uploadImage!)
+      console.log(imgUrl)
     } catch (error) {
       console.error(error)
     }
   }
 
-  console.log(imageSrc)
+  // console.log(imageSrc)
 
   return (
     <WriteReviewWrapper>
@@ -184,8 +190,8 @@ function ReviewWriting() {
                 activeUserImage === '사용자 이미지' ? (
                 <>
                   {imageSrc.map((image: string | undefined, index: number) => (
-                    <SelectImageBox>
-                      <WritingContentsImage src={image} alt="" key={index} />
+                    <SelectImageBox key={index}>
+                      <WritingContentsImage src={image} alt="" />
                       <DeleteImageButton
                         type="button"
                         onClick={handleDeleteImage}
