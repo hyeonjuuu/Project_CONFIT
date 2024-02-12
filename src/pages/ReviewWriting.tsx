@@ -1,7 +1,8 @@
 import { getSearchData } from '@/api/getSearchData'
-import { uploadImageFunction } from '@/api/uploadeReviewData'
+import { uploadImageFunction, useUploadImage } from '@/api/uploadReviewData'
 import SectionTitle from '@/components/SectionTitle'
 import { useSearchStore } from '@/store/useSearchStore'
+import { useUserImageUrlStore } from '@/store/useUserImageUrlStore'
 import { supabase } from '@/supabase/supabase'
 import { debounce } from '@/utils/debounce'
 import { useEffect, useRef, useState } from 'react'
@@ -21,6 +22,7 @@ function ReviewWriting() {
   const searchList = useRef<HTMLUListElement>(null)
   const [uploadImage, setUploadImage]: any = useState([])
   const [imageSrc, setImageSrc]: any = useState([])
+  const { uploadedFileUrl, setUploadedFileUrl } = useUserImageUrlStore()
 
   useEffect(() => {
     const Search = async () => {
@@ -70,6 +72,32 @@ function ReviewWriting() {
   console.log('searchkeyword', searchKeyword)
   console.log('writingcon', writingContents)
 
+  // const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files !== null) {
+  //     const files = Array.from(e.target.files)
+  //     console.log(files)
+  //     setUploadImage(files)
+
+  //     const promises = files.map(file => {
+  //       return new Promise<void>(resolve => {
+  //         const reader = new FileReader()
+  //         reader.readAsDataURL(file)
+  //         reader.onload = () => {
+  //           setImageSrc((prevState: any) => [
+  //             ...prevState,
+  //             reader.result || null
+  //           ])
+  //           resolve()
+  //         }
+  //       })
+  //     })
+
+  //     Promise.all(promises).then(() => {
+  //       console.log(imageSrc)
+  //     })
+  //   }
+  // }
+
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files !== null) {
       const files = Array.from(e.target.files)
@@ -116,14 +144,24 @@ function ReviewWriting() {
           review_data: '안녕'
         }
       ])
-      const imgUrl = await uploadImageFunction(uploadImage!)
-      console.log(imgUrl)
+      // await uploadImageFunction(uploadImage!)
+
+      const imagePaths = await useUploadImage(uploadImage)
+      console.log(imagePaths)
+
+      // const imagePaths = (await useUploadImage(
+      //   uploadImage!
+      // )) as UserImageDataItems[]
+      // setUploadedFileUrl(imagePaths)
+      setUploadedFileUrl(imagePaths)
+
+      alert('리뷰 작성이 완료되었습니다.')
     } catch (error) {
       console.error(error)
     }
   }
 
-  // console.log(imageSrc)
+  console.log(uploadedFileUrl)
 
   return (
     <WriteReviewWrapper>
