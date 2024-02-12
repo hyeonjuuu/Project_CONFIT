@@ -19,3 +19,4 @@ export const useUploadImage = async (files: File[]) => {
   const imagePaths = await Promise.all(uploadFiles)
   return imagePaths
 }
+/* -------------------------------------------------------------------------- */

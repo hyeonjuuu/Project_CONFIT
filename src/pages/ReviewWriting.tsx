@@ -21,7 +21,7 @@ function ReviewWriting() {
   const { uploadedFileUrl, setUploadedFileUrl } = useUserImageUrlStore()
   const [imageSrc, setImageSrc]: any = useState([])
   const { userSession, setUserSession } = useUserSessionStore()
-  const [activeUserImage, setActiveUserImage] = useState('')
+  const [activeUserImage, setActiveUserImage] = useState('영화 포스터')
   const [uploadImage, setUploadImage]: any = useState([])
   const [textContents, setTextContents] = useState('')
   const searchInput = useRef<HTMLInputElement>(null)
@@ -33,7 +33,7 @@ function ReviewWriting() {
 
       setSearchResult(data.results)
     }
-    setActiveUserImage('영화 포스터')
+    // setActiveUserImage('영화 포스터')
     const SignSession = async () => {
       const { data, error } = await supabase.auth.getSession()
 
@@ -98,13 +98,12 @@ function ReviewWriting() {
     1200
   )
 
-  console.log(textContents)
-
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files !== null) {
       const files = Array.from(e.target.files)
-      console.log(files)
-      setUploadImage(files)
+      // console.log(files)
+      // setUploadImage(files)
+      setUploadImage((prevUploadImages: any) => [...prevUploadImages, ...files])
 
       const promises = files.map(file => {
         return new Promise<void>(resolve => {
@@ -126,9 +125,23 @@ function ReviewWriting() {
     }
   }
 
-  const handleDeleteImage = (e: React.MouseEvent) => {
+  // const handleDeleteImage = (e: React.MouseEvent) => {
+  //   const targetImage = e.currentTarget.parentNode?.querySelector('img')
+  //   const targetImageSrc = targetImage?.getAttribute('src')
+
+  //   if (targetImageSrc) {
+  //     setImageSrc((prevImageSrc: any) =>
+  //       prevImageSrc.filter((item: string) => item !== targetImageSrc)
+  //     )
+  //   }
+  // }
+  const handleDeleteImage = (e: React.MouseEvent, index: number) => {
     const targetImage = e.currentTarget.parentNode?.querySelector('img')
     const targetImageSrc = targetImage?.getAttribute('src')
+
+    setUploadImage((prevUploadImages: any[]) =>
+      prevUploadImages.filter((_, i) => i !== index)
+    )
 
     if (targetImageSrc) {
       setImageSrc((prevImageSrc: any) =>
@@ -136,30 +149,24 @@ function ReviewWriting() {
       )
     }
   }
+  // const handleDeleteImage = (index: number, e: React.MouseEvent) => {
+  //   const targetImage = e.currentTarget.parentNode?.querySelector('img')
+  //   const targetImageSrc = targetImage?.getAttribute('src')
+
+  //   setUploadImage((prevUploadImages: any[]) =>
+  //     prevUploadImages.filter((_, i) => i !== index)
+  //   )
+  //   if (targetImageSrc) {
+  //     setImageSrc((prevImageSrc: any) =>
+  //       prevImageSrc.filter((item: string) => item !== targetImageSrc)
+  //     )
+  //   }
+  // }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (uploadImage.length !== 0) {
-      const imagePaths = await useUploadImage(uploadImage)
-      const uploadImagePaths = imagePaths.map(item => item?.data.publicUrl)
-      await setUploadedFileUrl(uploadImagePaths)
-      try {
-        const { data, error } = await supabase.from('reviews').insert([
-          {
-            user_email: userSession?.user.email,
-            contents_data: writingContents,
-            review_data: textContents,
-            user_image: uploadedFileUrl || null,
-            user_id: userSession?.user.id
-          }
-        ])
-
-        alert('리뷰 작성이 완료되었습니다.')
-      } catch (error) {
-        console.error(error)
-      }
-    } else {
-      try {
+    try {
+      if (writingContents && uploadImage.length === 0) {
         const { data, error } = await supabase.from('reviews').insert([
           {
             user_email: userSession?.user.email,
@@ -173,13 +180,31 @@ function ReviewWriting() {
           alert('리뷰 등록에 실패했습니다')
           console.log(error)
         }
-      } catch (error) {
-        console.error(error)
+      } else {
+        const imagePaths = await useUploadImage(uploadImage)
+        const uploadImagePaths = imagePaths?.map(item => item?.data.publicUrl)
+        // await setUploadedFileUrl(uploadImagePaths)
+        const { data, error } = await supabase.from('reviews').insert([
+          {
+            user_email: userSession?.user.email,
+            contents_data: writingContents,
+            review_data: textContents,
+            user_image: uploadImagePaths || null,
+            user_id: userSession?.user.id
+          }
+        ])
+        if (error) {
+          alert('리뷰 등록에 실패했습니다')
+          console.log(error)
+        }
       }
+      alert('리뷰 작성이 완료되었습니다.')
+    } catch (error) {
+      console.error(error)
     }
   }
 
-  console.log('uploadimage', uploadImage)
+  console.log('uploadimage', uploadImage.length)
 
   console.log(uploadedFileUrl)
 
@@ -252,7 +277,8 @@ function ReviewWriting() {
                       <WritingContentsImage src={image} alt="" />
                       <DeleteImageButton
                         type="button"
-                        onClick={handleDeleteImage}
+                        // onClick={handleDeleteImage}
+                        onClick={e => handleDeleteImage(e, index)}
                       >
                         엑스
                       </DeleteImageButton>
