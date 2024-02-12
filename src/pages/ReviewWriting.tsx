@@ -201,6 +201,7 @@ function ReviewWriting() {
       alert('리뷰 작성이 완료되었습니다.')
     } catch (error) {
       console.error(error)
+      alert('리뷰 등록에 실패했습니다')
     }
   }
 
