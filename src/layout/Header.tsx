@@ -12,11 +12,8 @@ function Header() {
       const { data, error } = await supabase.auth.getSession()
 
       try {
-        console.log(data.session)
         if (data && data.session) {
           setUserSession(data)
-        } else {
-          setUserSession({ session: null })
         }
       } catch (error) {
         console.error(error)
@@ -28,7 +25,6 @@ function Header() {
 
   const userName = userSession?.user.email?.split('@')[0]
   console.log('ssession', userSession)
-  console.log(userName)
 
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut()

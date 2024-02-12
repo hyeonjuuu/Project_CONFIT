@@ -1,8 +1,9 @@
 import { getSearchData } from '@/api/getSearchData'
-import { uploadImageFunction, useUploadImage } from '@/api/uploadReviewData'
+import { useUploadImage } from '@/api/uploadReviewData'
 import SectionTitle from '@/components/SectionTitle'
 import { useSearchStore } from '@/store/useSearchStore'
 import { useUserImageUrlStore } from '@/store/useUserImageUrlStore'
+import { useUserSessionStore } from '@/store/useUserSessionStore'
 import { supabase } from '@/supabase/supabase'
 import { debounce } from '@/utils/debounce'
 import { useEffect, useRef, useState } from 'react'
@@ -17,12 +18,14 @@ function ReviewWriting() {
   const [searchKeyword, setSearchKeyword] = useState('')
   const [writingContents, setWritingContents] = useState<SearchDataItems>()
   const { searchResult, setSearchResult } = useSearchStore()
+  const { uploadedFileUrl, setUploadedFileUrl } = useUserImageUrlStore()
+  const [imageSrc, setImageSrc]: any = useState([])
+  const { userSession, setUserSession } = useUserSessionStore()
   const [activeUserImage, setActiveUserImage] = useState('')
+  const [uploadImage, setUploadImage]: any = useState([])
+  const [textContents, setTextContents] = useState('')
   const searchInput = useRef<HTMLInputElement>(null)
   const searchList = useRef<HTMLUListElement>(null)
-  const [uploadImage, setUploadImage]: any = useState([])
-  const [imageSrc, setImageSrc]: any = useState([])
-  const { uploadedFileUrl, setUploadedFileUrl } = useUserImageUrlStore()
 
   useEffect(() => {
     const Search = async () => {
@@ -31,12 +34,27 @@ function ReviewWriting() {
       setSearchResult(data.results)
     }
     setActiveUserImage('영화 포스터')
+    const SignSession = async () => {
+      const { data, error } = await supabase.auth.getSession()
+
+      try {
+        if (data && data.session) {
+          setUserSession(data)
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    SignSession()
 
     Search()
   }, [searchKeyword])
 
+  console.log(userSession?.user.email)
+  console.log(userSession?.user.id)
+
   const keywordSearch = debounce((value: string) => {
-    console.log(value)
     setSearchKeyword(value)
   }, 1000)
 
@@ -69,34 +87,18 @@ function ReviewWriting() {
   const handleSelectImage = (value: string) => {
     setActiveUserImage(value)
   }
-  console.log('searchkeyword', searchKeyword)
-  console.log('writingcon', writingContents)
+  // console.log('searchkeyword', searchKeyword)
+  // console.log('writingcon', writingContents)
 
-  // const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files !== null) {
-  //     const files = Array.from(e.target.files)
-  //     console.log(files)
-  //     setUploadImage(files)
+  const handleTextContents = debounce(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const updatedText = e.target.value
+      setTextContents(updatedText)
+    },
+    1200
+  )
 
-  //     const promises = files.map(file => {
-  //       return new Promise<void>(resolve => {
-  //         const reader = new FileReader()
-  //         reader.readAsDataURL(file)
-  //         reader.onload = () => {
-  //           setImageSrc((prevState: any) => [
-  //             ...prevState,
-  //             reader.result || null
-  //           ])
-  //           resolve()
-  //         }
-  //       })
-  //     })
-
-  //     Promise.all(promises).then(() => {
-  //       console.log(imageSrc)
-  //     })
-  //   }
-  // }
+  console.log(textContents)
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files !== null) {
@@ -137,29 +139,47 @@ function ReviewWriting() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    try {
-      const { data, error } = await supabase.from('reviews').insert([
-        {
-          contents_data: writingContents,
-          review_data: '안녕'
-        }
-      ])
-      // await uploadImageFunction(uploadImage!)
-
+    if (uploadImage.length !== 0) {
       const imagePaths = await useUploadImage(uploadImage)
-      console.log(imagePaths)
+      const uploadImagePaths = imagePaths.map(item => item?.data.publicUrl)
+      await setUploadedFileUrl(uploadImagePaths)
+      try {
+        const { data, error } = await supabase.from('reviews').insert([
+          {
+            user_email: userSession?.user.email,
+            contents_data: writingContents,
+            review_data: textContents,
+            user_image: uploadedFileUrl || null,
+            user_id: userSession?.user.id
+          }
+        ])
 
-      // const imagePaths = (await useUploadImage(
-      //   uploadImage!
-      // )) as UserImageDataItems[]
-      // setUploadedFileUrl(imagePaths)
-      setUploadedFileUrl(imagePaths)
-
-      alert('리뷰 작성이 완료되었습니다.')
-    } catch (error) {
-      console.error(error)
+        alert('리뷰 작성이 완료되었습니다.')
+      } catch (error) {
+        console.error(error)
+      }
+    } else {
+      try {
+        const { data, error } = await supabase.from('reviews').insert([
+          {
+            user_email: userSession?.user.email,
+            contents_data: writingContents,
+            review_data: textContents,
+            user_image: uploadedFileUrl || null,
+            user_id: userSession?.user.id
+          }
+        ])
+        if (error) {
+          alert('리뷰 등록에 실패했습니다')
+          console.log(error)
+        }
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
+
+  console.log('uploadimage', uploadImage)
 
   console.log(uploadedFileUrl)
 
@@ -254,13 +274,15 @@ function ReviewWriting() {
             </ImageBox>
           </div>
           <TextAreaP>
-            <TextArea name="" id="" cols={30} rows={10}></TextArea>
+            <TextArea
+              name=""
+              id=""
+              cols={30}
+              rows={10}
+              onChange={handleTextContents}
+            ></TextArea>
           </TextAreaP>
-          <WriteButton
-            type="submit"
-            value="작성하기"
-            onClick={e => handleSubmit(e)}
-          />
+          <WriteButton type="submit" value="작성하기" onClick={handleSubmit} />
         </SearchForm>
       </FormContainer>
     </WriteReviewWrapper>
