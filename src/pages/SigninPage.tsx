@@ -44,8 +44,6 @@ function SigninPage() {
   function validateEmail(email: string) {
     const emailValidation =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    // return emailValidation.test(String(email).toLowerCase())
-    // console.log(emailValidation.test(String(email).toLowerCase()))
 
     if (emailValidation.test(String(email).toLowerCase()) === true) {
       if (validateEmailSpan.current !== null) {

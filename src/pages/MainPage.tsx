@@ -20,7 +20,6 @@ function MainPage() {
   useEffect(() => {
     const trendingData = async () => {
       const data = await getTrendingData()
-      console.log(data)
 
       setTrendData(data.results)
     }
@@ -83,7 +82,6 @@ export default MainPage
 
 const MainWrapper = styled.div`
   background-color: #edece8;
-  /* height: 100vh; */
 `
 
 const MainPageTitle = styled.h1`
