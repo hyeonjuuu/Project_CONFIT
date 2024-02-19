@@ -394,6 +394,7 @@ const WritingContentsImage = styled.img`
   aspect-ratio: 3/4;
   height: 120px;
   margin: 4px;
+  object-fit: cover;
 `
 
 const DeleteImageButton = styled.button`

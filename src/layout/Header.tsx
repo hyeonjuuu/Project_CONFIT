@@ -38,7 +38,9 @@ function Header() {
     <HeaderContainer>
       <MenuButton>Home</MenuButton>
       <MenuButton>Search</MenuButton>
-      <MenuButton>Review</MenuButton>
+      <Link to="/review">
+        <MenuButton>Review</MenuButton>
+      </Link>
       {userSession === null ? (
         <>
           <Link to="/signin">
