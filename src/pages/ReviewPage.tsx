@@ -7,8 +7,8 @@ function ReviewPage() {
   return (
     <>
       <HeaderContainer>
-        <SectionTitle textfirst="Review" />
-        <Header />
+        <SectionTitle textfirst="Review" padding="60px 0 0 0" />
+        <Header review="writing" />
       </HeaderContainer>
       <ReviewContentsSection>
         <ReviewContents />

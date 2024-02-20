@@ -1,6 +1,7 @@
 import { getSearchData } from '@/api/getSearchData'
 import { useUploadImage } from '@/api/uploadReviewData'
 import SectionTitle from '@/components/SectionTitle'
+import Header from '@/layout/Header'
 import { useSearchStore } from '@/store/useSearchStore'
 import { useUserImageUrlStore } from '@/store/useUserImageUrlStore'
 import { useUserSessionStore } from '@/store/useUserSessionStore'
@@ -8,6 +9,7 @@ import { supabase } from '@/supabase/supabase'
 import { debounce } from '@/utils/debounce'
 import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 
 interface SelectButtonProps {
   active: boolean
@@ -26,6 +28,10 @@ function ReviewWriting() {
   const [textContents, setTextContents] = useState('')
   const searchInput = useRef<HTMLInputElement>(null)
   const searchList = useRef<HTMLUListElement>(null)
+  const navigate = useNavigate()
+  const goToReview = () => {
+    navigate('/review')
+  }
 
   useEffect(() => {
     const Search = async () => {
@@ -171,6 +177,7 @@ function ReviewWriting() {
         }
       }
       alert('리뷰 작성이 완료되었습니다.')
+      goToReview()
     } catch (error) {
       console.error(error)
       alert('리뷰 등록에 실패했습니다')
@@ -181,11 +188,12 @@ function ReviewWriting() {
     <WriteReviewWrapper>
       <TitleContainer>
         <SectionTitle
-          textfirst="Writing"
-          textsecond="Review"
+          textfirst="Review"
+          textsecond="Writing"
           margin="0px"
           padding="60px 0 0 0"
         />
+        <Header />
       </TitleContainer>
       <TitleLine />
       <FormContainer>
@@ -288,16 +296,21 @@ export default ReviewWriting
 
 const WriteReviewWrapper = styled.section`
   background-color: #edece8;
-  height: 100vh;
+  /* height: 100vh; */
+  height: 100%;
 `
 const TitleContainer = styled.div`
-  padding: 0 6%;
+  /* padding: 0 6%; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 36px;
 `
 
 const TitleLine = styled.hr`
   border: none;
   border-top: 1px solid #cbc9c9;
-  width: 80%;
+  width: 95%;
 `
 
 const FormContainer = styled.div`

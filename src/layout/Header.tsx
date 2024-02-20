@@ -5,7 +5,11 @@ import { supabase } from '@/supabase/supabase'
 import { useUserSessionStore } from '@/store/useUserSessionStore'
 import { UserCircleDiv } from '@/components/reviewPage/ReviewContents'
 
-function Header() {
+interface HaderProps {
+  review?: string
+}
+
+function Header({ review }: HaderProps) {
   const { userSession, setUserSession } = useUserSessionStore()
 
   useEffect(() => {
@@ -41,9 +45,16 @@ function Header() {
         <MenuButton>Home</MenuButton>
       </Link>
       <MenuButton>Search</MenuButton>
-      <Link to="/review">
-        <MenuButton>Review</MenuButton>
-      </Link>
+
+      {review === 'writing' ? (
+        <Link to="/writing">
+          <MenuButton>Writing</MenuButton>
+        </Link>
+      ) : (
+        <Link to="/review">
+          <MenuButton>Review</MenuButton>
+        </Link>
+      )}
       {userSession === null ? (
         <>
           <Link to="/signin">

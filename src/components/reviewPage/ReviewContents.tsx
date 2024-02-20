@@ -79,7 +79,9 @@ function ReviewContents({ date }: ReviewContentsProps) {
               </ReviewUserBox>
             </ReviewContentsBox>
             <ReviewImageContainer>
-              {item.user_image && item.user_image[0] !== null ? (
+              {item.user_image &&
+              item.user_image[0] !== null &&
+              item.user_image.length !== 0 ? (
                 <SwiperWrapper
                   pagination={true}
                   modules={[Pagination]}
