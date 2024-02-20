@@ -33,7 +33,6 @@ function ReviewWriting() {
 
       setSearchResult(data.results)
     }
-    // setActiveUserImage('영화 포스터')
     const SignSession = async () => {
       const { data, error } = await supabase.auth.getSession()
 
@@ -87,8 +86,6 @@ function ReviewWriting() {
   const handleSelectImage = (value: string) => {
     setActiveUserImage(value)
   }
-  // console.log('searchkeyword', searchKeyword)
-  // console.log('writingcon', writingContents)
 
   const handleTextContents = debounce(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -101,8 +98,6 @@ function ReviewWriting() {
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files !== null) {
       const files = Array.from(e.target.files)
-      // console.log(files)
-      // setUploadImage(files)
       setUploadImage((prevUploadImages: any) => [...prevUploadImages, ...files])
 
       const promises = files.map(file => {
@@ -125,16 +120,6 @@ function ReviewWriting() {
     }
   }
 
-  // const handleDeleteImage = (e: React.MouseEvent) => {
-  //   const targetImage = e.currentTarget.parentNode?.querySelector('img')
-  //   const targetImageSrc = targetImage?.getAttribute('src')
-
-  //   if (targetImageSrc) {
-  //     setImageSrc((prevImageSrc: any) =>
-  //       prevImageSrc.filter((item: string) => item !== targetImageSrc)
-  //     )
-  //   }
-  // }
   const handleDeleteImage = (e: React.MouseEvent, index: number) => {
     const targetImage = e.currentTarget.parentNode?.querySelector('img')
     const targetImageSrc = targetImage?.getAttribute('src')
@@ -149,19 +134,6 @@ function ReviewWriting() {
       )
     }
   }
-  // const handleDeleteImage = (index: number, e: React.MouseEvent) => {
-  //   const targetImage = e.currentTarget.parentNode?.querySelector('img')
-  //   const targetImageSrc = targetImage?.getAttribute('src')
-
-  //   setUploadImage((prevUploadImages: any[]) =>
-  //     prevUploadImages.filter((_, i) => i !== index)
-  //   )
-  //   if (targetImageSrc) {
-  //     setImageSrc((prevImageSrc: any) =>
-  //       prevImageSrc.filter((item: string) => item !== targetImageSrc)
-  //     )
-  //   }
-  // }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -204,10 +176,6 @@ function ReviewWriting() {
       alert('리뷰 등록에 실패했습니다')
     }
   }
-
-  console.log('uploadimage', uploadImage.length)
-
-  console.log(uploadedFileUrl)
 
   return (
     <WriteReviewWrapper>
@@ -335,7 +303,6 @@ const TitleLine = styled.hr`
 const FormContainer = styled.div`
   margin: 20px auto;
   padding: 12px 0;
-  /* background-color: pink; */
   width: 80%;
 `
 
@@ -452,7 +419,6 @@ const SearchList = styled.ul`
 `
 const SearchListItems = styled.li`
   border-bottom: 1px solid #c2a97e;
-  /* padding: 2px 0; */
   border-bottom: 1px solid #c2a97e;
 `
 
@@ -464,9 +430,7 @@ const SearchListItemSelect = styled.button`
   align-items: center;
   gap: 16px;
   font-weight: 600;
-  /* color: #808078; */
   color: #707070;
-  /* margin: 6px 0; */
   padding: 0;
 `
 const SearchListPoster = styled.img`

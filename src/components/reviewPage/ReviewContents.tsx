@@ -6,18 +6,20 @@ import { RenderDataItems } from '@/types/mainPage/ContentsData'
 import { useTrendingTVDataStore } from '@/store/useTrendingTVDataStore'
 import { supabase } from '@/supabase/supabase'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation } from 'swiper/modules'
+import { Navigation, Pagination } from 'swiper/modules'
 import SwiperCore from 'swiper'
 import 'swiper/css/navigation'
 import 'swiper/css'
+import 'swiper/css/pagination'
 
-SwiperCore.use([Navigation])
+SwiperCore.use([Pagination])
 
 interface DiscoverContentsBoxProps {
   justifycontent: string
   borderbottom?: string
   bordertop?: string
   padding?: string
+  alignitems?: string
 }
 
 interface ReviewContentsProps {
@@ -41,7 +43,10 @@ function ReviewContents({ date }: ReviewContentsProps) {
 
   useEffect(() => {
     const fetchingReviewData = async () => {
-      const { data, error } = await supabase.from('reviews').select()
+      const { data, error } = await supabase
+        .from('reviews')
+        .select()
+        .order('created_at', { ascending: false })
 
       console.log(data)
       setReviewData(data)
@@ -63,38 +68,21 @@ function ReviewContents({ date }: ReviewContentsProps) {
             <ReviewContentsBox
               justifycontent="center"
               borderbottom="1px solid #cbcbcb"
+              alignitems="center"
             >
               <ReviewContentsTitle>
                 {item.contents_data.title || item.contents_data.name}
               </ReviewContentsTitle>
-              <div>
-                <span>{item.user_email.split('@')[0]}</span>
-                <ReviewDate>{item.created_at.slice(0, 10)}</ReviewDate>
-              </div>
+              <ReviewUserBox>
+                <UserCircleDiv></UserCircleDiv>
+                <ReviewUser>{item.user_email.split('@')[0]}</ReviewUser>
+              </ReviewUserBox>
             </ReviewContentsBox>
             <ReviewImageContainer>
               {item.user_image && item.user_image[0] !== null ? (
-                // item.user_image.map((image: string | undefined) => (
-                //   <Swiper navigation={true} modules={[Navigation]}>
-                //     <SwiperSlide>
-                //       <ReviewUserImage src={image} alt="" />
-                //     </SwiperSlide>
-                //   </Swiper>
-                // ))
-                /* -------------------------------------------------------------------------- */
-                // <SwiperWrapper navigation={true} modules={[Navigation]}>
-                //   {item.user_image.map(
-                //     (image: string | undefined, index: number) => (
-                //       <SwiperSlideContainer key={index}>
-                //         <ReviewUserImage src={image} alt="" />
-                //       </SwiperSlideContainer>
-                //     )
-                //   )}
-                // </SwiperWrapper>
-                /* -------------------------------------------------------------------------- */
                 <SwiperWrapper
-                  navigation={true}
-                  modules={[Navigation]}
+                  pagination={true}
+                  modules={[Pagination]}
                   // slidesPerView={1}
                   // spaceBetween={30}
                   centeredSlides={true}
@@ -122,8 +110,9 @@ function ReviewContents({ date }: ReviewContentsProps) {
               <ReviewContentsSubstance>
                 {item.review_data}
               </ReviewContentsSubstance>
-              <ReviewContentsGenreBox>
-                {/* {item?.genre_ids
+              <ReviewContentsContainer>
+                <ReviewContentsGenreBox>
+                  {item?.contents_data.genre_ids
                     .slice(0, 3)
                     .map((id: number, index: number) => {
                       const genre =
@@ -131,14 +120,15 @@ function ReviewContents({ date }: ReviewContentsProps) {
                           genre => genre.id === id
                         ) ||
                         (tvGenres.genres || []).find(genre => genre.id === id)
-
                       return (
                         <ReviewContentsGenre key={index}>
                           {genre?.name}
                         </ReviewContentsGenre>
                       )
-                    })} */}
-              </ReviewContentsGenreBox>
+                    })}
+                </ReviewContentsGenreBox>
+                <ReviewDate>{item.created_at.slice(0, 10)}</ReviewDate>
+              </ReviewContentsContainer>
             </ReviewContentsSideBox>
             {/* </ReviewContentsLink> */}
           </ReviewContentsWrapper>
@@ -181,13 +171,14 @@ const ReviewContentsBox = styled.div<DiscoverContentsBoxProps>`
   justify-content: ${({ justifycontent }) => justifycontent};
   padding: ${({ padding }) => padding};
   flex-direction: column;
-  align-items: center;
-  align-content: center;
+  /* align-items: center; */
+  align-items: ${({ alignitems }) => alignitems};
+  /* align-content: center; */
 `
 
 const ReviewContentsSideBox = styled(ReviewContentsBox)`
   flex-direction: column;
-  gap: 8px;
+  gap: 20px;
   justify-content: space-between;
 `
 
@@ -229,17 +220,24 @@ const ReviewContentsSubstance = styled.span`
   font-size: 14px;
 `
 
-const ReviewContentsGenreBox = styled.div`
+const ReviewContentsContainer = styled.div`
   display: flex;
   justify-self: self-end;
+  align-items: center;
+  justify-content: space-between;
+`
+
+const ReviewContentsGenreBox = styled.div`
+  display: flex;
+  gap: 4px;
 `
 
 const ReviewContentsGenre = styled.span`
-  padding: 6px 14px;
-  border: 1px solid #444;
-  color: #444;
+  padding: 2px 6px;
+  border: 1px solid #adadad;
+  color: #707070;
   border-radius: 42px;
-  margin: 0 4px;
+  font-size: 12px;
 `
 
 const ReviewDate = styled.span`
@@ -257,13 +255,15 @@ const SwiperWrapper = styled(Swiper)`
     display: flex;
     height: 500px;
   }
-  .swiper-button-prev,
-  .swiper-button-next {
-    color: #13cd86;
+
+  .swiper-pagination-fraction,
+  .swiper-pagination-custom,
+  .swiper-horizontal > .swiper-pagination-bullets,
+  .swiper-pagination-bullets.swiper-pagination-horizontal {
+    bottom: 12px;
   }
-  .swiper-button-prev:after,
-  .swiper-button-next:after {
-    font-size: 26px;
+  .swiper-pagination-bullet-active {
+    background-color: #aaeec4;
   }
 `
 const SwiperSlideContainer = styled(SwiperSlide)`
@@ -273,4 +273,23 @@ const SwiperSlideContainer = styled(SwiperSlide)`
     object-fit: cover;
     max-width: 100%;
   }
+`
+const ReviewUserBox = styled.div`
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 12px 0;
+`
+
+export const UserCircleDiv = styled.div`
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background-color: #aaeec4;
+  display: flex;
+  align-self: center;
+`
+const ReviewUser = styled.span`
+  text-align: center;
 `
