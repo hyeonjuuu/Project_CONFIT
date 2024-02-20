@@ -193,7 +193,7 @@ function ReviewWriting() {
           margin="0px"
           padding="60px 0 0 0"
         />
-        <Header />
+        <Header margin="60px 0 0 0" />
       </TitleContainer>
       <TitleLine />
       <FormContainer>
@@ -303,7 +303,7 @@ const TitleContainer = styled.div`
   /* padding: 0 6%; */
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  /* align-items: center; */
   margin-right: 36px;
 `
 

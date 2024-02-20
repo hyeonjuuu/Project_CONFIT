@@ -85,8 +85,6 @@ function ReviewContents({ date }: ReviewContentsProps) {
                 <SwiperWrapper
                   pagination={true}
                   modules={[Pagination]}
-                  // slidesPerView={1}
-                  // spaceBetween={30}
                   centeredSlides={true}
                 >
                   {item.user_image.map(
@@ -180,7 +178,7 @@ const ReviewContentsBox = styled.div<DiscoverContentsBoxProps>`
 
 const ReviewContentsSideBox = styled(ReviewContentsBox)`
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   justify-content: space-between;
 `
 
@@ -215,11 +213,18 @@ const ReviewContentImage = styled.img`
   object-fit: scale-down;
   height: 100%;
 `
-const ReviewContentsSubstance = styled.span`
+const ReviewContentsSubstance = styled.p`
   /* margin: 4px 0; */
   /* padding: 0 10px; */
   color: #323232;
   font-size: 14px;
+  height: 50px;
+  margin: 4px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 `
 
 const ReviewContentsContainer = styled.div`
