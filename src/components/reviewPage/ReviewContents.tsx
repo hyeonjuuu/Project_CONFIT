@@ -9,6 +9,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper/modules'
 import SwiperCore from 'swiper'
 import 'swiper/css/navigation'
+import 'swiper/css'
 
 SwiperCore.use([Navigation])
 
@@ -247,14 +248,22 @@ const ReviewDate = styled.span`
   color: #707070;
 `
 const SwiperWrapper = styled(Swiper)`
+  position: relative;
   width: 100%;
   display: flex;
   height: 100%;
   overflow: hidden;
   .swiper-wrapper {
     display: flex;
-    /* width: 100%; */
     height: 500px;
+  }
+  .swiper-button-prev,
+  .swiper-button-next {
+    color: #13cd86;
+  }
+  .swiper-button-prev:after,
+  .swiper-button-next:after {
+    font-size: 26px;
   }
 `
 const SwiperSlideContainer = styled(SwiperSlide)`
