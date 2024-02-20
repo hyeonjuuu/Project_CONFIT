@@ -1,64 +1,36 @@
-// import { useState } from 'react'
+import { useStarRatingStore } from '@/store/useStarRatingStore'
+import { useEffect } from 'react'
+import { PiStarFill, PiStarLight } from 'react-icons/pi'
 
-// function StarRating() {
-//   const [score, setScore] = useState<number>(0)
-//   const [scoreFixed, setScoreFixed] = useState(score)
+function StarRating() {
+  const { starRating, setStarRating } = useStarRatingStore()
 
-//   const handleLeftHalfEnter = (idx: number) => setScore(idx + 0.5)
+  useEffect(() => {
+    console.log(starRating)
+  }, [starRating])
 
-//   const handleRightHalfEnter = (idx: number) => setScore(idx + 1)
+  return (
+    <div>
+      {[...Array(starRating)].map((a, i) => (
+        <PiStarFill
+          key={i}
+          onClick={() => setStarRating(i + 1)}
+          color="#f4d84a"
+          size={30}
+          stroke="#bab09c"
+        />
+      ))}
+      {[...Array(5 - starRating)].map((a, i) => (
+        <PiStarLight
+          key={i}
+          onClick={() => setStarRating(starRating + i + 1)}
+          color="#bab09c"
+          size={30}
+          stroke="#bab09c"
+        />
+      ))}
+    </div>
+  )
+}
 
-//   const handleStarClick = () => {
-//     setScoreFixed(score)
-//   }
-
-//   const handleStarLeave = () => {
-//     if (score !== scoreFixed) {
-//       setScore(scoreFixed)
-//     }
-//   }
-//   return (
-//     <div>
-//       {Array(5)
-//         .fill(0)
-//         .map((i, idx) => (
-//           <div key={idx} onClick={handleStarClick}>
-//             {score - Math.floor(score) === 0.5 && Math.floor(score) === idx ? (
-//               <FaStarHalfAlt
-//                 key={idx}
-//                 style={{ position: 'absolute' }}
-//                 size={32}
-//                 color="gold"
-//               />
-//             ) : idx + 1 > score ? (
-//               <FaStar
-//                 key={idx}
-//                 style={{ position: 'absolute' }}
-//                 size={32}
-//                 color="lightGray"
-//               />
-//             ) : (
-//               <FaStar
-//                 key={idx}
-//                 style={{ position: 'absolute' }}
-//                 size={32}
-//                 color="gold"
-//               />
-//             )}
-//             <Left
-//               key={idx + 'left'}
-//               onMouseEnter={() => handleLeftHalfEnter(idx)}
-//               onMouseLeave={handleStarLeave}
-//             />
-//             <Right
-//               key={idx + 'right'}
-//               onMouseEnter={() => handleRightHalfEnter(idx)}
-//               onMouseLeave={handleStarLeave}
-//             />
-//           </div>
-//         ))}
-//     </div>
-//   )
-// }
-
-// export default StarRating
+export default StarRating

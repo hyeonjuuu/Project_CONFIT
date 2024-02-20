@@ -1,14 +1,14 @@
 import { usePlayingMovieStore } from '@/store/usePlayingMovieStore'
 import { movieGenres, tvGenres } from '@/utils/genresData'
-import { Key, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { RenderDataItems } from '@/types/mainPage/ContentsData'
 import { useTrendingTVDataStore } from '@/store/useTrendingTVDataStore'
 import { supabase } from '@/supabase/supabase'
+import { PiStarFill } from 'react-icons/pi'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Pagination } from 'swiper/modules'
+import { Pagination } from 'swiper/modules'
 import SwiperCore from 'swiper'
-import 'swiper/css/navigation'
 import 'swiper/css'
 import 'swiper/css/pagination'
 
@@ -73,10 +73,17 @@ function ReviewContents({ date }: ReviewContentsProps) {
               <ReviewContentsTitle>
                 {item.contents_data.title || item.contents_data.name}
               </ReviewContentsTitle>
-              <ReviewUserBox>
-                <UserCircleDiv></UserCircleDiv>
-                <ReviewUser>{item.user_email.split('@')[0]}</ReviewUser>
-              </ReviewUserBox>
+              <ReviewUserWrapper>
+                <ReviewUserBox>
+                  <UserCircleDiv></UserCircleDiv>
+                  <ReviewUser>{`${item.user_email.split('@')[0]} 님`}</ReviewUser>
+                </ReviewUserBox>
+                <DivideDiv></DivideDiv>
+                <ReviewUserBox>
+                  <PiStarFill color="#f4d84a" size={20} />
+                  <ReviewUser>{item.star_rating}</ReviewUser>
+                </ReviewUserBox>
+              </ReviewUserWrapper>
             </ReviewContentsBox>
             <ReviewImageContainer>
               {item.user_image &&
@@ -299,4 +306,18 @@ export const UserCircleDiv = styled.div`
 `
 const ReviewUser = styled.span`
   text-align: center;
+  font-size: 14px;
+  line-height: 150%;
+`
+const ReviewUserWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  border-top: 1px solid #d5d5d5;
+`
+
+const DivideDiv = styled.div`
+  width: 1px;
+  border-left: 1px solid #d5d5d5;
+  margin: 4px 0;
 `
