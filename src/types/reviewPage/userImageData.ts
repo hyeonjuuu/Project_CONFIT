@@ -1,11 +1,3 @@
-// interface UserImageDataItems {
-//   data:
-//     | {
-//         publicUrl: string
-//       }
-//     | undefined
-// }
-
 interface UserImageData {
   data: UserImageDataItems | undefined
 }

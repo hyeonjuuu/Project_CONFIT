@@ -10,6 +10,7 @@ body, #root {
   margin-left : auto;
   margin-right: auto;
   font-weight: 300;
+  background-color: #edece8;
 }
 
 button {

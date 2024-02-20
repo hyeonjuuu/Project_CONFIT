@@ -3,8 +3,13 @@ import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { supabase } from '@/supabase/supabase'
 import { useUserSessionStore } from '@/store/useUserSessionStore'
+import { UserCircleDiv } from '@/components/reviewPage/ReviewContents'
 
-function Header() {
+interface HaderProps {
+  review?: string
+}
+
+function Header({ review }: HaderProps) {
   const { userSession, setUserSession } = useUserSessionStore()
 
   useEffect(() => {
@@ -36,9 +41,20 @@ function Header() {
 
   return (
     <HeaderContainer>
-      <MenuButton>Home</MenuButton>
+      <Link to="/">
+        <MenuButton>Home</MenuButton>
+      </Link>
       <MenuButton>Search</MenuButton>
-      <MenuButton>Review</MenuButton>
+
+      {review === 'writing' ? (
+        <Link to="/writing">
+          <MenuButton>Writing</MenuButton>
+        </Link>
+      ) : (
+        <Link to="/review">
+          <MenuButton>Review</MenuButton>
+        </Link>
+      )}
       {userSession === null ? (
         <>
           <Link to="/signin">
@@ -54,7 +70,10 @@ function Header() {
             <MenuButton>My Page</MenuButton>
           </Link> */}
           <Link to="/">
-            <MenuButton>{`${userName} 님`}</MenuButton>
+            <UserMenuButton>
+              <UserCircleDiv />
+              {`${userName} 님`}
+            </UserMenuButton>
           </Link>
           <Link to="/">
             <MenuButton onClick={handleSignOut}>Sign out</MenuButton>
@@ -92,4 +111,8 @@ const MenuButton = styled.button`
   &:hover {
     animation: ${fillcolor} 0.5s forwards;
   }
+`
+const UserMenuButton = styled(MenuButton)`
+  display: flex;
+  gap: 4px;
 `

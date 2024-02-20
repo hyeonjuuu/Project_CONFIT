@@ -1,6 +1,7 @@
 import { getSearchData } from '@/api/getSearchData'
 import { useUploadImage } from '@/api/uploadReviewData'
 import SectionTitle from '@/components/SectionTitle'
+import Header from '@/layout/Header'
 import { useSearchStore } from '@/store/useSearchStore'
 import { useUserImageUrlStore } from '@/store/useUserImageUrlStore'
 import { useUserSessionStore } from '@/store/useUserSessionStore'
@@ -8,6 +9,7 @@ import { supabase } from '@/supabase/supabase'
 import { debounce } from '@/utils/debounce'
 import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 
 interface SelectButtonProps {
   active: boolean
@@ -26,6 +28,10 @@ function ReviewWriting() {
   const [textContents, setTextContents] = useState('')
   const searchInput = useRef<HTMLInputElement>(null)
   const searchList = useRef<HTMLUListElement>(null)
+  const navigate = useNavigate()
+  const goToReview = () => {
+    navigate('/review')
+  }
 
   useEffect(() => {
     const Search = async () => {
@@ -33,7 +39,6 @@ function ReviewWriting() {
 
       setSearchResult(data.results)
     }
-    // setActiveUserImage('영화 포스터')
     const SignSession = async () => {
       const { data, error } = await supabase.auth.getSession()
 
@@ -87,8 +92,6 @@ function ReviewWriting() {
   const handleSelectImage = (value: string) => {
     setActiveUserImage(value)
   }
-  // console.log('searchkeyword', searchKeyword)
-  // console.log('writingcon', writingContents)
 
   const handleTextContents = debounce(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -101,8 +104,6 @@ function ReviewWriting() {
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files !== null) {
       const files = Array.from(e.target.files)
-      // console.log(files)
-      // setUploadImage(files)
       setUploadImage((prevUploadImages: any) => [...prevUploadImages, ...files])
 
       const promises = files.map(file => {
@@ -125,16 +126,6 @@ function ReviewWriting() {
     }
   }
 
-  // const handleDeleteImage = (e: React.MouseEvent) => {
-  //   const targetImage = e.currentTarget.parentNode?.querySelector('img')
-  //   const targetImageSrc = targetImage?.getAttribute('src')
-
-  //   if (targetImageSrc) {
-  //     setImageSrc((prevImageSrc: any) =>
-  //       prevImageSrc.filter((item: string) => item !== targetImageSrc)
-  //     )
-  //   }
-  // }
   const handleDeleteImage = (e: React.MouseEvent, index: number) => {
     const targetImage = e.currentTarget.parentNode?.querySelector('img')
     const targetImageSrc = targetImage?.getAttribute('src')
@@ -149,19 +140,6 @@ function ReviewWriting() {
       )
     }
   }
-  // const handleDeleteImage = (index: number, e: React.MouseEvent) => {
-  //   const targetImage = e.currentTarget.parentNode?.querySelector('img')
-  //   const targetImageSrc = targetImage?.getAttribute('src')
-
-  //   setUploadImage((prevUploadImages: any[]) =>
-  //     prevUploadImages.filter((_, i) => i !== index)
-  //   )
-  //   if (targetImageSrc) {
-  //     setImageSrc((prevImageSrc: any) =>
-  //       prevImageSrc.filter((item: string) => item !== targetImageSrc)
-  //     )
-  //   }
-  // }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -199,25 +177,23 @@ function ReviewWriting() {
         }
       }
       alert('리뷰 작성이 완료되었습니다.')
+      goToReview()
     } catch (error) {
       console.error(error)
       alert('리뷰 등록에 실패했습니다')
     }
   }
 
-  console.log('uploadimage', uploadImage.length)
-
-  console.log(uploadedFileUrl)
-
   return (
     <WriteReviewWrapper>
       <TitleContainer>
         <SectionTitle
-          textfirst="Writing"
-          textsecond="Review"
+          textfirst="Review"
+          textsecond="Writing"
           margin="0px"
           padding="60px 0 0 0"
         />
+        <Header />
       </TitleContainer>
       <TitleLine />
       <FormContainer>
@@ -320,22 +296,26 @@ export default ReviewWriting
 
 const WriteReviewWrapper = styled.section`
   background-color: #edece8;
-  height: 100vh;
+  /* height: 100vh; */
+  height: 100%;
 `
 const TitleContainer = styled.div`
-  padding: 0 6%;
+  /* padding: 0 6%; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 36px;
 `
 
 const TitleLine = styled.hr`
   border: none;
   border-top: 1px solid #cbc9c9;
-  width: 80%;
+  width: 95%;
 `
 
 const FormContainer = styled.div`
   margin: 20px auto;
   padding: 12px 0;
-  /* background-color: pink; */
   width: 80%;
 `
 
@@ -394,6 +374,7 @@ const WritingContentsImage = styled.img`
   aspect-ratio: 3/4;
   height: 120px;
   margin: 4px;
+  object-fit: cover;
 `
 
 const DeleteImageButton = styled.button`
@@ -451,7 +432,6 @@ const SearchList = styled.ul`
 `
 const SearchListItems = styled.li`
   border-bottom: 1px solid #c2a97e;
-  /* padding: 2px 0; */
   border-bottom: 1px solid #c2a97e;
 `
 
@@ -463,9 +443,7 @@ const SearchListItemSelect = styled.button`
   align-items: center;
   gap: 16px;
   font-weight: 600;
-  /* color: #808078; */
   color: #707070;
-  /* margin: 6px 0; */
   padding: 0;
 `
 const SearchListPoster = styled.img`

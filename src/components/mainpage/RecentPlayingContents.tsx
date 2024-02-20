@@ -1,10 +1,10 @@
 import { useTrendingTVDataStore } from '@/store/useTrendingTVDataStore'
 import { Link } from 'react-router-dom'
 import styled, { css, keyframes } from 'styled-components'
-import buttonArrow from '@/assets/buttonArrow.svg'
+// import buttonArrow from '@/assets/buttonArrow.svg'
 import ButtonArrowIcon, { ButtonArrowProps } from '@/assets/ButtonArrow'
 import { useState } from 'react'
-import { TrendingTVItems } from '@/types/mainPage/ContentsData'
+// import { TrendingTVItems } from '@/types/mainPage/ContentsData'
 import { useHoverItemStore } from '@/store/useHoverItemStore'
 
 type ViewMoreButtonProps = {
@@ -236,12 +236,13 @@ const ContentsTextBox = styled.div`
 const ContentsTitle = styled.span`
   font-size: 20px;
   font-weight: 600;
+  color: #444;
 `
 const ContentsDate = styled.span`
   font-family: 'Josefin Sans', sans-serif;
   font-weight: 400;
   color: #707070;
-  font-size: 14px;
+  font-size: 16px;
 `
 
 const HoverWrapper = styled.a`

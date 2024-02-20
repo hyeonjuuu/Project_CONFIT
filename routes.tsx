@@ -21,6 +21,9 @@ const SigninPage: React.LazyExoticComponent<() => React.JSX.Element> = lazy(
 const WritingPage: React.LazyExoticComponent<() => React.JSX.Element> = lazy(
   () => import('./src/pages/ReviewWriting')
 )
+const ReviewPage: React.LazyExoticComponent<() => React.JSX.Element> = lazy(
+  () => import('./src/pages/ReviewPage')
+)
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,6 +32,7 @@ const router = createBrowserRouter(
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/signin" element={<SigninPage />} />
       <Route path="/writing" element={<WritingPage />} />
+      <Route path="/review" element={<ReviewPage />} />
     </Route>
   )
 )
