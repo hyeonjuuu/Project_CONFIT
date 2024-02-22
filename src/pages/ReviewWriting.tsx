@@ -10,6 +10,8 @@ import { debounce } from '@/utils/debounce'
 import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
+import StarRating from '@/components/reviewPage/StarRating'
+import { useStarRatingStore } from '@/store/useStarRatingStore'
 
 interface SelectButtonProps {
   active: boolean
@@ -21,6 +23,7 @@ function ReviewWriting() {
   const [writingContents, setWritingContents] = useState<SearchDataItems>()
   const { searchResult, setSearchResult } = useSearchStore()
   const { uploadedFileUrl, setUploadedFileUrl } = useUserImageUrlStore()
+  const { starRating, setStarRating } = useStarRatingStore()
   const [imageSrc, setImageSrc]: any = useState([])
   const { userSession, setUserSession } = useUserSessionStore()
   const [activeUserImage, setActiveUserImage] = useState('영화 포스터')
@@ -56,8 +59,9 @@ function ReviewWriting() {
     Search()
   }, [searchKeyword])
 
-  console.log(userSession?.user.email)
-  console.log(userSession?.user.id)
+  // console.log(userSession?.user.email)
+  // console.log(userSession?.user.id)
+  console.log(starRating)
 
   const keywordSearch = debounce((value: string) => {
     setSearchKeyword(value)
@@ -151,7 +155,8 @@ function ReviewWriting() {
             contents_data: writingContents,
             review_data: textContents,
             user_image: uploadedFileUrl || null,
-            user_id: userSession?.user.id
+            user_id: userSession?.user.id,
+            star_rating: starRating
           }
         ])
         if (error) {
@@ -193,7 +198,7 @@ function ReviewWriting() {
           margin="0px"
           padding="60px 0 0 0"
         />
-        <Header />
+        <Header margin="60px 0 0 0" />
       </TitleContainer>
       <TitleLine />
       <FormContainer>
@@ -220,6 +225,10 @@ function ReviewWriting() {
               </SearchListItems>
             ))}
           </SearchList>
+          <StarRatingContainer>
+            <StarRatingText>별점</StarRatingText>
+            <StarRating />
+          </StarRatingContainer>
           <div>
             <ButtonContainer>
               <SelectButton
@@ -303,7 +312,7 @@ const TitleContainer = styled.div`
   /* padding: 0 6%; */
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  /* align-items: center; */
   margin-right: 36px;
 `
 
@@ -450,4 +459,14 @@ const SearchListPoster = styled.img`
   object-fit: fill;
   aspect-ratio: 3/4;
   height: 100%;
+`
+const StarRatingContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`
+
+const StarRatingText = styled.span`
+  font-weight: 600;
+  color: #444;
 `

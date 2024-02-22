@@ -1,14 +1,14 @@
 import { usePlayingMovieStore } from '@/store/usePlayingMovieStore'
 import { movieGenres, tvGenres } from '@/utils/genresData'
-import { Key, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { RenderDataItems } from '@/types/mainPage/ContentsData'
 import { useTrendingTVDataStore } from '@/store/useTrendingTVDataStore'
 import { supabase } from '@/supabase/supabase'
+import { PiStarFill } from 'react-icons/pi'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Pagination } from 'swiper/modules'
+import { Pagination } from 'swiper/modules'
 import SwiperCore from 'swiper'
-import 'swiper/css/navigation'
 import 'swiper/css'
 import 'swiper/css/pagination'
 
@@ -73,10 +73,17 @@ function ReviewContents({ date }: ReviewContentsProps) {
               <ReviewContentsTitle>
                 {item.contents_data.title || item.contents_data.name}
               </ReviewContentsTitle>
-              <ReviewUserBox>
-                <UserCircleDiv></UserCircleDiv>
-                <ReviewUser>{item.user_email.split('@')[0]}</ReviewUser>
-              </ReviewUserBox>
+              <ReviewUserWrapper>
+                <ReviewUserBox>
+                  <UserCircleDiv></UserCircleDiv>
+                  <ReviewUser>{`${item.user_email.split('@')[0]} 님`}</ReviewUser>
+                </ReviewUserBox>
+                <DivideDiv></DivideDiv>
+                <ReviewUserBox>
+                  <PiStarFill color="#f4d84a" size={20} />
+                  <ReviewUser>{item.star_rating}</ReviewUser>
+                </ReviewUserBox>
+              </ReviewUserWrapper>
             </ReviewContentsBox>
             <ReviewImageContainer>
               {item.user_image &&
@@ -85,8 +92,6 @@ function ReviewContents({ date }: ReviewContentsProps) {
                 <SwiperWrapper
                   pagination={true}
                   modules={[Pagination]}
-                  // slidesPerView={1}
-                  // spaceBetween={30}
                   centeredSlides={true}
                 >
                   {item.user_image.map(
@@ -180,7 +185,7 @@ const ReviewContentsBox = styled.div<DiscoverContentsBoxProps>`
 
 const ReviewContentsSideBox = styled(ReviewContentsBox)`
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   justify-content: space-between;
 `
 
@@ -215,11 +220,18 @@ const ReviewContentImage = styled.img`
   object-fit: scale-down;
   height: 100%;
 `
-const ReviewContentsSubstance = styled.span`
+const ReviewContentsSubstance = styled.p`
   /* margin: 4px 0; */
   /* padding: 0 10px; */
   color: #323232;
   font-size: 14px;
+  height: 50px;
+  margin: 4px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 `
 
 const ReviewContentsContainer = styled.div`
@@ -294,4 +306,18 @@ export const UserCircleDiv = styled.div`
 `
 const ReviewUser = styled.span`
   text-align: center;
+  font-size: 14px;
+  line-height: 150%;
+`
+const ReviewUserWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  border-top: 1px solid #d5d5d5;
+`
+
+const DivideDiv = styled.div`
+  width: 1px;
+  border-left: 1px solid #d5d5d5;
+  margin: 4px 0;
 `

@@ -7,9 +7,14 @@ import { UserCircleDiv } from '@/components/reviewPage/ReviewContents'
 
 interface HaderProps {
   review?: string
+  margin?: string
 }
 
-function Header({ review }: HaderProps) {
+interface HeaderContainerProps {
+  margin?: string
+}
+
+function Header({ review, margin }: HaderProps) {
   const { userSession, setUserSession } = useUserSessionStore()
 
   useEffect(() => {
@@ -40,7 +45,7 @@ function Header({ review }: HaderProps) {
   console.log('ssession', userSession)
 
   return (
-    <HeaderContainer>
+    <HeaderContainer margin={margin}>
       <Link to="/">
         <MenuButton>Home</MenuButton>
       </Link>
@@ -86,12 +91,13 @@ function Header({ review }: HaderProps) {
 
 export default Header
 
-const HeaderContainer = styled.div`
+const HeaderContainer = styled.div<HeaderContainerProps>`
   height: 72px;
   display: flex;
   gap: 10px;
   align-items: center;
   justify-content: flex-end;
+  margin: ${({ margin }) => margin};
 `
 const fillcolor = keyframes`
   0% {

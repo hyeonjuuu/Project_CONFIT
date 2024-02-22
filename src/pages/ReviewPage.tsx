@@ -8,7 +8,7 @@ function ReviewPage() {
     <>
       <HeaderContainer>
         <SectionTitle textfirst="Review" padding="60px 0 0 0" />
-        <Header review="writing" />
+        <Header review="writing" margin="60px 0 0 0 " />
       </HeaderContainer>
       <ReviewContentsSection>
         <ReviewContents />
@@ -22,7 +22,7 @@ export default ReviewPage
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  /* align-items: center; */
   margin-right: 36px;
 `
 
