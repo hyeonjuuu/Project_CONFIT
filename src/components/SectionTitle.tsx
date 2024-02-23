@@ -7,7 +7,7 @@ interface TitleSectionWrapperProps {
 }
 
 interface SectionTitleProps {
-  textfirst: string
+  textfirst: string | undefined
   textsecond?: string
   margin?: string
   padding?: string
@@ -49,6 +49,7 @@ const TitleSectionWrapper = styled.div<TitleSectionWrapperProps>`
 const SubTitleSectionWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  width: fit-content;
 `
 
 const SectionTitleText = styled.p<TitleSectionWrapperProps>`
@@ -59,6 +60,7 @@ const SectionTitleText = styled.p<TitleSectionWrapperProps>`
   margin: 0px 20px 0px 48px;
   font-weight: 600;
   padding-right: ${({ padding }) => padding};
+  width: fit-content;
 `
 
 const CircleDiv = styled.div`
