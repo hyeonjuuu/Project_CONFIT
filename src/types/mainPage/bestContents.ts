@@ -38,13 +38,19 @@ export interface ContentsWatchProviderItem {
   results: {
     [key: string]: {
       link: string
-      buy: {
+      buy?: {
         logo_path: string
         provider_id: number
         provider_name: string
         display_priority: number
       }[]
-      rent: {
+      rent?: {
+        logo_path: string
+        provider_id: number
+        provider_name: string
+        display_priority: number
+      }[]
+      flatrate?: {
         logo_path: string
         provider_id: number
         provider_name: string

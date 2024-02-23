@@ -8,8 +8,6 @@ import SectionTitle from '@/components/SectionTitle'
 function DiscoverContents() {
   const { playingMovieData, setPlayingMovieData } = usePlayingMovieStore()
   const { trendingTVData, setTrendingTVData } = useTrendingTVDataStore()
-  // console.log('playingMovieData', playingMovieData)
-  // console.log('trendingTVData', trendingTVData)
 
   useEffect(() => {
     const fetchingPlayingMovieData = async () => {

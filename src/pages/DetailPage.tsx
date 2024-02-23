@@ -3,41 +3,19 @@ import getWatchProviders from '@/api/getWatchProviders'
 import SectionTitle from '@/components/SectionTitle'
 import { useDetailDataStore } from '@/store/useDetailDataStore'
 import { ContentsWatchProviderItem } from '@/types/mainPage/bestContents'
-import { movieGenres, tvGenres } from '@/utils/genresData'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { useRef } from 'react'
-import {
-  motion,
-  useScroll,
-  useSpring,
-  useTransform,
-  MotionValue
-} from 'framer-motion'
+import { motion, useScroll, useTransform, MotionValue } from 'framer-motion'
 
 interface ContainerSectionProps {
   margin?: string
 }
 
 function useParallax(value: MotionValue<number>, distance: number) {
-  return useTransform(value, [0, 1], [-distance, distance])
+  return useTransform(value, [-0.1, 1], [-distance, distance])
 }
-
-// function Image({ id }: { id: number }) {
-//   const ref = useRef(null)
-//   const { scrollYProgress } = useScroll({ target: ref })
-//   const y = useParallax(scrollYProgress, 300)
-
-//   return (
-//     <section>
-//       <div ref={ref}>
-//         <img src={`/${id}.jpg`} alt="A London skyscraper" />
-//       </div>
-//       <motion.h2 style={{ y }}>{`#00${id}`}</motion.h2>
-//     </section>
-//   )
-// }
 
 function DetailPage() {
   let { id: detailId } = useParams()
@@ -78,28 +56,16 @@ function DetailPage() {
     }
   }, [])
 
-  console.log('detailTvData', detailTVData)
-  console.log('detailMovieData', detailMovieData)
-  console.log(contentsWatchProvider)
-
-  // const { scrollYProgress } = useScroll()
-  // const scaleX = useSpring(scrollYProgress, {
-  //   stiffness: 100,
-  //   damping: 30,
-  //   restDelta: 0.001
-  // })
   const ref = useRef(null)
-  const { scrollYProgress } = useScroll({ target: ref })
-  const y = useParallax(scrollYProgress, -200)
-  const { scrollXProgress, scrollX } = useScroll()
-  const scaleX = useSpring(scrollX, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
+  // const { scrollYProgress } = useScroll({ target: ref })
+  const { scrollYProgress } = useScroll({
+    target: ref
   })
+  // const y = useParallax(scrollYProgress, -200)
+  const y = useParallax(scrollYProgress, -700)
 
   const krValue = contentsWatchProvider?.results.KR
-  console.log(krValue)
+  console.log('krvalue', krValue?.buy)
 
   if (detailMovieData && detailType === 'movie') {
     return (
@@ -111,13 +77,13 @@ function DetailPage() {
           />
         </div>
         <DetailPageLayout>
-          <ContainerSection>
+          <ContainerSection margin="0 48px">
             <ContentsImage
               src={`https://image.tmdb.org/t/p/original/${detailMovieData?.poster_path}`}
               alt={`${detailMovieData?.title} 포스터`}
             />
           </ContainerSection>
-          <ContainerSection margin="auto">
+          <ContainerSection style={{ y }} ref={ref}>
             <OverviewBox>
               <p>{detailMovieData?.overview}</p>
             </OverviewBox>
@@ -142,27 +108,51 @@ function DetailPage() {
               </DetailDataItems>
               <DetailDataItems>
                 <span>Buy to Watch</span>
-                {krValue?.buy.map(item => (
-                  <>
-                    <WatchProviderLogo
-                      src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
-                      alt=""
-                    />
-                    <span>{item.provider_name}</span>
-                  </>
-                ))}
+                {krValue?.buy !== undefined ? (
+                  krValue?.buy.map(item => (
+                    <>
+                      <WatchProviderLogo
+                        src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
+                        alt=""
+                      />
+                      <span>{item.provider_name}</span>
+                    </>
+                  ))
+                ) : (
+                  <span>-</span>
+                )}
               </DetailDataItems>
               <DetailDataItems>
                 <span>Rent to Watch</span>
-                {krValue?.rent.map(item => (
-                  <>
-                    <WatchProviderLogo
-                      src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
-                      alt=""
-                    />
-                    <span>{item.provider_name}</span>
-                  </>
-                ))}
+                {krValue?.rent !== undefined ? (
+                  krValue?.rent.map(item => (
+                    <>
+                      <WatchProviderLogo
+                        src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
+                        alt=""
+                      />
+                      <span>{item.provider_name}</span>
+                    </>
+                  ))
+                ) : (
+                  <span>-</span>
+                )}
+              </DetailDataItems>
+              <DetailDataItems>
+                <span>OTT</span>
+                {krValue?.flatrate !== undefined ? (
+                  krValue?.flatrate.map(item => (
+                    <>
+                      <WatchProviderLogo
+                        src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
+                        alt=""
+                      />
+                      <span>{item.provider_name}</span>
+                    </>
+                  ))
+                ) : (
+                  <span>-</span>
+                )}
               </DetailDataItems>
             </DetailData>
           </ContainerSection>
@@ -264,6 +254,9 @@ const DetailPageLayout = styled.div`
 const ContainerSection = styled(motion.section)<ContainerSectionProps>`
   /* margin: 12px 6%; */
   margin: ${({ margin }) => (margin ? margin : '12px 6%')};
+  width: 100%;
+  height: fit-content;
+  width: fit-content;
 `
 
 const ContentsImage = styled.img`
@@ -274,7 +267,6 @@ const ContentsImage = styled.img`
 const OverviewBox = styled.div`
   height: fit-content;
   margin-bottom: 60px;
-  width: 90%;
   line-height: 150%;
 `
 
