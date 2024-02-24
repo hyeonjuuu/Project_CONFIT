@@ -36,7 +36,7 @@ function SectionTitle({
 
 export default SectionTitle
 
-const TitleSectionWrapper = styled.div<TitleSectionWrapperProps>`
+export const TitleSectionWrapper = styled.div<TitleSectionWrapperProps>`
   display: flex;
   flex-direction: row;
   /* padding: 28px 0; */
@@ -46,13 +46,13 @@ const TitleSectionWrapper = styled.div<TitleSectionWrapperProps>`
   align-items: ${({ alignitems }) => alignitems};
 `
 
-const SubTitleSectionWrapper = styled.div`
+export const SubTitleSectionWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: fit-content;
 `
 
-const SectionTitleText = styled.p<TitleSectionWrapperProps>`
+export const SectionTitleText = styled.p<TitleSectionWrapperProps>`
   font-size: 94px;
   letter-spacing: -0.2rem;
   line-height: 1;
@@ -61,9 +61,10 @@ const SectionTitleText = styled.p<TitleSectionWrapperProps>`
   font-weight: 600;
   padding-right: ${({ padding }) => padding};
   width: fit-content;
+  max-width: 1200px;
 `
 
-const CircleDiv = styled.div`
+export const CircleDiv = styled.div`
   display: flex;
   height: 30px;
   width: 30px;
@@ -71,4 +72,5 @@ const CircleDiv = styled.div`
   align-self: flex-end;
   background-color: #aaeec4;
   margin: 0 0 20px 4px;
+  min-width: 30px;
 `

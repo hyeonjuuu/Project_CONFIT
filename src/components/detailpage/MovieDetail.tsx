@@ -13,6 +13,7 @@ import { ContentsWatchProviderItem } from '@/types/mainPage/bestContents'
 import { useParams } from 'react-router-dom'
 import { getMovieDetailData } from '@/api/getDetailData'
 import getWatchProviders from '@/api/getWatchProviders'
+import ContentsTitle from '../ContentsTitle'
 
 interface ContainerSectionProps {
   margin?: string
@@ -74,7 +75,7 @@ function MovieDetail() {
         transition={{ duration: 0.5 }}
       >
         <div>
-          <SectionTitle
+          <ContentsTitle
             textfirst={detailMovieData?.original_title}
             padding="60px 0 0 0"
           />
@@ -103,8 +104,8 @@ function MovieDetail() {
               <DetailDataItems>
                 <ListTitle>장르</ListTitle>
                 <ListDataWrapper>
-                  {detailMovieData?.genres.map(item => (
-                    <ListData>{item.name}</ListData>
+                  {detailMovieData?.genres.map((item, index) => (
+                    <ListData key={index}>{item.name}</ListData>
                   ))}
                 </ListDataWrapper>
               </DetailDataItems>
@@ -122,11 +123,12 @@ function MovieDetail() {
                 <ListTitle>구매</ListTitle>
                 <ListDataWrapper>
                   {krValue?.buy !== undefined ? (
-                    krValue?.buy.map(item => (
+                    krValue?.buy.map((item, index) => (
                       <>
                         <WatchProviderLogo
                           src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
                           alt=""
+                          key={index}
                         />
                         <ListData margin="4px">{item.provider_name}</ListData>
                       </>
@@ -140,11 +142,12 @@ function MovieDetail() {
                 <ListTitle>대여</ListTitle>
                 <ListDataWrapper>
                   {krValue?.rent !== undefined ? (
-                    krValue?.rent.map(item => (
+                    krValue?.rent.map((item, index) => (
                       <>
                         <WatchProviderLogo
                           src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
                           alt=""
+                          key={index}
                         />
                         <ListData margin="4px">{item.provider_name}</ListData>
                       </>
@@ -158,11 +161,12 @@ function MovieDetail() {
                 <ListTitle>OTT</ListTitle>
                 <ListDataWrapper>
                   {krValue?.flatrate !== undefined ? (
-                    krValue?.flatrate.map(item => (
+                    krValue?.flatrate.map((item, index) => (
                       <>
                         <WatchProviderLogo
                           src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
                           alt=""
+                          key={index}
                         />
                         <ListData margin="4px">{item.provider_name}</ListData>
                       </>
@@ -182,18 +186,18 @@ function MovieDetail() {
 
 export default MovieDetail
 
-const DetailPageLayout = styled.div`
+export const DetailPageLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin-bottom: 100px;
 `
 
-const ContainerSection = styled(motion.section)<ContainerSectionProps>`
+export const ContainerSection = styled(motion.section)<ContainerSectionProps>`
   margin: ${({ margin }) => (margin ? margin : '12px 6%')};
   width: 90%;
   height: fit-content;
 `
-const Tagline = styled.p`
+export const Tagline = styled.p`
   margin: 20px 48px;
   background-color: #aaeec4;
   width: fit-content;
@@ -202,48 +206,47 @@ const Tagline = styled.p`
   font-weight: 400;
 `
 
-const ContentsImage = styled.img`
-  /* width: 670px; */
+export const ContentsImage = styled.img`
   aspect-ratio: 3/4;
   height: 860px;
 `
-const OverviewBox = styled.div`
+export const OverviewBox = styled.div`
   height: fit-content;
   margin-bottom: 60px;
   line-height: 150%;
   width: 90%;
 `
 
-const DetailData = styled.dl`
+export const DetailData = styled.dl`
   list-style: none;
   margin: 0;
   padding: 0;
 `
-const DetailDataItems = styled.div`
+export const DetailDataItems = styled.div`
   border-top: 1px solid #707070;
   width: 90%;
   padding: 16px 4px;
   display: flex;
   justify-content: space-between;
 `
-const WatchProviderLogo = styled.img`
+export const WatchProviderLogo = styled.img`
   /* width: 5%; */
   width: 26px;
   object-fit: scale-down;
   margin-left: 12px;
 `
-const ListDataWrapper = styled.div`
+export const ListDataWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: end;
   width: fit-content;
 `
 
-const ListTitle = styled.dt`
+export const ListTitle = styled.dt`
   font-weight: 200;
   color: #444;
 `
-const ListData = styled.dd<ListDataProps>`
+export const ListData = styled.dd<ListDataProps>`
   font-weight: 400;
   color: #13cd86;
   margin-left: 12px;
