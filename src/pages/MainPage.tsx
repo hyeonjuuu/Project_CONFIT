@@ -148,7 +148,7 @@ const PosterWrapper = styled.section`
 
 const SwiperWrapper = styled(Swiper)`
   .swiper-slide-active {
-    & > img {
+    & > a > img {
       transition: filter;
       transition-delay: 1.5s ease;
       filter: grayscale(0) opacity(100);

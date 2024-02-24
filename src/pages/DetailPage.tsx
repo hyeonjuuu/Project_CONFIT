@@ -14,6 +14,7 @@ import {
   MotionValue,
   useSpring
 } from 'framer-motion'
+import MovieDetail from '@/components/detailpage/MovieDetail'
 
 interface ContainerSectionProps {
   margin?: string
@@ -84,181 +85,85 @@ function DetailPage() {
   const krValue = contentsWatchProvider?.results.KR
   console.log('krvalue', krValue?.buy)
 
-  if (detailMovieData && detailType === 'movie') {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 300 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div>
-          <SectionTitle
-            textfirst={detailMovieData?.original_title}
-            padding="60px 0 0 0"
-          />
-        </div>
-        <DetailPageLayout>
-          <ContainerSection margin="0 48px">
-            <ContentsImage
-              src={`https://image.tmdb.org/t/p/original/${detailMovieData?.poster_path}`}
-              alt={`${detailMovieData?.title} 포스터`}
-            />
-          </ContainerSection>
-          <ContainerSection style={{ scaleX, y }} ref={ref}>
-            <OverviewBox>
-              <p>{detailMovieData?.overview}</p>
-            </OverviewBox>
-            <DetailData>
-              <DetailDataItems>
-                <span>Title</span>
-                <span>{detailMovieData?.title}</span>
-              </DetailDataItems>
-              <DetailDataItems>
-                <span>Release Date</span>
-                <span>{detailMovieData?.release_date}</span>
-              </DetailDataItems>
-              <DetailDataItems>
-                <span>Genres</span>
-                {detailMovieData?.genres.map(item => <span>{item.name}</span>)}
-              </DetailDataItems>
-              <DetailDataItems>
-                <span>RunTime</span>
-                <span>
-                  {`${Math.floor(detailMovieData?.runtime / 60)}시간 ${detailMovieData?.runtime % 60}분`}
-                </span>
-              </DetailDataItems>
-              <DetailDataItems>
-                <span>Buy to Watch</span>
-                {krValue?.buy !== undefined ? (
-                  krValue?.buy.map(item => (
-                    <>
-                      <WatchProviderLogo
-                        src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
-                        alt=""
-                      />
-                      <span>{item.provider_name}</span>
-                    </>
-                  ))
-                ) : (
-                  <span>-</span>
-                )}
-              </DetailDataItems>
-              <DetailDataItems>
-                <span>Rent to Watch</span>
-                {krValue?.rent !== undefined ? (
-                  krValue?.rent.map(item => (
-                    <>
-                      <WatchProviderLogo
-                        src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
-                        alt=""
-                      />
-                      <span>{item.provider_name}</span>
-                    </>
-                  ))
-                ) : (
-                  <span>-</span>
-                )}
-              </DetailDataItems>
-              <DetailDataItems>
-                <span>OTT</span>
-                {krValue?.flatrate !== undefined ? (
-                  krValue?.flatrate.map(item => (
-                    <>
-                      <WatchProviderLogo
-                        src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
-                        alt=""
-                      />
-                      <span>{item.provider_name}</span>
-                    </>
-                  ))
-                ) : (
-                  <span>-</span>
-                )}
-              </DetailDataItems>
-            </DetailData>
-          </ContainerSection>
-        </DetailPageLayout>
-      </motion.div>
-    )
-  } else {
-    return (
-      <>
-        <div>
-          <SectionTitle
-            textfirst={detailTVData?.original_name}
-            padding="60px 0 0 0"
-          />
-        </div>
-        <DetailPageLayout>
-          <ContainerSection>
-            <ContentsImage
-              src={`https://image.tmdb.org/t/p/original/${detailTVData?.poster_path}`}
-              alt={`${detailTVData?.name} 포스터`}
-            />
-          </ContainerSection>
-          <ContainerSection
-            margin="auto"
-            className="progress"
-            // style={{ y }}
-            ref={ref}
-          >
-            <OverviewBox>
-              <p>{detailTVData?.overview}</p>
-            </OverviewBox>
-            <DetailData>
-              <DetailDataItems>
-                <span>Title</span>
-                <span>{detailTVData?.name}</span>
-              </DetailDataItems>
-              <DetailDataItems>
-                <span>First Air Date</span>
-                <span>{detailTVData?.first_air_date}</span>
-              </DetailDataItems>
-              <DetailDataItems>
-                <span>Genres</span>
-                {detailTVData?.genres.map(item => <span>{item.name}</span>)}
-              </DetailDataItems>
-              <DetailDataItems>
-                <span>Homepage</span>
+  return (
+    <MovieDetail />
 
-                <a
-                  href={detailTVData?.homepage}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
-                  <span>{`${detailTVData?.original_name} 페이지`}</span>
-                </a>
-              </DetailDataItems>
-              <DetailDataItems>
-                <span>Buy to Watch</span>
-                {detailTVData?.networks.map(item => (
-                  <>
-                    <WatchProviderLogo
-                      src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
-                      alt=""
-                    />
-                    <span>{item.name}</span>
-                  </>
-                ))}
-              </DetailDataItems>
-              {/* <DetailDataItems>
-                <span>Rent to Watch</span>
-                {krValue?.rent.map(item => (
-                  <>
-                    <WatchProviderLogo
-                      src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
-                      alt=""
-                    />
-                    <span>{item.provider_name}</span>
-                  </>
-                ))}
-              </DetailDataItems> */}
-            </DetailData>
-          </ContainerSection>
-        </DetailPageLayout>
-      </>
-    )
-  }
+    // <>
+    //   <div>
+    //     <SectionTitle
+    //       textfirst={detailTVData?.original_name}
+    //       padding="60px 0 0 0"
+    //     />
+    //   </div>
+    //   <DetailPageLayout>
+    //     <ContainerSection>
+    //       <ContentsImage
+    //         src={`https://image.tmdb.org/t/p/original/${detailTVData?.poster_path}`}
+    //         alt={`${detailTVData?.name} 포스터`}
+    //       />
+    //     </ContainerSection>
+    //     <ContainerSection
+    //       margin="auto"
+    //       className="progress"
+    //       // style={{ y }}
+    //       ref={ref}
+    //     >
+    //       <OverviewBox>
+    //         <p>{detailTVData?.overview}</p>
+    //       </OverviewBox>
+    //       <DetailData>
+    //         <DetailDataItems>
+    //           <span>Title</span>
+    //           <span>{detailTVData?.name}</span>
+    //         </DetailDataItems>
+    //         <DetailDataItems>
+    //           <span>First Air Date</span>
+    //           <span>{detailTVData?.first_air_date}</span>
+    //         </DetailDataItems>
+    //         <DetailDataItems>
+    //           <span>Genres</span>
+    //           {detailTVData?.genres.map(item => <span>{item.name}</span>)}
+    //         </DetailDataItems>
+    //         <DetailDataItems>
+    //           <span>Homepage</span>
+
+    //           <a
+    //             href={detailTVData?.homepage}
+    //             target="_blank"
+    //             rel="noreferrer noopener"
+    //           >
+    //             <span>{`${detailTVData?.original_name} 페이지`}</span>
+    //           </a>
+    //         </DetailDataItems>
+    //         <DetailDataItems>
+    //           <span>Buy to Watch</span>
+    //           {detailTVData?.networks.map(item => (
+    //             <>
+    //               <WatchProviderLogo
+    //                 src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
+    //                 alt=""
+    //               />
+    //               <span>{item.name}</span>
+    //             </>
+    //           ))}
+    //         </DetailDataItems>
+    //         {/* <DetailDataItems>
+    //             <span>Rent to Watch</span>
+    //             {krValue?.rent.map(item => (
+    //               <>
+    //                 <WatchProviderLogo
+    //                   src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
+    //                   alt=""
+    //                 />
+    //                 <span>{item.provider_name}</span>
+    //               </>
+    //             ))}
+    //           </DetailDataItems> */}
+    //       </DetailData>
+    //     </ContainerSection>
+    //   </DetailPageLayout>
+    // </>
+  )
 }
 
 export default DetailPage

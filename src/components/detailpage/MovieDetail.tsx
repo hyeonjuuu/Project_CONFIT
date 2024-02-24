@@ -8,10 +8,17 @@ import {
 import styled from 'styled-components'
 import { useDetailDataStore } from '@/store/useDetailDataStore'
 import SectionTitle from '@/components/SectionTitle'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ContentsWatchProviderItem } from '@/types/mainPage/bestContents'
+import { useParams } from 'react-router-dom'
+import { getMovieDetailData } from '@/api/getDetailData'
+import getWatchProviders from '@/api/getWatchProviders'
 
 interface ContainerSectionProps {
+  margin?: string
+}
+
+interface ListDataProps {
   margin?: string
 }
 
@@ -20,13 +27,32 @@ function useParallax(value: MotionValue<number>, distance: number) {
 }
 
 function MovieDetail() {
+  let { id: detailId } = useParams()
+  let { type: detailType } = useParams()
+  const detailContentsId = parseInt(detailId || '0')
   const { detailMovieData, setDetailMovieData } = useDetailDataStore()
   const [contentsWatchProvider, setContentsWatchProvider] =
     useState<ContentsWatchProviderItem>()
-
   const ref = useRef(null)
 
-  const { scrollYProgress, scrollY } = useScroll({
+  useEffect(() => {
+    const MovieContentsDetailData = async () => {
+      const data = await getMovieDetailData(detailContentsId)
+      setDetailMovieData(data)
+      console.log('movie', data)
+    }
+
+    const WatchProviderData = async () => {
+      const data = await getWatchProviders(detailContentsId)
+      setContentsWatchProvider(data)
+      console.log(data)
+    }
+
+    MovieContentsDetailData()
+    WatchProviderData()
+  }, [])
+
+  const { scrollYProgress } = useScroll({
     target: ref
   })
   const y = useParallax(scrollYProgress, -200)
@@ -38,102 +64,120 @@ function MovieDetail() {
   })
 
   const krValue = contentsWatchProvider?.results.KR
+  console.log(krValue)
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 300 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <div>
-        <SectionTitle
-          textfirst={detailMovieData?.original_title}
-          padding="60px 0 0 0"
-        />
-      </div>
-      <DetailPageLayout>
-        <ContainerSection margin="0 48px">
-          <ContentsImage
-            src={`https://image.tmdb.org/t/p/original/${detailMovieData?.poster_path}`}
-            alt={`${detailMovieData?.title} 포스터`}
+  if (detailMovieData && detailType === 'movie') {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 300 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div>
+          <SectionTitle
+            textfirst={detailMovieData?.original_title}
+            padding="60px 0 0 0"
           />
-        </ContainerSection>
-        <ContainerSection style={{ scaleX, y }} ref={ref}>
-          <OverviewBox>
-            <p>{detailMovieData?.overview}</p>
-          </OverviewBox>
-          <DetailData>
-            <DetailDataItems>
-              <span>Title</span>
-              <span>{detailMovieData?.title}</span>
-            </DetailDataItems>
-            <DetailDataItems>
-              <span>Release Date</span>
-              <span>{detailMovieData?.release_date}</span>
-            </DetailDataItems>
-            <DetailDataItems>
-              <span>Genres</span>
-              {detailMovieData?.genres.map(item => <span>{item.name}</span>)}
-            </DetailDataItems>
-            <DetailDataItems>
-              <span>RunTime</span>
-              <span>
-                {`${Math.floor(detailMovieData?.runtime / 60)}시간 ${detailMovieData?.runtime % 60}분`}
-              </span>
-            </DetailDataItems>
-            <DetailDataItems>
-              <span>Buy to Watch</span>
-              {krValue?.buy !== undefined ? (
-                krValue?.buy.map(item => (
-                  <>
-                    <WatchProviderLogo
-                      src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
-                      alt=""
-                    />
-                    <span>{item.provider_name}</span>
-                  </>
-                ))
-              ) : (
-                <span>-</span>
-              )}
-            </DetailDataItems>
-            <DetailDataItems>
-              <span>Rent to Watch</span>
-              {krValue?.rent !== undefined ? (
-                krValue?.rent.map(item => (
-                  <>
-                    <WatchProviderLogo
-                      src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
-                      alt=""
-                    />
-                    <span>{item.provider_name}</span>
-                  </>
-                ))
-              ) : (
-                <span>-</span>
-              )}
-            </DetailDataItems>
-            <DetailDataItems>
-              <span>OTT</span>
-              {krValue?.flatrate !== undefined ? (
-                krValue?.flatrate.map(item => (
-                  <>
-                    <WatchProviderLogo
-                      src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
-                      alt=""
-                    />
-                    <span>{item.provider_name}</span>
-                  </>
-                ))
-              ) : (
-                <span>-</span>
-              )}
-            </DetailDataItems>
-          </DetailData>
-        </ContainerSection>
-      </DetailPageLayout>
-    </motion.div>
-  )
+          <Tagline>{detailMovieData.tagline}</Tagline>
+        </div>
+        <DetailPageLayout>
+          <ContainerSection margin="0 48px">
+            <ContentsImage
+              src={`https://image.tmdb.org/t/p/original/${detailMovieData?.poster_path}`}
+              alt={`${detailMovieData?.title} 포스터`}
+            />
+          </ContainerSection>
+          <ContainerSection style={{ scaleX, y }} ref={ref}>
+            <OverviewBox>
+              <p>{detailMovieData?.overview}</p>
+            </OverviewBox>
+            <DetailData>
+              <DetailDataItems>
+                <ListTitle>타이틀</ListTitle>
+                <ListData>{detailMovieData?.title}</ListData>
+              </DetailDataItems>
+              <DetailDataItems>
+                <ListTitle>개봉일</ListTitle>
+                <ListData>{detailMovieData?.release_date}</ListData>
+              </DetailDataItems>
+              <DetailDataItems>
+                <ListTitle>장르</ListTitle>
+                <ListDataWrapper>
+                  {detailMovieData?.genres.map(item => (
+                    <ListData>{item.name}</ListData>
+                  ))}
+                </ListDataWrapper>
+              </DetailDataItems>
+              <DetailDataItems>
+                <ListTitle>러닝타임</ListTitle>
+                <ListData>
+                  {`${Math.floor(detailMovieData?.runtime / 60)}시간 ${detailMovieData?.runtime % 60}분`}
+                </ListData>
+              </DetailDataItems>
+              <DetailDataItems>
+                <ListTitle>평점</ListTitle>
+                <ListData>{detailMovieData.vote_average.toFixed(1)}</ListData>
+              </DetailDataItems>
+              <DetailDataItems>
+                <ListTitle>구매</ListTitle>
+                <ListDataWrapper>
+                  {krValue?.buy !== undefined ? (
+                    krValue?.buy.map(item => (
+                      <>
+                        <WatchProviderLogo
+                          src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
+                          alt=""
+                        />
+                        <ListData margin="4px">{item.provider_name}</ListData>
+                      </>
+                    ))
+                  ) : (
+                    <ListData>-</ListData>
+                  )}
+                </ListDataWrapper>
+              </DetailDataItems>
+              <DetailDataItems>
+                <ListTitle>대여</ListTitle>
+                <ListDataWrapper>
+                  {krValue?.rent !== undefined ? (
+                    krValue?.rent.map(item => (
+                      <>
+                        <WatchProviderLogo
+                          src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
+                          alt=""
+                        />
+                        <ListData margin="4px">{item.provider_name}</ListData>
+                      </>
+                    ))
+                  ) : (
+                    <ListData>-</ListData>
+                  )}
+                </ListDataWrapper>
+              </DetailDataItems>
+              <DetailDataItems>
+                <ListTitle>OTT</ListTitle>
+                <ListDataWrapper>
+                  {krValue?.flatrate !== undefined ? (
+                    krValue?.flatrate.map(item => (
+                      <>
+                        <WatchProviderLogo
+                          src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
+                          alt=""
+                        />
+                        <ListData margin="4px">{item.provider_name}</ListData>
+                      </>
+                    ))
+                  ) : (
+                    <ListData>-</ListData>
+                  )}
+                </ListDataWrapper>
+              </DetailDataItems>
+            </DetailData>
+          </ContainerSection>
+        </DetailPageLayout>
+      </motion.div>
+    )
+  }
 }
 
 export default MovieDetail
@@ -149,6 +193,14 @@ const ContainerSection = styled(motion.section)<ContainerSectionProps>`
   width: 90%;
   height: fit-content;
 `
+const Tagline = styled.p`
+  margin: 20px 48px;
+  background-color: #aaeec4;
+  width: fit-content;
+  padding: 0 10px;
+  color: #444;
+  font-weight: 400;
+`
 
 const ContentsImage = styled.img`
   /* width: 670px; */
@@ -162,12 +214,12 @@ const OverviewBox = styled.div`
   width: 90%;
 `
 
-const DetailData = styled.ul`
+const DetailData = styled.dl`
   list-style: none;
   margin: 0;
   padding: 0;
 `
-const DetailDataItems = styled.li`
+const DetailDataItems = styled.div`
   border-top: 1px solid #707070;
   width: 90%;
   padding: 16px 4px;
@@ -175,9 +227,25 @@ const DetailDataItems = styled.li`
   justify-content: space-between;
 `
 const WatchProviderLogo = styled.img`
-  width: 5%;
+  /* width: 5%; */
+  width: 26px;
   object-fit: scale-down;
+  margin-left: 12px;
 `
-const ListTitle = styled.span`
+const ListDataWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: fit-content;
+`
+
+const ListTitle = styled.dt`
   font-weight: 200;
+  color: #444;
+`
+const ListData = styled.dd<ListDataProps>`
+  font-weight: 400;
+  color: #13cd86;
+  margin-left: 12px;
+  margin-left: ${({ margin }) => (margin ? margin : '12px')};
 `

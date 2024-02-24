@@ -99,7 +99,7 @@ function BestContents() {
             </ContentsGenreWrapper>
             <ContentsGenreWrapper>
               <SubstanceTitle>평점</SubstanceTitle>
-              <Substance>{item.vote_average}</Substance>
+              <Substance>{item.vote_average.toFixed(1)}</Substance>
             </ContentsGenreWrapper>
             <ContentsGenreWrapper borderbottom="0.5px solid #bbbaba">
               <SubstanceTitle key={index}>채널</SubstanceTitle>
