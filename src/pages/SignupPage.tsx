@@ -123,7 +123,7 @@ function SignupPage() {
   return (
     <JoinWrapper>
       <JoinContainer>
-        <LogoBox>로고 넣기!</LogoBox>
+        {/* <LogoBox>로고 넣기!</LogoBox> */}
         <JoinForm action={`${import.meta.env.BASE_URL}`}>
           <JoinField>
             <Label htmlFor="email">

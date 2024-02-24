@@ -22,7 +22,7 @@ function ReviewPage() {
 
 export default ReviewPage
 
-const HeaderContainer = styled.div`
+export const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   /* align-items: center; */

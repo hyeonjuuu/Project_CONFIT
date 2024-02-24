@@ -1,12 +1,13 @@
 import { Suspense } from 'react'
-// import { ThemeProvider } from 'styled-components'
+import { Player, Controls } from '@lottiefiles/react-lottie-player'
 import { RouterProvider } from 'react-router-dom'
 import router from './../routes'
+import LoadingSpinner from './components/LoadingSpinner'
 
 function App() {
   return (
     <>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingSpinner />}>
         <RouterProvider router={router} />
       </Suspense>
     </>
