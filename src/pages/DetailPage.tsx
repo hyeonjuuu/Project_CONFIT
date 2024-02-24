@@ -7,14 +7,20 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { useRef } from 'react'
-import { motion, useScroll, useTransform, MotionValue } from 'framer-motion'
+import {
+  motion,
+  useScroll,
+  useTransform,
+  MotionValue,
+  useSpring
+} from 'framer-motion'
 
 interface ContainerSectionProps {
   margin?: string
 }
 
 function useParallax(value: MotionValue<number>, distance: number) {
-  return useTransform(value, [-0.1, 1], [-distance, distance])
+  return useTransform(value, [0, 1], [-distance, distance])
 }
 
 function DetailPage() {
@@ -28,6 +34,10 @@ function DetailPage() {
 
   console.log(detailId)
   console.log(detailType)
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   useEffect(() => {
     if (detailType === 'tv') {
@@ -58,18 +68,29 @@ function DetailPage() {
 
   const ref = useRef(null)
   // const { scrollYProgress } = useScroll({ target: ref })
-  const { scrollYProgress } = useScroll({
+  const { scrollYProgress, scrollY } = useScroll({
     target: ref
   })
-  // const y = useParallax(scrollYProgress, -200)
-  const y = useParallax(scrollYProgress, -700)
+  const y = useParallax(scrollYProgress, -200)
+  // const y = useParallax(scrollY, 200)
+
+  const { scrollXProgress } = useScroll()
+  const scaleX = useSpring(scrollXProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  })
 
   const krValue = contentsWatchProvider?.results.KR
   console.log('krvalue', krValue?.buy)
 
   if (detailMovieData && detailType === 'movie') {
     return (
-      <>
+      <motion.div
+        initial={{ opacity: 0, y: 300 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div>
           <SectionTitle
             textfirst={detailMovieData?.original_title}
@@ -83,7 +104,7 @@ function DetailPage() {
               alt={`${detailMovieData?.title} 포스터`}
             />
           </ContainerSection>
-          <ContainerSection style={{ y }} ref={ref}>
+          <ContainerSection style={{ scaleX, y }} ref={ref}>
             <OverviewBox>
               <p>{detailMovieData?.overview}</p>
             </OverviewBox>
@@ -157,7 +178,7 @@ function DetailPage() {
             </DetailData>
           </ContainerSection>
         </DetailPageLayout>
-      </>
+      </motion.div>
     )
   } else {
     return (
@@ -178,7 +199,7 @@ function DetailPage() {
           <ContainerSection
             margin="auto"
             className="progress"
-            style={{ y }}
+            // style={{ y }}
             ref={ref}
           >
             <OverviewBox>
@@ -242,9 +263,16 @@ function DetailPage() {
 
 export default DetailPage
 
+// const DetailPageLayout = styled.div`
+//   display: grid;
+//   grid-template-columns: 1fr 1fr;
+//   margin-bottom: 100px;
+// `
+
 const DetailPageLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
+  margin-bottom: 100px;
 `
 
 // const ContainerSection = styled.section<ContainerSectionProps>`
@@ -254,9 +282,9 @@ const DetailPageLayout = styled.div`
 const ContainerSection = styled(motion.section)<ContainerSectionProps>`
   /* margin: 12px 6%; */
   margin: ${({ margin }) => (margin ? margin : '12px 6%')};
-  width: 100%;
+  width: 90%;
   height: fit-content;
-  width: fit-content;
+  /* width: fit-content; */
 `
 
 const ContentsImage = styled.img`
@@ -268,6 +296,7 @@ const OverviewBox = styled.div`
   height: fit-content;
   margin-bottom: 60px;
   line-height: 150%;
+  width: 90%;
 `
 
 const DetailData = styled.ul`
