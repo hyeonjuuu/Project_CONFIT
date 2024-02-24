@@ -1,9 +1,12 @@
 import SectionTitle from '@/components/SectionTitle'
 import ReviewContents from '@/components/reviewPage/ReviewContents'
 import Header from '@/layout/Header'
+import { useUserSessionStore } from '@/store/useUserSessionStore'
 import styled from 'styled-components'
 
 function ReviewPage() {
+  const { userSession } = useUserSessionStore()
+
   return (
     <>
       <HeaderContainer>
