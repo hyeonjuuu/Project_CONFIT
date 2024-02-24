@@ -7,7 +7,6 @@ import {
 } from 'framer-motion'
 import styled from 'styled-components'
 import { useDetailDataStore } from '@/store/useDetailDataStore'
-import SectionTitle from '@/components/SectionTitle'
 import { useEffect, useRef, useState } from 'react'
 import { ContentsWatchProviderItem } from '@/types/mainPage/bestContents'
 import { useParams } from 'react-router-dom'
@@ -190,6 +189,7 @@ export const DetailPageLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin-bottom: 100px;
+  margin-top: 28px;
 `
 
 export const ContainerSection = styled(motion.section)<ContainerSectionProps>`

@@ -55,7 +55,7 @@ function TVDetail() {
   const { scrollYProgress } = useScroll({
     target: ref
   })
-  const y = useParallax(scrollYProgress, -200)
+  const y = useParallax(scrollYProgress, -150)
   const { scrollXProgress } = useScroll()
   const scaleX = useSpring(scrollXProgress, {
     stiffness: 100,
