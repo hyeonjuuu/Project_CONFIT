@@ -18,7 +18,7 @@ function LoadingSpinner() {
 
 export default LoadingSpinner
 
-const SpinnerContainer = styled.div`
+export const SpinnerContainer = styled.div`
   margin: auto;
   height: 100vh;
   display: flex;
@@ -26,6 +26,6 @@ const SpinnerContainer = styled.div`
   align-items: center;
   flex-direction: column;
 `
-const SpinnerText = styled.div`
+export const SpinnerText = styled.div`
   color: #00ddb3;
 `

@@ -27,6 +27,9 @@ const ReviewPage: React.LazyExoticComponent<() => React.JSX.Element> = lazy(
 const DetailPage: React.LazyExoticComponent<() => React.JSX.Element> = lazy(
   () => import('./src/pages/DetailPage')
 )
+const SearchPage: React.LazyExoticComponent<() => React.JSX.Element> = lazy(
+  () => import('./src/pages/SearchPage')
+)
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,7 +40,7 @@ const router = createBrowserRouter(
       <Route path="/writing" element={<WritingPage />} />
       <Route path="/review" element={<ReviewPage />} />
       <Route path="/detail/:type/:id" element={<DetailPage />} />
-      {/* <Route path="/detail" element={<DetailPage />} /> */}
+      <Route path="/search" element={<SearchPage />} />
     </Route>
   )
 )

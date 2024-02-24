@@ -49,7 +49,9 @@ function Header({ review, margin }: HaderProps) {
       <Link to="/">
         <MenuButton>Home</MenuButton>
       </Link>
-      <MenuButton>Search</MenuButton>
+      <Link to="/search">
+        <MenuButton>Search</MenuButton>
+      </Link>
 
       {review === 'writing' ? (
         <Link to="/writing">
