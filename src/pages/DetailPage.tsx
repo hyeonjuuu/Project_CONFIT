@@ -305,7 +305,7 @@ const DetailData = styled.ul`
   padding: 0;
 `
 const DetailDataItems = styled.li`
-  border-top: 1px solid red;
+  border-top: 1px solid #707070;
   width: 90%;
   padding: 16px 4px;
   display: flex;
@@ -314,4 +314,7 @@ const DetailDataItems = styled.li`
 const WatchProviderLogo = styled.img`
   width: 5%;
   object-fit: scale-down;
+`
+const ListTitle = styled.span`
+  font-weight: 200;
 `
