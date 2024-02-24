@@ -12,6 +12,7 @@ import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import StarRating from '@/components/reviewPage/StarRating'
 import { useStarRatingStore } from '@/store/useStarRatingStore'
+import XIcon from '/public/XIcon.svg'
 
 interface SelectButtonProps {
   active: boolean
@@ -58,10 +59,6 @@ function ReviewWriting() {
 
     Search()
   }, [searchKeyword])
-
-  // console.log(userSession?.user.email)
-  // console.log(userSession?.user.id)
-  console.log(starRating)
 
   const keywordSearch = debounce((value: string) => {
     setSearchKeyword(value)
@@ -263,10 +260,9 @@ function ReviewWriting() {
                       <WritingContentsImage src={image} alt="" />
                       <DeleteImageButton
                         type="button"
-                        // onClick={handleDeleteImage}
                         onClick={e => handleDeleteImage(e, index)}
                       >
-                        엑스
+                        <DeleteImageIcon src={XIcon} alt="" />
                       </DeleteImageButton>
                     </SelectImageBox>
                   ))}
@@ -389,7 +385,9 @@ const WritingContentsImage = styled.img`
 const DeleteImageButton = styled.button`
   position: absolute;
   top: 0;
-  right: 0;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0;
 `
 
 const SelectButton = styled.button<SelectButtonProps>`
@@ -469,4 +467,8 @@ const StarRatingContainer = styled.div`
 const StarRatingText = styled.span`
   font-weight: 600;
   color: #444;
+`
+const DeleteImageIcon = styled.img`
+  width: 32%;
+  padding: 0;
 `

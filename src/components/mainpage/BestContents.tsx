@@ -7,7 +7,6 @@ import { Link as RouterLink } from 'react-router-dom'
 import { movieGenres } from '@/utils/genresData'
 import {
   PopularDataItem,
-  WatchProviderKRItems,
   popularContentsWatchProviderData
 } from '@/types/mainPage/bestContents'
 import getWatchProviders from '@/api/getWatchProviders'
@@ -58,12 +57,13 @@ function BestContents() {
       setIsHovered(true)
     }
   }
+  console.log(populardata)
 
   return (
     <BestContentsContainer>
       {populardata?.results?.slice(0, 3).map((item, index) => (
         <BestContentsWrapper
-          to=""
+          to={`detail/movie/${item.id}`}
           id={item.id.toString()}
           key={index}
           index={index}
@@ -99,7 +99,7 @@ function BestContents() {
             </ContentsGenreWrapper>
             <ContentsGenreWrapper>
               <SubstanceTitle>평점</SubstanceTitle>
-              <Substance>{item.vote_average}</Substance>
+              <Substance>{item.vote_average.toFixed(1)}</Substance>
             </ContentsGenreWrapper>
             <ContentsGenreWrapper borderbottom="0.5px solid #bbbaba">
               <SubstanceTitle key={index}>채널</SubstanceTitle>

@@ -11,6 +11,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper-bundle.css'
 import SwiperCore from 'swiper'
 import DiscoverContents from '../layout/mainpage/DiscoverContents'
+import { Link } from 'react-router-dom'
 
 SwiperCore.use([Autoplay, EffectCoverflow])
 
@@ -28,6 +29,7 @@ function MainPage() {
   }, [])
 
   let doubleTrendData = trendData?.concat(trendData, trendData)
+  console.log(trendData)
 
   return (
     <MainWrapper>
@@ -61,10 +63,12 @@ function MainPage() {
           >
             {doubleTrendData?.map((item, index) => (
               <SwiperSlideContainer key={index} justifycontent="center">
-                <TrendPosterImg
-                  src={`https://image.tmdb.org/t/p/original/${item.poster_path}`}
-                  alt={item.name || item.title}
-                />
+                <Link to={`detail/${item.media_type}/${item.id}`}>
+                  <TrendPosterImg
+                    src={`https://image.tmdb.org/t/p/original/${item.poster_path}`}
+                    alt={item.name || item.title}
+                  />
+                </Link>
               </SwiperSlideContainer>
             ))}
           </SwiperWrapper>
@@ -144,7 +148,7 @@ const PosterWrapper = styled.section`
 
 const SwiperWrapper = styled(Swiper)`
   .swiper-slide-active {
-    & > img {
+    & > a > img {
       transition: filter;
       transition-delay: 1.5s ease;
       filter: grayscale(0) opacity(100);

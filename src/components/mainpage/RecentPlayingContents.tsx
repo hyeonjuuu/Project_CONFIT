@@ -45,7 +45,7 @@ function RecentPlayingContents() {
               {index * 4 < trendingTVData.length && (
                 <LargeContentsBox>
                   <ContentsItemBox
-                    to=""
+                    to={`detail/${trendingTVData[index * 4].media_type}/${trendingTVData[index * 4].id}`}
                     onMouseEnter={event =>
                       handleHover(event, trendingTVData[index * 4].id)
                     }
@@ -80,7 +80,7 @@ function RecentPlayingContents() {
 
                   {index * 4 + 1 < trendingTVData.length && (
                     <ContentsItemBox
-                      to=""
+                      to={`detail/${trendingTVData[index * 4 + 1].media_type}/${trendingTVData[index * 4 + 1].id}`}
                       onMouseEnter={event =>
                         handleHover(event, trendingTVData[index * 4 + 1].id)
                       }
@@ -122,6 +122,7 @@ function RecentPlayingContents() {
               {index * 4 + 2 < trendingTVData.length && (
                 <SmallContentsBox>
                   <HoverWrapper
+                    href={`detail/${trendingTVData[index * 4 + 2].media_type}/${trendingTVData[index * 4 + 2].id}`}
                     onMouseEnter={event =>
                       handleHover(event, trendingTVData[index * 4 + 2].id)
                     }
@@ -151,6 +152,7 @@ function RecentPlayingContents() {
                   </HoverWrapper>
                   {index * 4 + 3 < trendingTVData.length && (
                     <HoverWrapper
+                      href={`detail/${trendingTVData[index * 4 + 3].media_type}/${trendingTVData[index * 4 + 3].id}`}
                       onMouseEnter={event =>
                         handleHover(event, trendingTVData[index * 4 + 3].id)
                       }
