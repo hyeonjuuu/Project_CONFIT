@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components'
 import { Link } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { supabase } from '@/supabase/supabase'
 import { useUserSessionStore } from '@/store/useUserSessionStore'
 import { UserCircleDiv } from '@/components/reviewPage/ReviewContents'
@@ -19,7 +19,7 @@ function Header({ review, margin }: HaderProps) {
 
   useEffect(() => {
     const SignSession = async () => {
-      const { data, error } = await supabase.auth.getSession()
+      const { data } = await supabase.auth.getSession()
 
       try {
         if (data && data.session) {

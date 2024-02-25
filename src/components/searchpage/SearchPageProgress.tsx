@@ -1,5 +1,4 @@
 import { Player } from '@lottiefiles/react-lottie-player'
-import lottie_Progress from '@/assets/lottie_Progress.json'
 import lottie_Feat_Progress from '@/assets/lottie_Feat_Progress.json'
 import { SpinnerContainer, SpinnerText } from '../LoadingSpinner'
 

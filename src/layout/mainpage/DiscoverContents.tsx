@@ -6,8 +6,8 @@ import RecentPlayingContents from './../../components/mainpage/RecentPlayingCont
 import SectionTitle from '@/components/SectionTitle'
 
 function DiscoverContents() {
-  const { playingMovieData, setPlayingMovieData } = usePlayingMovieStore()
-  const { trendingTVData, setTrendingTVData } = useTrendingTVDataStore()
+  const { setPlayingMovieData } = usePlayingMovieStore()
+  const { setTrendingTVData } = useTrendingTVDataStore()
 
   useEffect(() => {
     const fetchingPlayingMovieData = async () => {
