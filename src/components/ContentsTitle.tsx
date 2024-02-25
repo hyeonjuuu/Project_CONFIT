@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import {
   CircleDiv,
-  SectionTitleText,
   SubTitleSectionWrapper,
   TitleSectionWrapper
 } from './SectionTitle'

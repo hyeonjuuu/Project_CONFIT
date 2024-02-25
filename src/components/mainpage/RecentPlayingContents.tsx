@@ -1,7 +1,7 @@
 import { useTrendingTVDataStore } from '@/store/useTrendingTVDataStore'
 import { Link } from 'react-router-dom'
 import styled, { css, keyframes } from 'styled-components'
-import ButtonArrowIcon, { ButtonArrowProps } from '@/assets/ButtonArrow'
+import ButtonArrowIcon from '@/assets/ButtonArrow'
 import { useState } from 'react'
 import { useHoverItemStore } from '@/store/useHoverItemStore'
 
@@ -15,13 +15,9 @@ type ViewMoreButtonProps = {
 function RecentPlayingContents() {
   const { trendingTVData } = useTrendingTVDataStore()
   const [isHovered, setIsHovered] = useState(false)
-  const [hoverItemId, setHoverItemId] = useState<number>()
   const { hoverItem, setHoverItem } = useHoverItemStore()
 
-  const handleHover = (
-    event: React.MouseEvent<HTMLElement, MouseEvent>,
-    itemId: number
-  ) => {
+  const handleHover = (itemId: number) => {
     if (hoverItem !== itemId) {
       setIsHovered(true)
     }
@@ -44,8 +40,8 @@ function RecentPlayingContents() {
                 <LargeContentsBox>
                   <ContentsItemBox
                     to={`detail/${trendingTVData[index * 4].media_type}/${trendingTVData[index * 4].id}`}
-                    onMouseEnter={event =>
-                      handleHover(event, trendingTVData[index * 4].id)
+                    onMouseEnter={() =>
+                      handleHover(trendingTVData[index * 4].id)
                     }
                     onMouseLeave={handleMouseLeave}
                   >
@@ -79,8 +75,8 @@ function RecentPlayingContents() {
                   {index * 4 + 1 < trendingTVData.length && (
                     <ContentsItemBox
                       to={`detail/${trendingTVData[index * 4 + 1].media_type}/${trendingTVData[index * 4 + 1].id}`}
-                      onMouseEnter={event =>
-                        handleHover(event, trendingTVData[index * 4 + 1].id)
+                      onMouseEnter={() =>
+                        handleHover(trendingTVData[index * 4 + 1].id)
                       }
                       onMouseLeave={handleMouseLeave}
                     >
@@ -121,8 +117,8 @@ function RecentPlayingContents() {
                 <SmallContentsBox>
                   <HoverWrapper
                     href={`detail/${trendingTVData[index * 4 + 2].media_type}/${trendingTVData[index * 4 + 2].id}`}
-                    onMouseEnter={event =>
-                      handleHover(event, trendingTVData[index * 4 + 2].id)
+                    onMouseEnter={() =>
+                      handleHover(trendingTVData[index * 4 + 2].id)
                     }
                     onMouseLeave={handleMouseLeave}
                   >
@@ -151,8 +147,8 @@ function RecentPlayingContents() {
                   {index * 4 + 3 < trendingTVData.length && (
                     <HoverWrapper
                       href={`detail/${trendingTVData[index * 4 + 3].media_type}/${trendingTVData[index * 4 + 3].id}`}
-                      onMouseEnter={event =>
-                        handleHover(event, trendingTVData[index * 4 + 3].id)
+                      onMouseEnter={() =>
+                        handleHover(trendingTVData[index * 4 + 3].id)
                       }
                       onMouseLeave={handleMouseLeave}
                     >

@@ -22,7 +22,6 @@ interface SubstanceProps {
 
 function BestContents() {
   const { populardata, setPopularData } = usePopularDataStore()
-  const [popularContentsId, setPopularContentsId] = useState<number[]>([])
   const [popularContentsWatchProvider, setpopularContentsWatchProvider] =
     useState<popularContentsWatchProviderData>()
   const [isHovered, setIsHovered] = useState(false)
@@ -33,8 +32,6 @@ function BestContents() {
       const data = await getPopularData()
       setPopularData(data)
       const popularId = data.results.map((item: { id: number }) => item.id)
-
-      setPopularContentsId(popularId)
 
       const fetchingWatchProvider = async () => {
         const data = await Promise.all(
@@ -57,7 +54,6 @@ function BestContents() {
       setIsHovered(true)
     }
   }
-  console.log(populardata)
 
   return (
     <BestContentsContainer>

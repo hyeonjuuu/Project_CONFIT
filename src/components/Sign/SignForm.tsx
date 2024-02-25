@@ -44,13 +44,6 @@ export const JoinContainer = styled.div`
   flex-direction: column;
 `
 
-const LogoBox = styled.div`
-  background-color: red;
-  width: 120px;
-  height: 120px;
-  margin: 0 auto;
-`
-
 export const JoinForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -84,16 +77,6 @@ const InputField = styled.input<InputProps>`
   margin-bottom: ${({ marginbottom }) => marginbottom};
 `
 
-const SubmitButton = styled.input`
-  height: 48px;
-  border-radius: 6px;
-  background-color: #303032;
-  color: #aaeec4;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  margin: 4px 0;
-`
 const JoinText = styled.strong`
   color: #303032;
 `
