@@ -7,7 +7,6 @@ import {
   JoinText,
   JoinWrapper,
   Label,
-  LogoBox,
   SubmitButton,
   Validate
 } from './SignupPage'
@@ -68,12 +67,16 @@ function SigninPage() {
         .from('user')
         .select('email')
         .eq('email', email)
+      if (error) {
+        console.error(error)
+      }
 
       if (data.user && data.session !== null && users) {
         // alert('로그인 성공')
         goToMain()
       } else {
         alert('이메일과 비밀번호를 확인해주세요')
+        console.error(userError)
       }
 
       console.log(data)
@@ -86,7 +89,6 @@ function SigninPage() {
   return (
     <JoinWrapper>
       <JoinContainer>
-        {/* <LogoBox>로고 넣기!</LogoBox> */}
         <JoinForm action="">
           <JoinField>
             <Label htmlFor="email">

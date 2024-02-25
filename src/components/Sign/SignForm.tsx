@@ -47,9 +47,7 @@ export const JoinContainer = styled.div`
 export const JoinForm = styled.form`
   display: flex;
   flex-direction: column;
-  /* gap: 10px; */
   margin: auto;
-  /* background-color: yellow; */
   width: 340px;
 `
 
@@ -58,7 +56,6 @@ const JoinField = styled.p`
   flex-direction: column;
   gap: 10px;
   margin: 6px 0;
-  /* background-color: teal; */
 `
 
 const Label = styled.label`
@@ -69,7 +66,6 @@ const Label = styled.label`
 `
 
 const InputField = styled.input<InputProps>`
-  /* background-color: red; */
   height: 36px;
   border-radius: 6px;
   border: 1px solid #cdcdcd;

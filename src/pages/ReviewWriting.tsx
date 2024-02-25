@@ -23,8 +23,8 @@ function ReviewWriting() {
   const [searchKeyword, setSearchKeyword] = useState('')
   const [writingContents, setWritingContents] = useState<SearchDataItems>()
   const { searchResult, setSearchResult } = useSearchStore()
-  const { uploadedFileUrl, setUploadedFileUrl } = useUserImageUrlStore()
-  const { starRating, setStarRating } = useStarRatingStore()
+  const { uploadedFileUrl } = useUserImageUrlStore()
+  const { starRating } = useStarRatingStore()
   const [imageSrc, setImageSrc]: any = useState([])
   const { userSession, setUserSession } = useUserSessionStore()
   const [activeUserImage, setActiveUserImage] = useState('영화 포스터')
@@ -49,6 +49,9 @@ function ReviewWriting() {
       try {
         if (data && data.session) {
           setUserSession(data)
+        }
+        if (error) {
+          console.error(error)
         }
       } catch (error) {
         console.error(error)
@@ -301,14 +304,11 @@ export default ReviewWriting
 
 const WriteReviewWrapper = styled.section`
   background-color: #edece8;
-  /* height: 100vh; */
   height: 100%;
 `
 const TitleContainer = styled.div`
-  /* padding: 0 6%; */
   display: flex;
   justify-content: space-between;
-  /* align-items: center; */
   margin-right: 36px;
 `
 
