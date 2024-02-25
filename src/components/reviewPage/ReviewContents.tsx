@@ -12,7 +12,7 @@ import SwiperCore from 'swiper'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import { useUserSessionStore } from '@/store/useUserSessionStore'
-import XIcon from '/public/XIcon.svg'
+import XIcon from '/XIcon.svg'
 
 SwiperCore.use([Pagination])
 

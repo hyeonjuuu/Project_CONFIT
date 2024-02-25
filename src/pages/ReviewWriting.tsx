@@ -12,7 +12,7 @@ import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import StarRating from '@/components/reviewPage/StarRating'
 import { useStarRatingStore } from '@/store/useStarRatingStore'
-import XIcon from '/public/XIcon.svg'
+import XIcon from '/XIcon.svg'
 
 interface SelectButtonProps {
   active: boolean
@@ -469,6 +469,6 @@ const StarRatingText = styled.span`
   color: #444;
 `
 const DeleteImageIcon = styled.img`
-  width: 32%;
+  width: 28%;
   padding: 0;
 `
