@@ -1,6 +1,6 @@
 import { usePlayingMovieStore } from '@/store/usePlayingMovieStore'
 import { movieGenres, tvGenres } from '@/utils/genresData'
-import { MouseEventHandler, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { RenderDataItems } from '@/types/mainPage/ContentsData'
 import { useTrendingTVDataStore } from '@/store/useTrendingTVDataStore'
@@ -29,15 +29,13 @@ interface ReviewContentsProps {
 }
 
 function ReviewContents({ date }: ReviewContentsProps) {
+  const [reviewData, setReviewData] = useState<any[] | null>()
   const { playingMovieData } = usePlayingMovieStore()
   const { trendingTVData } = useTrendingTVDataStore()
-  const [renderData, setRenderData] = useState<RenderDataItems[] | undefined>()
-  const [hover, setHover] = useState(false)
-  const [reviewData, setReviewData] = useState<any[] | null>()
+  const [, setRenderData] = useState<RenderDataItems[] | undefined>()
   const { userSession } = useUserSessionStore()
 
   const UserId = userSession?.user.id
-  // console.log(UserId)
 
   useEffect(() => {
     if (date === '개봉일 : ') {
@@ -56,14 +54,14 @@ function ReviewContents({ date }: ReviewContentsProps) {
 
       console.log(data)
       setReviewData(data)
+
+      if (error) {
+        console.error(error)
+      }
     }
 
     fetchingReviewData()
   }, [reviewData])
-
-  const handleHover = () => {
-    setHover(true)
-  }
 
   const handleDelete = (deleteItemId: number) => {
     console.log(deleteItemId)
@@ -128,13 +126,11 @@ function ReviewContents({ date }: ReviewContentsProps) {
                   modules={[Pagination]}
                   centeredSlides={true}
                 >
-                  {item.user_image.map(
-                    (image: string | undefined, index: number) => (
-                      <SwiperSlideContainer>
-                        <ReviewUserImage src={image} alt="" />
-                      </SwiperSlideContainer>
-                    )
-                  )}
+                  {item.user_image.map((image: string | undefined) => (
+                    <SwiperSlideContainer>
+                      <ReviewUserImage src={image} alt="" />
+                    </SwiperSlideContainer>
+                  ))}
                 </SwiperWrapper>
               ) : (
                 <ReviewContentImage
@@ -185,36 +181,21 @@ const ReviewContentsSection = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   border-bottom: 1px solid #cdcdcd;
+  margin-bottom: 100px;
 `
 const ReviewContentsWrapper = styled.div`
   border: 1px solid #cbcbcb;
-  /* padding: 25px; */
   min-width: 360px;
 `
 
-const ReviewContentsLink = styled.a`
-  /* gap: 25px; */
-  display: grid;
-  grid-template-rows: 150px 1fr 100px;
-  height: 100%;
-  position: relative;
-  &:hover {
-    background-color: #f8f8f8;
-    transition: 1s ease;
-  }
-`
-
 const ReviewContentsBox = styled.div<DiscoverContentsBoxProps>`
-  /* border-bottom: 1px solid #cbcbcb; */
   border-bottom: ${({ borderbottom }) => borderbottom};
   border-top: ${({ bordertop }) => bordertop};
   display: flex;
   justify-content: ${({ justifycontent }) => justifycontent};
   padding: ${({ padding }) => padding};
   flex-direction: column;
-  /* align-items: center; */
   align-items: ${({ alignitems }) => alignitems};
-  /* align-content: center; */
 `
 
 const ReviewContentsSideBox = styled(ReviewContentsBox)`
@@ -227,7 +208,6 @@ const ReviewContentsTitle = styled.span`
   font-size: 26px;
   color: #444444;
   font-weight: 700;
-  /* align-self: self-end; */
   margin: 30px 10px;
   text-align: center;
 `
@@ -240,14 +220,12 @@ const ReviewImageContainer = styled.div`
 const ReviewUserImage = styled.img`
   object-fit: cover;
   margin: auto;
-  /* max-width: 360px; */
   max-height: 500px;
   padding: 12px;
   box-sizing: border-box;
 `
 
 const ReviewContentImage = styled.img`
-  /* padding: 25px; */
   padding: 12px;
   box-sizing: border-box;
   width: 100%;
@@ -255,8 +233,6 @@ const ReviewContentImage = styled.img`
   height: 100%;
 `
 const ReviewContentsSubstance = styled.p`
-  /* margin: 4px 0; */
-  /* padding: 0 10px; */
   color: #323232;
   font-size: 14px;
   height: 50px;
