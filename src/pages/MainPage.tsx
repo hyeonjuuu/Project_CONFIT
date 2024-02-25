@@ -19,6 +19,8 @@ function MainPage() {
   const { trendData, setTrendData } = useTrendDataStore()
 
   useEffect(() => {
+    // window.location.reload()
+    window.scrollTo(0, 0)
     const trendingData = async () => {
       const data = await getTrendingData()
 

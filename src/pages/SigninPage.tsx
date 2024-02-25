@@ -86,7 +86,7 @@ function SigninPage() {
   return (
     <JoinWrapper>
       <JoinContainer>
-        <LogoBox>로고 넣기!</LogoBox>
+        {/* <LogoBox>로고 넣기!</LogoBox> */}
         <JoinForm action="">
           <JoinField>
             <Label htmlFor="email">

@@ -1,6 +1,6 @@
 import { usePlayingMovieStore } from '@/store/usePlayingMovieStore'
 import { movieGenres, tvGenres } from '@/utils/genresData'
-import { useEffect, useState } from 'react'
+import { MouseEventHandler, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { RenderDataItems } from '@/types/mainPage/ContentsData'
 import { useTrendingTVDataStore } from '@/store/useTrendingTVDataStore'
@@ -11,6 +11,8 @@ import { Pagination } from 'swiper/modules'
 import SwiperCore from 'swiper'
 import 'swiper/css'
 import 'swiper/css/pagination'
+import { useUserSessionStore } from '@/store/useUserSessionStore'
+import XIcon from '/public/XIcon.svg'
 
 SwiperCore.use([Pagination])
 
@@ -32,6 +34,10 @@ function ReviewContents({ date }: ReviewContentsProps) {
   const [renderData, setRenderData] = useState<RenderDataItems[] | undefined>()
   const [hover, setHover] = useState(false)
   const [reviewData, setReviewData] = useState<any[] | null>()
+  const { userSession } = useUserSessionStore()
+
+  const UserId = userSession?.user.id
+  // console.log(UserId)
 
   useEffect(() => {
     if (date === '개봉일 : ') {
@@ -53,10 +59,33 @@ function ReviewContents({ date }: ReviewContentsProps) {
     }
 
     fetchingReviewData()
-  }, [])
+  }, [reviewData])
 
   const handleHover = () => {
     setHover(true)
+  }
+
+  const handleDelete = (deleteItemId: number) => {
+    console.log(deleteItemId)
+    const DeleteReview = async () => {
+      try {
+        alert('리뷰를 삭제하시겠습니까')
+
+        const { error } = await supabase
+          .from('reviews')
+          .delete()
+          .eq('id', deleteItemId)
+        if (error) {
+          console.error(error)
+          alert('리뷰 삭제에 실패했습니다.')
+        }
+        alert('리뷰가 삭제되었습니다.')
+      } catch (error) {
+        console.error(error)
+        alert('리뷰 삭제에 실패했습니다.')
+      }
+    }
+    DeleteReview()
   }
 
   return (
@@ -64,6 +93,11 @@ function ReviewContents({ date }: ReviewContentsProps) {
       <ReviewContentsSection>
         {reviewData?.map(item => (
           <ReviewContentsWrapper key={item.id}>
+            {UserId === item.user_id ? (
+              <XButton onClick={() => handleDelete(item.id)}>
+                <XButtonIcon src={XIcon} alt="" />
+              </XButton>
+            ) : null}
             {/* <ReviewContentsLink href=""> */}
             <ReviewContentsBox
               justifycontent="center"
@@ -320,4 +354,14 @@ const DivideDiv = styled.div`
   width: 1px;
   border-left: 1px solid #d5d5d5;
   margin: 4px 0;
+`
+const XButton = styled.button`
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  display: flex;
+  margin: 0 0 0 auto;
+`
+const XButtonIcon = styled.img`
+  color: red;
 `
