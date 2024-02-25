@@ -1,10 +1,8 @@
 import { useTrendingTVDataStore } from '@/store/useTrendingTVDataStore'
 import { Link } from 'react-router-dom'
 import styled, { css, keyframes } from 'styled-components'
-// import buttonArrow from '@/assets/buttonArrow.svg'
 import ButtonArrowIcon, { ButtonArrowProps } from '@/assets/ButtonArrow'
 import { useState } from 'react'
-// import { TrendingTVItems } from '@/types/mainPage/ContentsData'
 import { useHoverItemStore } from '@/store/useHoverItemStore'
 
 type ViewMoreButtonProps = {
