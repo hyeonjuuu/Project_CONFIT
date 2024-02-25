@@ -1,5 +1,4 @@
 import { supabase } from '@/supabase/supabase'
-import { AuthResponse } from '@supabase/supabase-js'
 
 interface UserData {
   email: string

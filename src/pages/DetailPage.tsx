@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import MovieDetail from '@/components/detailpage/MovieDetail'
 import TVDetail from '@/components/detailpage/TVDetail'
 import Header from '@/layout/Header'
 import styled from 'styled-components'
 import buttonBackRegular from '@/assets/buttonBackRegular.svg'
-import buttonArrow from '@/assets/buttonArrow.svg'
 
 function DetailPage() {
   let { id: detailId } = useParams()
@@ -13,7 +12,6 @@ function DetailPage() {
   const detailContentsId = parseInt(detailId || '0')
 
   useEffect(() => {
-    // window.location.reload()
     window.scrollTo(0, 0)
   }, [])
 
@@ -22,7 +20,7 @@ function DetailPage() {
     navigate(-1)
   }
 
-  if (detailType === 'movie') {
+  if (detailContentsId && detailType === 'movie') {
     return (
       <>
         <HeaderWrapper>

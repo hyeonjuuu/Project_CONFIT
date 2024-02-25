@@ -149,7 +149,7 @@ function ReviewWriting() {
     e.preventDefault()
     try {
       if (writingContents && uploadImage.length === 0) {
-        const { data, error } = await supabase.from('reviews').insert([
+        const { error } = await supabase.from('reviews').insert([
           {
             user_email: userSession?.user.email,
             contents_data: writingContents,
@@ -167,7 +167,7 @@ function ReviewWriting() {
         const imagePaths = await useUploadImage(uploadImage)
         const uploadImagePaths = imagePaths?.map(item => item?.data.publicUrl)
         // await setUploadedFileUrl(uploadImagePaths)
-        const { data, error } = await supabase.from('reviews').insert([
+        const { error } = await supabase.from('reviews').insert([
           {
             user_email: userSession?.user.email,
             contents_data: writingContents,

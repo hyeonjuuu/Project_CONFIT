@@ -184,6 +184,6 @@ const TrendPosterImg = styled.img`
   }
 `
 
-const Footer = styled.div`
-  height: 100px;
-`
+// const Footer = styled.div`
+//   height: 100px;
+// `

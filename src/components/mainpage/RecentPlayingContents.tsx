@@ -34,7 +34,7 @@ function RecentPlayingContents() {
       <RecentContentsWrapper>
         {trendingTVData
           ?.filter(item => item !== undefined)
-          ?.map((item, index) => (
+          ?.map((_, index) => (
             <ContentsWrapper key={index}>
               {index * 4 < trendingTVData.length && (
                 <LargeContentsBox>
