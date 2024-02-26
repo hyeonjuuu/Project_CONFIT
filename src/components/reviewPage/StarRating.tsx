@@ -11,7 +11,7 @@ function StarRating() {
 
   return (
     <div>
-      {[...Array(starRating)].map((a, i) => (
+      {[...Array(starRating)].map((_, i) => (
         <PiStarFill
           key={i}
           onClick={() => setStarRating(i + 1)}
@@ -20,7 +20,7 @@ function StarRating() {
           stroke="#bab09c"
         />
       ))}
-      {[...Array(5 - starRating)].map((a, i) => (
+      {[...Array(5 - starRating)].map((_, i) => (
         <PiStarLight
           key={i}
           onClick={() => setStarRating(starRating + i + 1)}
