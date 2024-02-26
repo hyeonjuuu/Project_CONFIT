@@ -72,7 +72,7 @@ function MovieDetail() {
       >
         <div>
           <ContentsTitle
-            textfirst={detailMovieData?.original_title}
+            textfirst={detailMovieData?.title}
             padding="60px 0 0 0"
           />
           <Tagline>{detailMovieData.tagline}</Tagline>

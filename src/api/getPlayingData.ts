@@ -37,7 +37,7 @@ export const getAiringData = async () => {
 export const getTrendingTVData = async () => {
   try {
     const response = await axios.get(
-      'https://api.themoviedb.org/3/trending/tv/day?language=ko-KR',
+      'https://api.themoviedb.org/3/trending/tv/week?language=ko-KR',
       {
         headers: {
           Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,

@@ -84,8 +84,6 @@ function SigninPage() {
         alert('이메일과 비밀번호를 확인해주세요')
         console.error(userError)
       }
-
-      console.log(data)
     } catch (error) {
       alert('이메일과 비밀번호를 확인해주세요')
       console.error(`Error: ${error}`)
