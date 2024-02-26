@@ -13,9 +13,8 @@ import {
 } from './SignupPage'
 import { supabase } from '@/supabase/supabase'
 import { useNavigate } from 'react-router-dom'
-import { BackButton, BackButtonIcon } from './DetailPage'
+import { BackButtonIcon } from './DetailPage'
 import buttonBackRegular from '@/assets/buttonBackRegular.svg'
-import styled from 'styled-components'
 
 function SigninPage() {
   const [email, setEmail] = useState('')
