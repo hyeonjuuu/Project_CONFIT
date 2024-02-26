@@ -14,7 +14,7 @@ interface HeaderContainerProps {
   margin?: string
 }
 
-function Header({ review, margin }: HaderProps) {
+function Header({ margin }: HaderProps) {
   const { userSession, setUserSession } = useUserSessionStore()
 
   useEffect(() => {
