@@ -31,7 +31,6 @@ function MainPage() {
   }, [])
 
   let doubleTrendData = trendData?.concat(trendData, trendData)
-  console.log(trendData)
 
   return (
     <MainWrapper>

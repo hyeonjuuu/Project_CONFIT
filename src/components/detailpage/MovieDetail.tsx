@@ -39,13 +39,11 @@ function MovieDetail() {
     const MovieContentsDetailData = async () => {
       const data = await getMovieDetailData(detailContentsId)
       setDetailMovieData(data)
-      console.log('movie', data)
     }
 
     const WatchProviderData = async () => {
       const data = await getWatchProviders(detailContentsId)
       setContentsWatchProvider(data)
-      console.log(data)
     }
 
     MovieContentsDetailData()
@@ -64,7 +62,6 @@ function MovieDetail() {
   })
 
   const krValue = contentsWatchProvider?.results.KR
-  console.log(krValue)
 
   if (detailMovieData && detailType === 'movie') {
     return (

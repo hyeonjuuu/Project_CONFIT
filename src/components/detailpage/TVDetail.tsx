@@ -38,7 +38,6 @@ function TVDetail() {
       const TvContentsDetailData = async () => {
         const data = await getTvDetailData(detailContentsId)
         setDetailTVData(data)
-        console.log('tv', data)
       }
 
       TvContentsDetailData()
