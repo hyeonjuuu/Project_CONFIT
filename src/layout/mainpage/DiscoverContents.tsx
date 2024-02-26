@@ -4,10 +4,13 @@ import { useTrendingTVDataStore } from '@/store/useTrendingTVDataStore'
 import { useEffect } from 'react'
 import RecentPlayingContents from './../../components/mainpage/RecentPlayingContents'
 import SectionTitle from '@/components/SectionTitle'
+import { getOnTheAirData } from '@/api/getOnTheAirData'
+import { useOnTheAirDataStore } from '@/store/useOnTheAirDataStore'
 
 function DiscoverContents() {
   const { setPlayingMovieData } = usePlayingMovieStore()
   const { setTrendingTVData } = useTrendingTVDataStore()
+  const { onTheAirData, setOnTheAirData } = useOnTheAirDataStore()
 
   useEffect(() => {
     const fetchingPlayingMovieData = async () => {
@@ -19,10 +22,17 @@ function DiscoverContents() {
       const data = await getTrendingTVData()
       setTrendingTVData(data.results)
     }
+    const fetchingOnTheAirData = async () => {
+      const data = await getOnTheAirData()
+      setOnTheAirData(data.results)
+    }
 
     fetchingPlayingMovieData()
     fetchingTrendingTVData()
+    fetchingOnTheAirData()
   }, [])
+
+  console.log('ontheair', onTheAirData)
 
   return (
     <>
