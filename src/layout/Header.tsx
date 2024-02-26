@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import { supabase } from '@/supabase/supabase'
 import { useUserSessionStore } from '@/store/useUserSessionStore'
@@ -16,12 +16,6 @@ interface HeaderContainerProps {
 
 function Header({ review, margin }: HaderProps) {
   const { userSession, setUserSession } = useUserSessionStore()
-
-  const navigate = useNavigate()
-
-  const handleBack = () => {
-    navigate(-1)
-  }
 
   useEffect(() => {
     const SignSession = async () => {
@@ -63,7 +57,6 @@ function Header({ review, margin }: HaderProps) {
       {userSession === null ? (
         <MenuButton
           onClick={() => {
-            handleBack()
             alert('로그인 후 리뷰를 작성할 수 있습니다.')
           }}
         >
