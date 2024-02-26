@@ -16,7 +16,7 @@ function SearchPage() {
           <BackButtonIcon src={buttonBackRegular} alt="" />
         </BackButton>
 
-        <Header review="writing" margin="36px 0 0 0 " />
+        <Header margin="36px 0 0 0 " />
       </HeaderWrapper>
       <SearchPageProgress />
     </div>
