@@ -1,4 +1,3 @@
-import getTrendingData from '@/api/getTrendingData'
 import BestContents from '@/components/mainpage/BestContents'
 import Category from '@/components/mainpage/Category'
 import Header from '@/layout/Header'
@@ -12,6 +11,7 @@ import 'swiper/swiper-bundle.css'
 import SwiperCore from 'swiper'
 import DiscoverContents from '../layout/mainpage/DiscoverContents'
 import { Link } from 'react-router-dom'
+import { getTrendingMovieData } from '@/api/getTrendingData'
 
 SwiperCore.use([Autoplay, EffectCoverflow])
 
@@ -22,7 +22,7 @@ function MainPage() {
     // window.location.reload()
     window.scrollTo(0, 0)
     const trendingData = async () => {
-      const data = await getTrendingData()
+      const data = await getTrendingMovieData()
 
       setTrendData(data.results)
     }
