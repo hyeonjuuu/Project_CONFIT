@@ -36,7 +36,9 @@ function DetailPage() {
     return (
       <>
         <HeaderWrapper>
-          <BackButton onClick={handleBack} />
+          <BackButton onClick={handleBack}>
+            <BackButtonIcon src={buttonBackRegular} alt="" />
+          </BackButton>
 
           <Header review="writing" margin="36px 0 0 0 " />
         </HeaderWrapper>
