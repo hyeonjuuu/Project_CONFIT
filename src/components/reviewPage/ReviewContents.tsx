@@ -184,6 +184,9 @@ const ReviewContentsSection = styled.div`
 const ReviewContentsWrapper = styled.div`
   border: 1px solid #cbcbcb;
   min-width: 360px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `
 
 const ReviewContentsBox = styled.div<DiscoverContentsBoxProps>`
@@ -333,7 +336,6 @@ const XButton = styled.button`
   width: 22px;
   height: 22px;
   padding: 0;
-  display: flex;
   margin: 0 0 0 auto;
 `
 const XButtonIcon = styled.img`

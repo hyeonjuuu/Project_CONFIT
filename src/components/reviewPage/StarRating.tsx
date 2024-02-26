@@ -5,9 +5,7 @@ import { PiStarFill, PiStarLight } from 'react-icons/pi'
 function StarRating() {
   const { starRating, setStarRating } = useStarRatingStore()
 
-  useEffect(() => {
-    console.log(starRating)
-  }, [starRating])
+  useEffect(() => {}, [starRating])
 
   return (
     <div>

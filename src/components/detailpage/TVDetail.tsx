@@ -59,10 +59,7 @@ function TVDetail() {
     return (
       <>
         <div>
-          <ContentsTitle
-            textfirst={detailTVData?.original_name}
-            padding="60px 0 0 0"
-          />
+          <ContentsTitle textfirst={detailTVData?.name} padding="60px 0 0 0" />
           <Tagline>{detailTVData?.tagline}</Tagline>
         </div>
         <DetailPageLayout>

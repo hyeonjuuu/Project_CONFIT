@@ -147,45 +147,54 @@ function ReviewWriting() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    try {
-      if (writingContents && uploadImage.length === 0) {
-        const { error } = await supabase.from('reviews').insert([
-          {
-            user_email: userSession?.user.email,
-            contents_data: writingContents,
-            review_data: textContents,
-            user_image: uploadedFileUrl || null,
-            user_id: userSession?.user.id,
-            star_rating: starRating
+    if (writingContents === null) {
+      alert('리뷰 컨텐츠를 검색해주세요.')
+    } else if (textContents === null) {
+      alert('리뷰를 입력해주세요.')
+    } else {
+      try {
+        if (writingContents && uploadImage.length === 0) {
+          const { error } = await supabase.from('reviews').insert([
+            {
+              user_email: userSession?.user.email,
+              contents_data: writingContents,
+              review_data: textContents,
+              user_image: uploadedFileUrl || null,
+              user_id: userSession?.user.id,
+              star_rating: starRating
+            }
+          ])
+          if (error) {
+            alert('리뷰 등록에 실패했습니다')
+            console.log(error)
+          } else {
+            alert('리뷰 작성이 완료되었습니다.')
+            goToReview()
           }
-        ])
-        if (error) {
-          alert('리뷰 등록에 실패했습니다')
-          console.log(error)
-        }
-      } else {
-        const imagePaths = await useUploadImage(uploadImage)
-        const uploadImagePaths = imagePaths?.map(item => item?.data.publicUrl)
-        // await setUploadedFileUrl(uploadImagePaths)
-        const { error } = await supabase.from('reviews').insert([
-          {
-            user_email: userSession?.user.email,
-            contents_data: writingContents,
-            review_data: textContents,
-            user_image: uploadImagePaths || null,
-            user_id: userSession?.user.id
+        } else {
+          const imagePaths = await useUploadImage(uploadImage)
+          const uploadImagePaths = imagePaths?.map(item => item?.data.publicUrl)
+          const { error } = await supabase.from('reviews').insert([
+            {
+              user_email: userSession?.user.email,
+              contents_data: writingContents,
+              review_data: textContents,
+              user_image: uploadImagePaths || null,
+              user_id: userSession?.user.id
+            }
+          ])
+          if (error) {
+            alert('리뷰 등록에 실패했습니다')
+            console.log(error)
+          } else {
+            alert('리뷰 작성이 완료되었습니다.')
+            goToReview()
           }
-        ])
-        if (error) {
-          alert('리뷰 등록에 실패했습니다')
-          console.log(error)
         }
+      } catch (error) {
+        console.error(error)
+        alert('리뷰 등록에 실패했습니다')
       }
-      alert('리뷰 작성이 완료되었습니다.')
-      goToReview()
-    } catch (error) {
-      console.error(error)
-      alert('리뷰 등록에 실패했습니다')
     }
   }
 
