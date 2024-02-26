@@ -52,7 +52,6 @@ function ReviewContents({ date }: ReviewContentsProps) {
         .select()
         .order('created_at', { ascending: false })
 
-      console.log(data)
       setReviewData(data)
 
       if (error) {
@@ -64,7 +63,6 @@ function ReviewContents({ date }: ReviewContentsProps) {
   }, [reviewData])
 
   const handleDelete = (deleteItemId: number) => {
-    console.log(deleteItemId)
     const DeleteReview = async () => {
       try {
         alert('리뷰를 삭제하시겠습니까')

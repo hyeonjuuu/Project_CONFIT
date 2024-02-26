@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { supabase } from '@/supabase/supabase'
 import { useUserSessionStore } from '@/store/useUserSessionStore'
@@ -16,6 +16,12 @@ interface HeaderContainerProps {
 
 function Header({ review, margin }: HaderProps) {
   const { userSession, setUserSession } = useUserSessionStore()
+
+  const navigate = useNavigate()
+
+  const handleBack = () => {
+    navigate(-1)
+  }
 
   useEffect(() => {
     const SignSession = async () => {
@@ -34,7 +40,6 @@ function Header({ review, margin }: HaderProps) {
   }, [])
 
   const userName = userSession?.user.email?.split('@')[0]
-  console.log('ssession', userSession)
 
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut()
@@ -42,7 +47,6 @@ function Header({ review, margin }: HaderProps) {
 
     window.location.reload()
   }
-  console.log('ssession', userSession)
 
   return (
     <HeaderContainer margin={margin}>
@@ -53,15 +57,24 @@ function Header({ review, margin }: HaderProps) {
         <MenuButton>Search</MenuButton>
       </Link>
 
-      {review === 'writing' ? (
+      <Link to="/review">
+        <MenuButton>Review</MenuButton>
+      </Link>
+      {userSession === null ? (
+        <MenuButton
+          onClick={() => {
+            handleBack()
+            alert('로그인 후 리뷰를 작성할 수 있습니다.')
+          }}
+        >
+          <span>Writing</span>
+        </MenuButton>
+      ) : (
         <Link to="/writing">
           <MenuButton>Writing</MenuButton>
         </Link>
-      ) : (
-        <Link to="/review">
-          <MenuButton>Review</MenuButton>
-        </Link>
       )}
+
       {userSession === null ? (
         <>
           <Link to="/signin">
@@ -120,6 +133,7 @@ const MenuButton = styled.button`
     animation: ${fillcolor} 0.5s forwards;
   }
 `
+
 const UserMenuButton = styled(MenuButton)`
   display: flex;
   gap: 4px;
