@@ -7,12 +7,14 @@ import {
   JoinText,
   JoinWrapper,
   Label,
-  LogoBox,
+  SignBackButton,
   SubmitButton,
   Validate
 } from './SignupPage'
 import { supabase } from '@/supabase/supabase'
 import { useNavigate } from 'react-router-dom'
+import { BackButtonIcon } from './DetailPage'
+import buttonBackRegular from '@/assets/buttonBackRegular.svg'
 
 function SigninPage() {
   const [email, setEmail] = useState('')
@@ -23,6 +25,9 @@ function SigninPage() {
   const navigate = useNavigate()
   const goToMain = () => {
     navigate('/')
+  }
+  const handleBack = () => {
+    navigate(-1)
   }
 
   useEffect(() => {
@@ -68,12 +73,16 @@ function SigninPage() {
         .from('user')
         .select('email')
         .eq('email', email)
+      if (error) {
+        console.error(error)
+      }
 
       if (data.user && data.session !== null && users) {
         // alert('로그인 성공')
         goToMain()
       } else {
         alert('이메일과 비밀번호를 확인해주세요')
+        console.error(userError)
       }
 
       console.log(data)
@@ -85,8 +94,10 @@ function SigninPage() {
 
   return (
     <JoinWrapper>
+      <SignBackButton onClick={handleBack}>
+        <BackButtonIcon src={buttonBackRegular} alt="" />
+      </SignBackButton>
       <JoinContainer>
-        {/* <LogoBox>로고 넣기!</LogoBox> */}
         <JoinForm action="">
           <JoinField>
             <Label htmlFor="email">

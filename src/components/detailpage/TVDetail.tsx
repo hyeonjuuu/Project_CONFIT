@@ -1,11 +1,4 @@
-import SectionTitle from '@/components/SectionTitle'
-import {
-  motion,
-  useScroll,
-  useTransform,
-  MotionValue,
-  useSpring
-} from 'framer-motion'
+import { useScroll, useTransform, MotionValue, useSpring } from 'framer-motion'
 import {
   ContainerSection,
   ContentsImage,

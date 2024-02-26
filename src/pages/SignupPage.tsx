@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { supabase } from '@/supabase/supabase'
 import { useNavigate } from 'react-router-dom'
 import { insertUserData } from '@/utils/signup'
+import { BackButtonIcon } from './DetailPage'
+import buttonBackRegular from '@/assets/buttonBackRegular.svg'
 
 interface InputProps {
   marginbottom?: string
@@ -20,6 +22,9 @@ function SignupPage() {
   const navigate = useNavigate()
   const goToMain = () => {
     navigate('/')
+  }
+  const handleBack = () => {
+    navigate(-1)
   }
 
   useEffect(() => {
@@ -122,8 +127,10 @@ function SignupPage() {
 
   return (
     <JoinWrapper>
+      <SignBackButton onClick={handleBack}>
+        <BackButtonIcon src={buttonBackRegular} alt="" />
+      </SignBackButton>
       <JoinContainer>
-        {/* <LogoBox>로고 넣기!</LogoBox> */}
         <JoinForm action={`${import.meta.env.BASE_URL}`}>
           <JoinField>
             <Label htmlFor="email">
@@ -189,6 +196,7 @@ export default SignupPage
 export const JoinWrapper = styled.div`
   background-color: #edece8;
   height: 100vh;
+  position: relative;
 `
 
 export const JoinContainer = styled.div`
@@ -210,9 +218,7 @@ export const LogoBox = styled.button`
 export const JoinForm = styled.form`
   display: flex;
   flex-direction: column;
-  /* gap: 10px; */
   margin: auto;
-  /* background-color: yellow; */
   width: 340px;
 `
 
@@ -221,7 +227,6 @@ export const JoinField = styled.p<PProps>`
   flex-direction: column;
   gap: 10px;
   margin: 6px 0;
-  /* background-color: teal; */
   height: ${({ height }) => height};
 `
 
@@ -233,7 +238,6 @@ export const Label = styled.label`
 `
 
 export const InputField = styled.input<InputProps>`
-  /* background-color: red; */
   height: 36px;
   border-radius: 6px;
   border: 1px solid #cdcdcd;
@@ -261,4 +265,9 @@ export const Validate = styled.span`
   color: #ec4848;
   font-weight: 500;
   margin-bottom: 4px;
+`
+export const SignBackButton = styled.div`
+  position: absolute;
+  margin: 36px;
+  cursor: pointer;
 `

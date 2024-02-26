@@ -1,7 +1,4 @@
-import {
-  DiscoverMovieData,
-  DiscoverMovieItems
-} from '@/types/mainPage/ContentsData'
+import { DiscoverMovieItems } from '@/types/mainPage/ContentsData'
 import { create } from 'zustand'
 
 interface DiscoverMovieState {
