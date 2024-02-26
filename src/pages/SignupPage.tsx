@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { supabase } from '@/supabase/supabase'
 import { useNavigate } from 'react-router-dom'
 import { insertUserData } from '@/utils/signup'
+import { BackButtonIcon } from './DetailPage'
+import buttonBackRegular from '@/assets/buttonBackRegular.svg'
 
 interface InputProps {
   marginbottom?: string
@@ -20,6 +22,9 @@ function SignupPage() {
   const navigate = useNavigate()
   const goToMain = () => {
     navigate('/')
+  }
+  const handleBack = () => {
+    navigate(-1)
   }
 
   useEffect(() => {
@@ -122,6 +127,9 @@ function SignupPage() {
 
   return (
     <JoinWrapper>
+      <SignBackButton onClick={handleBack}>
+        <BackButtonIcon src={buttonBackRegular} alt="" />
+      </SignBackButton>
       <JoinContainer>
         <JoinForm action={`${import.meta.env.BASE_URL}`}>
           <JoinField>
@@ -188,6 +196,7 @@ export default SignupPage
 export const JoinWrapper = styled.div`
   background-color: #edece8;
   height: 100vh;
+  position: relative;
 `
 
 export const JoinContainer = styled.div`
@@ -256,4 +265,9 @@ export const Validate = styled.span`
   color: #ec4848;
   font-weight: 500;
   margin-bottom: 4px;
+`
+export const SignBackButton = styled.div`
+  position: absolute;
+  margin: 36px;
+  cursor: pointer;
 `

@@ -1,7 +1,8 @@
 import SearchPageProgress from '@/components/searchpage/SearchPageProgress'
-import { BackButton, HeaderWrapper } from './DetailPage'
+import { BackButton, BackButtonIcon, HeaderWrapper } from './DetailPage'
 import Header from '@/layout/Header'
 import { useNavigate } from 'react-router-dom'
+import buttonBackRegular from '@/assets/buttonBackRegular.svg'
 
 function SearchPage() {
   const navigate = useNavigate()
@@ -11,7 +12,9 @@ function SearchPage() {
   return (
     <div>
       <HeaderWrapper>
-        <BackButton onClick={handleBack} />
+        <BackButton onClick={handleBack}>
+          <BackButtonIcon src={buttonBackRegular} alt="" />
+        </BackButton>
 
         <Header review="writing" margin="36px 0 0 0 " />
       </HeaderWrapper>

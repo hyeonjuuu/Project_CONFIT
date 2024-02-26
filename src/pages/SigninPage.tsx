@@ -7,11 +7,15 @@ import {
   JoinText,
   JoinWrapper,
   Label,
+  SignBackButton,
   SubmitButton,
   Validate
 } from './SignupPage'
 import { supabase } from '@/supabase/supabase'
 import { useNavigate } from 'react-router-dom'
+import { BackButton, BackButtonIcon } from './DetailPage'
+import buttonBackRegular from '@/assets/buttonBackRegular.svg'
+import styled from 'styled-components'
 
 function SigninPage() {
   const [email, setEmail] = useState('')
@@ -22,6 +26,9 @@ function SigninPage() {
   const navigate = useNavigate()
   const goToMain = () => {
     navigate('/')
+  }
+  const handleBack = () => {
+    navigate(-1)
   }
 
   useEffect(() => {
@@ -88,6 +95,9 @@ function SigninPage() {
 
   return (
     <JoinWrapper>
+      <SignBackButton onClick={handleBack}>
+        <BackButtonIcon src={buttonBackRegular} alt="" />
+      </SignBackButton>
       <JoinContainer>
         <JoinForm action="">
           <JoinField>

@@ -24,7 +24,9 @@ function DetailPage() {
     return (
       <>
         <HeaderWrapper>
-          <BackButton onClick={handleBack} />
+          <BackButton onClick={handleBack}>
+            <BackButtonIcon src={buttonBackRegular} alt="" />
+          </BackButton>
           <Header review="writing" margin="36px 0 0 0 " />
         </HeaderWrapper>
         <MovieDetail />
@@ -53,13 +55,12 @@ export const HeaderWrapper = styled.div`
   justify-content: space-between;
 `
 export const BackButton = styled.button`
-  background-image: url(${buttonBackRegular});
-  width: 24px;
-  height: 24px;
   padding: 0;
   margin-top: 36px;
   margin-left: 36px;
   padding: 10px;
-  background-size: contain;
-  background-repeat: no-repeat;
+`
+export const BackButtonIcon = styled.img`
+  width: 24px;
+  height: 24px;
 `
