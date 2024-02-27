@@ -96,7 +96,6 @@ function ReviewWriting() {
   const handleSelectImage = (value: string) => {
     setActiveUserImage(value)
   }
-  console.log(activeUserImage)
 
   const handleTextContents = debounce(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
