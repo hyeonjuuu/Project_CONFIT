@@ -209,10 +209,10 @@ ConFit과 함께 여러분에게 가장 맞는 Contents를 확인해보세요✨
 |                                                              **상세 페이지**                                                               |
 |             ![comp-Detail](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/b952a1f1-cff2-46c8-bfce-fad9b673bc40)              |
 |                                                         **기본 포스터 리뷰 작성**                                                          |
-|           ![comp-포스터리뷰](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/df0de399-4586-4a12-992a-8b4ee7b1ce12)            |
+|           ![포스터 리뷰](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/e1f392fd-6f4f-495c-9b7a-2b29745a73ee)           |
 |                                                         **유저 이미지 리뷰 작성**                                                          |
-|           ![comp-사용자리뷰](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/a4b92712-50e0-4bc0-b0b6-28dee5a59461)            |
+|           ![사용자 리뷰](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/ab942d40-7005-41d1-b708-d8363cc88183)            |
 |                                                              **리뷰 페이지**                                                               |
 |           ![comp-리뷰페이지](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/d90473ca-0fda-4808-bab4-8d808d3aeff6)            |
 |                                                    **서치 페이지 (기능구현 진행중 🛠️)**                                                    |
-|           ![comp-서치페이지](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/bfaa4f57-e49f-4be5-a94f-4fa3d3fc2c10)            |
+|           ![서치페이지](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/a747560a-7809-40f7-a7fe-920ed3fbee9e)            |
