@@ -1,9 +1,17 @@
 import styled from 'styled-components'
-import {
-  CircleDiv,
-  SubTitleSectionWrapper,
-  TitleSectionWrapper
-} from './SectionTitle'
+import { TitleSectionWrapper } from './SectionTitle'
+
+interface TitleSectionWrapperProps {
+  alignitems?: string
+  padding?: string
+  margin?: string
+}
+
+interface SectionTitleProps {
+  textfirst: string | undefined
+  margin?: string
+  padding?: string
+}
 
 interface TitleSectionWrapperProps {
   alignitems?: string
@@ -18,48 +26,53 @@ interface SectionTitleProps {
   padding?: string
 }
 
-interface TitleSectionWrapperProps {
-  alignitems?: string
-  padding?: string
-  margin?: string
-}
+function ContentsTitle({ textfirst, margin, padding }: SectionTitleProps) {
+  const title = textfirst?.split(' ')
+  const firstTitle = title?.slice(0, 3).join(' ')
+  const secondTitle = title?.slice(3).join(' ')
 
-interface SectionTitleProps {
-  textfirst: string | undefined
-  textsecond?: string
-  margin?: string
-  padding?: string
-}
-
-function ContentsTitle({
-  textfirst,
-  textsecond,
-  margin,
-  padding
-}: SectionTitleProps) {
   return (
-    <TitleSectionWrapper
+    <TitileSectionContainer
       alignitems="flex-start"
       margin={margin}
       padding={padding}
     >
-      <SubTitleSectionWrapper>
-        <ContentsTitleText>
-          {textfirst} <CircleDiv />
-        </ContentsTitleText>
-        {textsecond && (
-          <ContentsTitleTextSecond>
-            {textsecond} <CircleDiv />
-          </ContentsTitleTextSecond>
+      <DetailTitleSectionWrapper>
+        {textfirst !== undefined && textfirst?.length >= 20 ? (
+          <TwoLineSectionWrapper>
+            <ContentsTitleText>{firstTitle}</ContentsTitleText>
+            <SecondTitleWrapper>
+              <ContentsTitleText>{secondTitle}</ContentsTitleText>
+              <ContentsTitleCircleDiv />
+            </SecondTitleWrapper>
+          </TwoLineSectionWrapper>
+        ) : (
+          <>
+            <ContentsTitleText>{textfirst}</ContentsTitleText>
+            <ContentsTitleCircleDiv />
+          </>
         )}
-      </SubTitleSectionWrapper>
-    </TitleSectionWrapper>
+      </DetailTitleSectionWrapper>
+    </TitileSectionContainer>
   )
 }
 
 export default ContentsTitle
 
-const ContentsTitleText = styled.p<TitleSectionWrapperProps>`
+const TitileSectionContainer = styled(TitleSectionWrapper)`
+  height: fit-content;
+`
+
+const DetailTitleSectionWrapper = styled.div`
+  display: flex;
+  gap: 20px;
+`
+
+const TwoLineSectionWrapper = styled(DetailTitleSectionWrapper)`
+  flex-direction: column;
+`
+
+const ContentsTitleText = styled.span<TitleSectionWrapperProps>`
   font-size: 94px;
   letter-spacing: -0.2rem;
   line-height: 1;
@@ -73,19 +86,20 @@ const ContentsTitleText = styled.p<TitleSectionWrapperProps>`
   flex-wrap: wrap;
   gap: 20px;
   margin-right: 0;
+  width: fit-content;
 `
 
-const ContentsTitleTextSecond = styled.p<TitleSectionWrapperProps>`
-  font-size: 94px;
-  letter-spacing: -0.2rem;
-  line-height: 1;
-  font-family: 'Josefin Sans', sans-serif;
-  margin: 0px 20px 0px 48px;
-  font-weight: 600;
-  padding-right: ${({ padding }) => padding};
-  width: fit-content;
-  max-width: 1200px;
+const ContentsTitleCircleDiv = styled.div`
+  display: flex;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  align-self: flex-end;
+  background-color: #aaeec4;
+  margin: 0 0 20px 4px;
+  min-width: 30px;
+`
+const SecondTitleWrapper = styled.div`
   display: flex;
   gap: 20px;
-  margin-right: 0;
 `
