@@ -89,20 +89,6 @@ const ContentsTitleText = styled.span<TitleSectionWrapperProps>`
   width: fit-content;
 `
 
-const ContentsTitleTextSecond = styled.p<TitleSectionWrapperProps>`
-  font-size: 94px;
-  letter-spacing: -0.2rem;
-  line-height: 1;
-  font-family: 'Josefin Sans', sans-serif;
-  margin: 0px 20px 0px 48px;
-  font-weight: 600;
-  padding-right: ${({ padding }) => padding};
-  width: fit-content;
-  max-width: 1200px;
-  display: flex;
-  gap: 20px;
-  margin-right: 0;
-`
 const ContentsTitleCircleDiv = styled.div`
   display: flex;
   height: 30px;
