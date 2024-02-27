@@ -180,7 +180,8 @@ function ReviewWriting() {
               contents_data: writingContents,
               review_data: textContents,
               user_image: uploadImagePaths || null,
-              user_id: userSession?.user.id
+              user_id: userSession?.user.id,
+              star_rating: starRating
             }
           ])
           if (error) {
