@@ -9,7 +9,7 @@
 다양한 OTT 또는 스토어에 흩어져 있는 영화, 드라마 콘텐츠 정보를 찾기 어려울 때 ConFit을 이용해보세요!
 어떤 콘텐츠를 볼지 고민할때 콘텐츠의 평점, 사용자의 리뷰를 확인하고 나에게 맞는 콘텐츠를 찾아보세요!
 또한 신규 영화, 드라마 콘텐츠 정보를 확인할 수 있고 어떤 서비스에서 해당 콘텐츠를 스트리밍 또는 구매할 수 있는지 확인할 수 있습니다.
-보고 싶었던 콘텐츠를 카테고리별로 확인해보고, 검색으로 찾아보아요! (서비스 구현 진행중 🛠)
+보고 싶었던 콘텐츠를 카테고리별로 확인해보고, 검색으로 찾아보아요! (서비스 구현 진행중 🛠️)
 ConFit과 함께 여러분에게 가장 맞는 Contents를 확인해보세요✨
 
 <br />
@@ -73,10 +73,146 @@ ConFit과 함께 여러분에게 가장 맞는 Contents를 확인해보세요✨
 
 ### 폴더구조
 
+```
+📦src
+ ┣ 📂api
+ ┃ ┣ 📜getDetailData.ts
+ ┃ ┣ 📜getDiscoverData.ts
+ ┃ ┣ 📜getOnTheAirData.ts
+ ┃ ┣ 📜getPlayingData.ts
+ ┃ ┣ 📜getPopularData.ts
+ ┃ ┣ 📜getSearchData.ts
+ ┃ ┣ 📜getTrendingData.ts
+ ┃ ┣ 📜getWatchProviders.ts
+ ┃ ┗ 📜uploadReviewData.ts
+ ┣ 📂assets
+ ┃ ┣ 📜buttonArrow.svg
+ ┃ ┣ 📜ButtonArrow.tsx
+ ┃ ┣ 📜buttonBackRegular.svg
+ ┃ ┣ 📜lottie_Feat_Progress.json
+ ┃ ┣ 📜lottie_Loading.json
+ ┃ ┣ 📜lottie_Progress.json
+ ┃ ┗ 📜react.svg
+ ┣ 📂components
+ ┃ ┣ 📂detailpage
+ ┃ ┃ ┣ 📜MovieDetail.tsx
+ ┃ ┃ ┗ 📜TVDetail.tsx
+ ┃ ┣ 📂mainpage
+ ┃ ┃ ┣ 📜BestContents.tsx
+ ┃ ┃ ┣ 📜Category.tsx
+ ┃ ┃ ┗ 📜RecentPlayingContents.tsx
+ ┃ ┣ 📂mypage
+ ┃ ┣ 📂reviewPage
+ ┃ ┃ ┣ 📜ReviewContents.tsx
+ ┃ ┃ ┗ 📜StarRating.tsx
+ ┃ ┣ 📂searchpage
+ ┃ ┃ ┗ 📜SearchPageProgress.tsx
+ ┃ ┣ 📂Sign
+ ┃ ┃ ┗ 📜SignForm.tsx
+ ┃ ┣ 📜ContentsTitle.tsx
+ ┃ ┣ 📜LoadingSpinner.tsx
+ ┃ ┗ 📜SectionTitle.tsx
+ ┣ 📂layout
+ ┃ ┣ 📂mainpage
+ ┃ ┃ ┗ 📜DiscoverContents.tsx
+ ┃ ┗ 📜Header.tsx
+ ┣ 📂pages
+ ┃ ┣ 📜DetailPage.tsx
+ ┃ ┣ 📜MainPage.tsx
+ ┃ ┣ 📜ReviewPage.tsx
+ ┃ ┣ 📜ReviewWriting.tsx
+ ┃ ┣ 📜RootLayout.tsx
+ ┃ ┣ 📜SearchPage.tsx
+ ┃ ┣ 📜SigninPage.tsx
+ ┃ ┗ 📜SignupPage.tsx
+ ┣ 📂store
+ ┃ ┣ 📜useAiringDataStore.ts
+ ┃ ┣ 📜useDetailDataStore.ts
+ ┃ ┣ 📜useDiscoverMovieStore.ts
+ ┃ ┣ 📜useDiscoverTVStore.ts
+ ┃ ┣ 📜useHoverItemStore.ts
+ ┃ ┣ 📜useLocationStore.ts
+ ┃ ┣ 📜useOnTheAirDataStore.ts
+ ┃ ┣ 📜usePlayingMovieStore.ts
+ ┃ ┣ 📜usePopularDataStore.ts
+ ┃ ┣ 📜useSearchStore.ts
+ ┃ ┣ 📜useStarRatingStore.ts
+ ┃ ┣ 📜useTrendDataStore.ts
+ ┃ ┣ 📜useTrendingTVDataStore.ts
+ ┃ ┣ 📜useUserImageUrlStore.ts
+ ┃ ┗ 📜useUserSessionStore.ts
+ ┣ 📂style
+ ┃ ┗ 📜GlobalStyle.ts
+ ┣ 📂supabase
+ ┃ ┗ 📜supabase.ts
+ ┣ 📂types
+ ┃ ┣ 📂detailPage
+ ┃ ┃ ┗ 📜detailData.ts
+ ┃ ┣ 📂mainPage
+ ┃ ┃ ┣ 📜bestContents.ts
+ ┃ ┃ ┣ 📜category.ts
+ ┃ ┃ ┣ 📜ContentsData.ts
+ ┃ ┃ ┣ 📜header.ts
+ ┃ ┃ ┗ 📜mainPage.ts
+ ┃ ┣ 📂reviewPage
+ ┃ ┃ ┣ 📜searchData.ts
+ ┃ ┃ ┗ 📜userImageData.ts
+ ┃ ┗ 📂signPage
+ ┃ ┃ ┗ 📜userSession.ts
+ ┣ 📂utils
+ ┃ ┣ 📜debounce.ts
+ ┃ ┣ 📜genresData.ts
+ ┃ ┣ 📜mainCategory.ts
+ ┃ ┗ 📜signup.ts
+ ┣ 📜App.css
+ ┣ 📜App.tsx
+ ┣ 📜index.css
+ ┣ 📜index.js
+ ┣ 📜main.tsx
+ ┗ 📜vite-env.d.ts
+```
+
 <br />
 
 ### 커밋 컨벤션
 
+```
+# 제목은 최대 50글자까지 작성: ex) [Feat] 하트와 북마크 토글기능 구현
+
+# 본문 작성(선택사항)
+
+# ------------------------------------------------------
+# Feat : 새로운 기능을 추가한 경우에 사용되며, 코드베이스에 새로운 기능이나 기능 개선이 도입되었음을 나타냅니다.
+# Fix : 버그를 수정한 경우에 사용되며, 코드베이스에 있는 오류나 결함을 해결했음을 나타냅니다.
+# Design : CSS 등 사용자 UI 디자인 변경
+# Modify : 코드를 수정하거나 변경한 경우에 사용. ex) 함수명이나 변수명등을 수정할 때에 사용.
+# Refactor : 코드 리팩토링 → 기존 코드의 구조를 변경하거나 개선하여 가독성, 유지보수성, 성능을 향상시키는 작업
+# Docs : README문서 수정 또는 코드 주석을 추가/수정하거나, 사용자 매뉴얼을 작성하는 등의 작업
+# Merge : 브랜치 간에 코드를 통합하고 최신 변경 사항을 반영하는 데 사용
+# Test : 테스트 코드, 리펙토링 테스트 코드 추가, Production Code(실제로 사용하는 코드) 변경 없음
+# Chore : 빌드 업무 수정, 패키지 매니저 수정, 패키지 관리자 구성 등 업데이트, Production Code 변경 없음
+# Rename : 파일 혹은 폴더명을 수정하거나 옮기는 작업만인 경우
+# Remove : 파일을 삭제하는 작업만 수행한 경우
+```
+
 <br />
 
 ### 프로젝트 구현
+
+|                                                              **메인 페이지**                                                               |
+| :----------------------------------------------------------------------------------------------------------------------------------------: |
+| ![7869bb94-8bf5-446c-81db-86e5dd8eef58](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/86272eb8-4368-4d0e-9589-bb95543cf738) |
+|                                                                **회원가입**                                                                |
+| ![c13d8480-ec9b-4f8b-b2e2-7c8f0bb91502](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/58ef7463-2a2d-4c15-9002-ed9caea75919) |
+|                                                                 **로그인**                                                                 |
+|              ![로그인 (1)](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/5c60c2aa-8040-44c9-ae5f-8199bc6114b0)              |
+|                                                              **상세 페이지**                                                               |
+|             ![comp-Detail](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/b952a1f1-cff2-46c8-bfce-fad9b673bc40)              |
+|                                                         **기본 포스터 리뷰 작성**                                                          |
+|           ![comp-포스터리뷰](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/df0de399-4586-4a12-992a-8b4ee7b1ce12)            |
+|                                                         **유저 이미지 리뷰 작성**                                                          |
+|           ![comp-사용자리뷰](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/a4b92712-50e0-4bc0-b0b6-28dee5a59461)            |
+|                                                              **리뷰 페이지**                                                               |
+|           ![comp-리뷰페이지](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/d90473ca-0fda-4808-bab4-8d808d3aeff6)            |
+|                                                    **서치 페이지 (기능구현 진행중 🛠️)**                                                    |
+|           ![comp-서치페이지](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/bfaa4f57-e49f-4be5-a94f-4fa3d3fc2c10)            |
