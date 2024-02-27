@@ -43,7 +43,6 @@ function TVDetail() {
       TvContentsDetailData()
     }
   }, [])
-  console.log(detailTVData)
 
   const { scrollYProgress } = useScroll({
     target: ref
