@@ -71,6 +71,53 @@ ConFit과 함께 여러분에게 가장 맞는 Contents를 확인해보세요✨
 
 <br />
 
+### 프로젝트 구현
+
+|                                                              **메인 페이지**                                                               |
+| :----------------------------------------------------------------------------------------------------------------------------------------: |
+| ![7869bb94-8bf5-446c-81db-86e5dd8eef58](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/86272eb8-4368-4d0e-9589-bb95543cf738) |
+|                                                                **회원가입**                                                                |
+| ![c13d8480-ec9b-4f8b-b2e2-7c8f0bb91502](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/58ef7463-2a2d-4c15-9002-ed9caea75919) |
+|                                                                 **로그인**                                                                 |
+|              ![로그인 (1)](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/5c60c2aa-8040-44c9-ae5f-8199bc6114b0)              |
+|                                                              **상세 페이지**                                                               |
+|             ![comp-Detail](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/b952a1f1-cff2-46c8-bfce-fad9b673bc40)              |
+|                                                         **기본 포스터 리뷰 작성**                                                          |
+|           ![포스터 리뷰](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/e1f392fd-6f4f-495c-9b7a-2b29745a73ee)           |
+|                                                         **유저 이미지 리뷰 작성**                                                          |
+|           ![사용자 리뷰](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/ab942d40-7005-41d1-b708-d8363cc88183)            |
+|                                                              **리뷰 페이지**                                                               |
+|           ![comp-리뷰페이지](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/d90473ca-0fda-4808-bab4-8d808d3aeff6)            |
+|                                                    **서치 페이지 (기능구현 진행중 🛠️)**                                                    |
+|           ![서치페이지](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/a747560a-7809-40f7-a7fe-920ed3fbee9e)            |
+
+<br />
+
+### 커밋 컨벤션
+
+```
+# 제목은 최대 50글자까지 작성: ex) [Feat] 하트와 북마크 토글기능 구현
+
+# 본문 작성(선택사항)
+
+# ------------------------------------------------------
+# Feat : 새로운 기능을 추가한 경우에 사용되며, 코드베이스에 새로운 기능이나 기능 개선이 도입되었음을 나타냅니다.
+# Fix : 버그를 수정한 경우에 사용되며, 코드베이스에 있는 오류나 결함을 해결했음을 나타냅니다.
+# Design : CSS 등 사용자 UI 디자인 변경
+# Modify : 코드를 수정하거나 변경한 경우에 사용. ex) 함수명이나 변수명등을 수정할 때에 사용.
+# Refactor : 코드 리팩토링 → 기존 코드의 구조를 변경하거나 개선하여 가독성, 유지보수성, 성능을 향상시키는 작업
+# Docs : README문서 수정 또는 코드 주석을 추가/수정하거나, 사용자 매뉴얼을 작성하는 등의 작업
+# Merge : 브랜치 간에 코드를 통합하고 최신 변경 사항을 반영하는 데 사용
+# Test : 테스트 코드, 리펙토링 테스트 코드 추가, Production Code(실제로 사용하는 코드) 변경 없음
+# Chore : 빌드 업무 수정, 패키지 매니저 수정, 패키지 관리자 구성 등 업데이트, Production Code 변경 없음
+# Rename : 파일 혹은 폴더명을 수정하거나 옮기는 작업만인 경우
+# Remove : 파일을 삭제하는 작업만 수행한 경우
+```
+
+<br />
+
+
+
 ### 폴더구조
 
 ```
@@ -172,47 +219,5 @@ ConFit과 함께 여러분에게 가장 맞는 Contents를 확인해보세요✨
  ┗ 📜vite-env.d.ts
 ```
 
-<br />
 
-### 커밋 컨벤션
 
-```
-# 제목은 최대 50글자까지 작성: ex) [Feat] 하트와 북마크 토글기능 구현
-
-# 본문 작성(선택사항)
-
-# ------------------------------------------------------
-# Feat : 새로운 기능을 추가한 경우에 사용되며, 코드베이스에 새로운 기능이나 기능 개선이 도입되었음을 나타냅니다.
-# Fix : 버그를 수정한 경우에 사용되며, 코드베이스에 있는 오류나 결함을 해결했음을 나타냅니다.
-# Design : CSS 등 사용자 UI 디자인 변경
-# Modify : 코드를 수정하거나 변경한 경우에 사용. ex) 함수명이나 변수명등을 수정할 때에 사용.
-# Refactor : 코드 리팩토링 → 기존 코드의 구조를 변경하거나 개선하여 가독성, 유지보수성, 성능을 향상시키는 작업
-# Docs : README문서 수정 또는 코드 주석을 추가/수정하거나, 사용자 매뉴얼을 작성하는 등의 작업
-# Merge : 브랜치 간에 코드를 통합하고 최신 변경 사항을 반영하는 데 사용
-# Test : 테스트 코드, 리펙토링 테스트 코드 추가, Production Code(실제로 사용하는 코드) 변경 없음
-# Chore : 빌드 업무 수정, 패키지 매니저 수정, 패키지 관리자 구성 등 업데이트, Production Code 변경 없음
-# Rename : 파일 혹은 폴더명을 수정하거나 옮기는 작업만인 경우
-# Remove : 파일을 삭제하는 작업만 수행한 경우
-```
-
-<br />
-
-### 프로젝트 구현
-
-|                                                              **메인 페이지**                                                               |
-| :----------------------------------------------------------------------------------------------------------------------------------------: |
-| ![7869bb94-8bf5-446c-81db-86e5dd8eef58](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/86272eb8-4368-4d0e-9589-bb95543cf738) |
-|                                                                **회원가입**                                                                |
-| ![c13d8480-ec9b-4f8b-b2e2-7c8f0bb91502](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/58ef7463-2a2d-4c15-9002-ed9caea75919) |
-|                                                                 **로그인**                                                                 |
-|              ![로그인 (1)](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/5c60c2aa-8040-44c9-ae5f-8199bc6114b0)              |
-|                                                              **상세 페이지**                                                               |
-|             ![comp-Detail](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/b952a1f1-cff2-46c8-bfce-fad9b673bc40)              |
-|                                                         **기본 포스터 리뷰 작성**                                                          |
-|           ![포스터 리뷰](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/e1f392fd-6f4f-495c-9b7a-2b29745a73ee)           |
-|                                                         **유저 이미지 리뷰 작성**                                                          |
-|           ![사용자 리뷰](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/ab942d40-7005-41d1-b708-d8363cc88183)            |
-|                                                              **리뷰 페이지**                                                               |
-|           ![comp-리뷰페이지](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/d90473ca-0fda-4808-bab4-8d808d3aeff6)            |
-|                                                    **서치 페이지 (기능구현 진행중 🛠️)**                                                    |
-|           ![서치페이지](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/a747560a-7809-40f7-a7fe-920ed3fbee9e)            |
