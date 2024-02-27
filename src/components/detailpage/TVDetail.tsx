@@ -43,6 +43,7 @@ function TVDetail() {
       TvContentsDetailData()
     }
   }, [])
+  console.log(detailTVData)
 
   const { scrollYProgress } = useScroll({
     target: ref
@@ -59,10 +60,18 @@ function TVDetail() {
     return (
       <>
         <div>
-          <ContentsTitle
-            textfirst={detailTVData.original_name || detailTVData?.name}
-            padding="60px 0 0 0"
-          />
+          {detailTVData.original_language !== 'kr' &&
+          detailTVData.original_language !== 'en' ? (
+            <ContentsTitle
+              textfirst={detailTVData?.name}
+              padding="60px 0 0 0"
+            />
+          ) : (
+            <ContentsTitle
+              textfirst={detailTVData.original_name || detailTVData?.name}
+              padding="60px 0 0 0"
+            />
+          )}
           <Tagline>{detailTVData?.tagline}</Tagline>
         </div>
         <DetailPageLayout>

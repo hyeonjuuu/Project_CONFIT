@@ -1,9 +1,5 @@
 import styled from 'styled-components'
-import {
-  CircleDiv,
-  SubTitleSectionWrapper,
-  TitleSectionWrapper
-} from './SectionTitle'
+import { TitleSectionWrapper } from './SectionTitle'
 
 interface TitleSectionWrapperProps {
   alignitems?: string
@@ -32,16 +28,8 @@ interface SectionTitleProps {
 
 function ContentsTitle({ textfirst, margin, padding }: SectionTitleProps) {
   const title = textfirst?.split(' ')
-  // const firstTitle = title?.slice(0, 3)
   const firstTitle = title?.slice(0, 3).join(' ')
   const secondTitle = title?.slice(3).join(' ')
-  console.log(textfirst)
-
-  console.log(textfirst?.length)
-
-  console.log(title)
-  console.log(firstTitle)
-  console.log(secondTitle)
 
   return (
     <TitileSectionContainer
@@ -66,36 +54,6 @@ function ContentsTitle({ textfirst, margin, padding }: SectionTitleProps) {
         )}
       </DetailTitleSectionWrapper>
     </TitileSectionContainer>
-    /* -------------------------------------------------------------------------- */
-    // <TitileSectionContainer
-    //   alignitems="flex-start"
-    //   margin={margin}
-    //   padding={padding}
-    // >
-    //   <DetailTitleSectionWrapper>
-    //     <ContentsTitleText>{textfirst}</ContentsTitleText>
-    //     <CircleDiv />
-    //     {textsecond && (
-    //       <>
-    //         <ContentsTitleTextSecond>{textsecond}</ContentsTitleTextSecond>
-    //         <CircleDiv />
-    //       </>
-    //     )}
-    //   </DetailTitleSectionWrapper>
-    // </TitileSectionContainer>
-    /* -------------------------------------------------------------------------- */
-    // <DetailTitleSectionWrapper>
-    //   <ContentsTitleText>{title}</ContentsTitleText>
-    //   <CircleDiv />
-    //   {textfirst && (
-    //     <>
-    //       <ContentsTitleTextSecond>
-    //         {textfirst.length > 20 ? `${textfirst.slice(20)}...` : textfirst}
-    //       </ContentsTitleTextSecond>
-    //       <CircleDiv />
-    //     </>
-    //   )}
-    // </DetailTitleSectionWrapper>
   )
 }
 
