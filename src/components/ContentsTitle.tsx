@@ -13,7 +13,6 @@ interface TitleSectionWrapperProps {
 
 interface SectionTitleProps {
   textfirst: string | undefined
-  textsecond?: string
   margin?: string
   padding?: string
 }
@@ -31,35 +30,91 @@ interface SectionTitleProps {
   padding?: string
 }
 
-function ContentsTitle({
-  textfirst,
-  textsecond,
-  margin,
-  padding
-}: SectionTitleProps) {
+function ContentsTitle({ textfirst, margin, padding }: SectionTitleProps) {
+  const title = textfirst?.split(' ')
+  // const firstTitle = title?.slice(0, 3)
+  const firstTitle = title?.slice(0, 3).join(' ')
+  const secondTitle = title?.slice(3).join(' ')
+  console.log(textfirst)
+
+  console.log(textfirst?.length)
+
+  console.log(title)
+  console.log(firstTitle)
+  console.log(secondTitle)
+
   return (
-    <TitleSectionWrapper
+    <TitileSectionContainer
       alignitems="flex-start"
       margin={margin}
       padding={padding}
     >
-      <SubTitleSectionWrapper>
-        <ContentsTitleText>
-          {textfirst} <CircleDiv />
-        </ContentsTitleText>
-        {textsecond && (
-          <ContentsTitleTextSecond>
-            {textsecond} <CircleDiv />
-          </ContentsTitleTextSecond>
+      <DetailTitleSectionWrapper>
+        {textfirst !== undefined && textfirst?.length >= 20 ? (
+          <TwoLineSectionWrapper>
+            <ContentsTitleText>{firstTitle}</ContentsTitleText>
+            <SecondTitleWrapper>
+              <ContentsTitleText>{secondTitle}</ContentsTitleText>
+              <ContentsTitleCircleDiv />
+            </SecondTitleWrapper>
+          </TwoLineSectionWrapper>
+        ) : (
+          <>
+            <ContentsTitleText>{textfirst}</ContentsTitleText>
+            <ContentsTitleCircleDiv />
+          </>
         )}
-      </SubTitleSectionWrapper>
-    </TitleSectionWrapper>
+      </DetailTitleSectionWrapper>
+    </TitileSectionContainer>
+    /* -------------------------------------------------------------------------- */
+    // <TitileSectionContainer
+    //   alignitems="flex-start"
+    //   margin={margin}
+    //   padding={padding}
+    // >
+    //   <DetailTitleSectionWrapper>
+    //     <ContentsTitleText>{textfirst}</ContentsTitleText>
+    //     <CircleDiv />
+    //     {textsecond && (
+    //       <>
+    //         <ContentsTitleTextSecond>{textsecond}</ContentsTitleTextSecond>
+    //         <CircleDiv />
+    //       </>
+    //     )}
+    //   </DetailTitleSectionWrapper>
+    // </TitileSectionContainer>
+    /* -------------------------------------------------------------------------- */
+    // <DetailTitleSectionWrapper>
+    //   <ContentsTitleText>{title}</ContentsTitleText>
+    //   <CircleDiv />
+    //   {textfirst && (
+    //     <>
+    //       <ContentsTitleTextSecond>
+    //         {textfirst.length > 20 ? `${textfirst.slice(20)}...` : textfirst}
+    //       </ContentsTitleTextSecond>
+    //       <CircleDiv />
+    //     </>
+    //   )}
+    // </DetailTitleSectionWrapper>
   )
 }
 
 export default ContentsTitle
 
-const ContentsTitleText = styled.p<TitleSectionWrapperProps>`
+const TitileSectionContainer = styled(TitleSectionWrapper)`
+  height: fit-content;
+`
+
+const DetailTitleSectionWrapper = styled.div`
+  display: flex;
+  gap: 20px;
+`
+
+const TwoLineSectionWrapper = styled(DetailTitleSectionWrapper)`
+  flex-direction: column;
+`
+
+const ContentsTitleText = styled.span<TitleSectionWrapperProps>`
   font-size: 94px;
   letter-spacing: -0.2rem;
   line-height: 1;
@@ -73,6 +128,7 @@ const ContentsTitleText = styled.p<TitleSectionWrapperProps>`
   flex-wrap: wrap;
   gap: 20px;
   margin-right: 0;
+  width: fit-content;
 `
 
 const ContentsTitleTextSecond = styled.p<TitleSectionWrapperProps>`
@@ -88,4 +144,18 @@ const ContentsTitleTextSecond = styled.p<TitleSectionWrapperProps>`
   display: flex;
   gap: 20px;
   margin-right: 0;
+`
+const ContentsTitleCircleDiv = styled.div`
+  display: flex;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  align-self: flex-end;
+  background-color: #aaeec4;
+  margin: 0 0 20px 4px;
+  min-width: 30px;
+`
+const SecondTitleWrapper = styled.div`
+  display: flex;
+  gap: 20px;
 `

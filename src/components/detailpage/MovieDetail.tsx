@@ -53,7 +53,7 @@ function MovieDetail() {
   const { scrollYProgress } = useScroll({
     target: ref
   })
-  const y = useParallax(scrollYProgress, -200)
+  const y = useParallax(scrollYProgress, -100)
   const { scrollXProgress } = useScroll()
   const scaleX = useSpring(scrollXProgress, {
     stiffness: 100,
@@ -66,13 +66,13 @@ function MovieDetail() {
   if (detailMovieData && detailType === 'movie') {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 300 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
         <div>
           <ContentsTitle
-            textfirst={detailMovieData?.title}
+            textfirst={detailMovieData.original_title || detailMovieData?.title}
             padding="60px 0 0 0"
           />
           <Tagline>{detailMovieData.tagline}</Tagline>

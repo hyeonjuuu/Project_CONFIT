@@ -14,7 +14,7 @@ import {
 } from './MovieDetail'
 import { useParams } from 'react-router-dom'
 import { useDetailDataStore } from '@/store/useDetailDataStore'
-import { useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { getTvDetailData } from '@/api/getDetailData'
 import ContentsTitle from '../ContentsTitle'
 
@@ -59,7 +59,10 @@ function TVDetail() {
     return (
       <>
         <div>
-          <ContentsTitle textfirst={detailTVData?.name} padding="60px 0 0 0" />
+          <ContentsTitle
+            textfirst={detailTVData.original_name || detailTVData?.name}
+            padding="60px 0 0 0"
+          />
           <Tagline>{detailTVData?.tagline}</Tagline>
         </div>
         <DetailPageLayout>
@@ -95,7 +98,7 @@ function TVDetail() {
                 <ListTitle>장르</ListTitle>
                 <ListDataWrapper>
                   {detailTVData?.genres.map(item => (
-                    <ListData>{item.name}</ListData>
+                    <ListData key={item.id}>{item.name}</ListData>
                   ))}
                 </ListDataWrapper>
               </DetailDataItems>
@@ -118,13 +121,13 @@ function TVDetail() {
                 <ListTitle>OTT</ListTitle>
                 <ListDataWrapper>
                   {detailTVData?.networks.map(item => (
-                    <>
+                    <React.Fragment key={item.id}>
                       <WatchProviderLogo
                         src={`https://image.tmdb.org/t/p/original/${item.logo_path}`}
                         alt=""
                       />
                       <ListData>{item.name}</ListData>
-                    </>
+                    </React.Fragment>
                   ))}
                 </ListDataWrapper>
               </DetailDataItems>
