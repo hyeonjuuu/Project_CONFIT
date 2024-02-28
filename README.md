@@ -2,9 +2,9 @@
 
 # ConFit
 
-<img width="1268" alt="image" src="https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/82da48b0-04bf-4cac-b726-ccb00f6079cf">
+![메인페이지-1](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/e7fa435f-abcf-46c8-848f-fdfb4bbad47f)
 
-### 프로젝트 소개
+### 01. 프로젝트 소개
 
 다양한 OTT 또는 스토어에 흩어져 있는 영화, 드라마 콘텐츠 정보를 찾기 어려울 때 ConFit을 이용해보세요!
 
@@ -25,7 +25,7 @@ ConFit과 함께 여러분에게 가장 맞는 Contents를 확인해보세요✨
 
 <br />
 
-### 기술 스택
+### 02. 기술 스택
 
 <table>
 <tr>
@@ -74,7 +74,7 @@ ConFit과 함께 여러분에게 가장 맞는 Contents를 확인해보세요✨
 
 <br />
 
-### 프로젝트 구현
+### 03. 프로젝트 구현
 
 |                                                              **메인 페이지**                                                               |
 | :----------------------------------------------------------------------------------------------------------------------------------------: |
@@ -84,7 +84,7 @@ ConFit과 함께 여러분에게 가장 맞는 Contents를 확인해보세요✨
 |                                                                 **로그인**                                                                 |
 |              ![로그인 (1)](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/5c60c2aa-8040-44c9-ae5f-8199bc6114b0)              |
 |                                                              **상세 페이지**                                                               |
-|                ![디테일](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/816084f3-1dbd-4bdd-ba9a-01a6625405b7)                |
+|            ![상세페이지 (1)](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/a710ea04-7656-4a95-93c3-a3c7425be490)            |
 |                                                         **기본 포스터 리뷰 작성**                                                          |
 |             ![포스터 리뷰](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/e1f392fd-6f4f-495c-9b7a-2b29745a73ee)              |
 |                                                         **유저 이미지 리뷰 작성**                                                          |
@@ -96,7 +96,7 @@ ConFit과 함께 여러분에게 가장 맞는 Contents를 확인해보세요✨
 
 <br />
 
-### 커밋 컨벤션
+### 04. 커밋 컨벤션
 
 ```
 # 제목은 최대 50글자까지 작성: ex) [Feat] 하트와 북마크 토글기능 구현
@@ -119,7 +119,7 @@ ConFit과 함께 여러분에게 가장 맞는 Contents를 확인해보세요✨
 
 <br />
 
-### 폴더 구조
+### 05. 폴더 구조
 
 ```
 📦src
