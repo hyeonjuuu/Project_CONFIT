@@ -23,7 +23,7 @@ interface ListDataProps {
 }
 
 function useParallax(value: MotionValue<number>, distance: number) {
-  return useTransform(value, [0, 1], [-distance, distance])
+  return useTransform(value, [0, 1.5], [-distance, distance])
 }
 
 function MovieDetail() {
@@ -84,7 +84,7 @@ function MovieDetail() {
               alt={`${detailMovieData?.title} 포스터`}
             />
           </ContainerSection>
-          <ContainerSection style={{ scaleX, y }} ref={ref}>
+          <ContainerSection style={{ scaleX, y }} initial={{ y: 0 }} ref={ref}>
             <OverviewBox>
               <p>{detailMovieData?.overview}</p>
             </OverviewBox>

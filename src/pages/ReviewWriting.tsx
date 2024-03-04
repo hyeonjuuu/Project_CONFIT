@@ -10,7 +10,7 @@ import { debounce } from '@/utils/debounce'
 import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
-import StarRating from '@/components/reviewPage/StarRating'
+import StarRating from '@/components/reviewpage/StarRating'
 import { useStarRatingStore } from '@/store/useStarRatingStore'
 import XIcon from '/XIcon.svg'
 

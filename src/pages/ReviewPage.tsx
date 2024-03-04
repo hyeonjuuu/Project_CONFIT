@@ -1,5 +1,5 @@
 import SectionTitle from '@/components/SectionTitle'
-import ReviewContents from '@/components/reviewPage/ReviewContents'
+import ReviewContents from '@/components/reviewpage/ReviewContents'
 import Header from '@/layout/Header'
 import styled from 'styled-components'
 

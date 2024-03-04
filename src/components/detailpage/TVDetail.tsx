@@ -19,7 +19,7 @@ import { getTvDetailData } from '@/api/getDetailData'
 import ContentsTitle from '../ContentsTitle'
 
 function useParallax(value: MotionValue<number>, distance: number) {
-  return useTransform(value, [0, 1], [-distance, distance])
+  return useTransform(value, [0, 1.5], [-distance, distance])
 }
 
 function TVDetail() {
@@ -47,7 +47,7 @@ function TVDetail() {
   const { scrollYProgress } = useScroll({
     target: ref
   })
-  const y = useParallax(scrollYProgress, -150)
+  const y = useParallax(scrollYProgress, -100)
   const { scrollXProgress } = useScroll()
   const scaleX = useSpring(scrollXProgress, {
     stiffness: 100,
@@ -80,7 +80,12 @@ function TVDetail() {
               alt={`${detailTVData?.name} 포스터`}
             />
           </ContainerSection>
-          <ContainerSection margin="auto" style={{ scaleX, y }} ref={ref}>
+          <ContainerSection
+            margin="auto"
+            style={{ scaleX, y }}
+            initial={{ y: 0 }}
+            ref={ref}
+          >
             <OverviewBox>
               <p>{detailTVData?.overview}</p>
             </OverviewBox>
