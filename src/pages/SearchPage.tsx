@@ -1,4 +1,3 @@
-import SearchPageProgress from '@/components/searchpage/SearchPageProgress'
 import { BackButton, BackButtonIcon, HeaderWrapper } from './DetailPage'
 import Header from '@/layout/Header'
 import { useNavigate } from 'react-router-dom'

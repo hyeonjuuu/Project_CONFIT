@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-
 import { debounce } from '@/utils/debounce'
 import { useEffect, useRef, useState } from 'react'
 import { getSearchData } from '@/api/getSearchData'
