@@ -233,6 +233,12 @@ const ContentsTitle = styled.span`
   font-size: 20px;
   font-weight: 600;
   color: #444;
+  max-width: 80%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 `
 const ContentsDate = styled.span`
   font-family: 'Josefin Sans', sans-serif;
@@ -248,6 +254,7 @@ const HoverWrapper = styled.a`
   justify-content: center;
   transition: all 0.5s;
   overflow: hidden;
+
   > img {
     filter: saturate(100%) brightness(100%) blur(0) opacity(100%);
     transition: 0.5s all ease;
@@ -273,6 +280,8 @@ const HoverWrapper = styled.a`
 const ContentsItemBox = styled(Link)`
   display: flex;
   flex-direction: column;
+  width: fit-content;
+  max-width: 730px;
 `
 
 const LargeImgBox = styled.div`
@@ -281,6 +290,8 @@ const LargeImgBox = styled.div`
   transition: all 0.5s;
   overflow: hidden;
   aspect-ratio: 16/9;
+  width: fit-content;
+
   > img {
     filter: saturate(100%) brightness(100%) blur(0) opacity(100%);
     transition: 0.5s all ease;
