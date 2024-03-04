@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import { supabase } from '@/supabase/supabase'
 import { useUserSessionStore } from '@/store/useUserSessionStore'
-import { UserCircleDiv } from '@/components/reviewpage/ReviewContents'
+import { UserCircleDiv } from '@/components/reviewPage/ReviewContents'
 
 interface HaderProps {
   review?: string
