@@ -1,7 +1,13 @@
 ### Find Your Contents Fit.
 
 # ConFit
-[https://confit.vercel.app/]
+### 🟢ConFit : 콘텐츠 정보 및 리뷰 서비스
+
+|                           배포 URL                           |     테스트 ID      |  테스트 PW  |
+| :----------------------------------------------------------: | :----------------: | :---------: |
+| [`https://confit.vercel.app//`](https://confit.vercel.app//) | `confit@gmail.com` | `confit123` |
+
+<br />
 
 ![메인페이지-1](https://github.com/hyeonjuuu/Project_CONFIT/assets/134569011/e7fa435f-abcf-46c8-848f-fdfb4bbad47f)
 
@@ -18,11 +24,7 @@ ConFit과 함께 여러분에게 가장 맞는 Contents를 확인해보세요✨
 
 <br />
 
-### 🟢ConFit : 콘텐츠 정보 및 리뷰 서비스
 
-|                           배포 URL                           |     테스트 ID      |  테스트 PW  |
-| :----------------------------------------------------------: | :----------------: | :---------: |
-| [`https://confit.vercel.app//`](https://confit.vercel.app//) | `confit@gmail.com` | `confit123` |
 
 <br />
 
